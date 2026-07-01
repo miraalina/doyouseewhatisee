@@ -1,4 +1,3 @@
-<style>
 
 @font-face {
     font-family: "DINdong";
@@ -214,4 +213,3 @@
     .menu-level-2, .menu-level-3{ flex-wrap:wrap; }
     .menu-level-2 .nav-item, .menu-level-3 .nav-item{ flex:1 1 50%; }
   }
-</style>
