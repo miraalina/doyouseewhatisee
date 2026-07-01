@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Do you see what I see?</title>
+<style>
+  :root{
+    --black:#000;
+    --white:#fff;
+    --border-w:1px;
+    --menu-gap:2px;
+    --menu-item-height:36px;
+    --font-main:'Courier New', Courier, monospace;
+  }
+
+  *{box-sizing:border-box;}
+
+  html,body{
+    margin:0;
+    padding:0;
+    background:var(--white);
+    color:var(--black);
+    font-family:var(--font-main);
+    font-size:15px;
+  }
+
+  /* All text on the page uses the same font as the body */
+  .title{
+    font-family:var(--font-main);
+  }
+
+  a{
+    color:inherit;
+    text-decoration:none;
+  }
+
+  button{
+    font-family:inherit;
+    font-size:inherit;
+    cursor:pointer;
+  }
+
+  /* =========================================================
+     MENU — LEVEL 1
+     Title (home link) + right-aligned top nav items
+     ========================================================= */
+  .menu-level-1{
+    display:flex;
+    align-items:stretch;
+    background:var(--white);
+    margin-bottom:var(--menu-gap);
+    gap:var(--menu-gap);
+  }
+
+  .menu-level-1 .title-cell{
+    flex:0 0 auto;
+    height:var(--menu-item-height);
+    display:flex;
+    align-items:center;
+    padding: 6px 15px;
+    font-size: 1.5rem;
+    background:var(--white);
+    color:var(--black);
+    border-right: var(--border-w) solid var(--black);
+    white-space:nowrap;
+    cursor:pointer;
+  }
+
+  .menu-level-1 .nav-items{
+    flex:1 1 auto;
+    display:flex;
+    gap:var(--menu-gap);
+  }
+
+  .menu-level-1 .nav-item{
+    display:flex;
+    height:var(--menu-item-height);
+    padding: 6px 15px;
+    align-items:center;
+    gap:10px;
+    flex: 1 0 0;
+    background:#000;
+    color:var(--white);
+    white-space:nowrap;
+  }
+
+  .menu-level-1 .nav-item .dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    border:1px solid var(--white);
+    display:inline-block;
+  }
+
+  .menu-level-1 .nav-item.active .dot{
+    background:var(--white);
+  }
+
+  /* Active state: white bg, black text, thin black border left/right/top */
+  .menu-level-1 .nav-item.active{
+    background:#FFF;
+    color:var(--black);
+    border-top: 1px solid #000;
+    border-right: 1px solid #000;
+    border-left: 1px solid #000;
+    height:calc(var(--menu-item-height) - 1px);
+  }
+  .menu-level-1 .nav-item.active .dot{
+    border-color:var(--black);
+    background:var(--black);
+  }
+
+  .menu-level-1 .title-cell.active{
+    border-top: var(--border-w) solid var(--black);
+  }
+
+  /* =========================================================
+     MENU — LEVEL 2  (Sessions 1-6  /  Interviews 1-7)
+     ========================================================= */
+  .menu-level-2{
+    display:flex;
+    background:var(--white);
+    margin-bottom:var(--menu-gap);
+    gap:var(--menu-gap);
+  }
+  .menu-level-2.hidden{ display:none; }
+
+  .menu-level-2 .nav-item{
+    display:flex;
+    height:var(--menu-item-height);
+    padding: 6px 15px;
+    align-items:center;
+    gap:10px;
+    flex: 1 0 0;
+    background:#000;
+    color:var(--white);
+    white-space:nowrap;
+    text-align:left;
+  }
+
+  .menu-level-2 .nav-item.active{
+    background:#FFF;
+    color:var(--black);
+    border-top: 1px solid #000;
+    border-right: 1px solid #000;
+    border-left: 1px solid #000;
+    height:calc(var(--menu-item-height) - 1px);
+  }
+
+  /* =========================================================
+     MENU — LEVEL 3  (Intro / Analog / Digital / Notes)
+     ========================================================= */
+  .menu-level-3{
+    display:flex;
+    background:var(--white);
+    margin-bottom:var(--menu-gap);
+    gap:var(--menu-gap);
+  }
+  .menu-level-3.hidden{ display:none; }
+
+  .menu-level-3 .nav-item{
+    display:flex;
+    height:var(--menu-item-height);
+    padding: 6px 15px;
+    align-items:center;
+    gap:10px;
+    flex: 1 0 0;
+    background:#000;
+    color:var(--white);
+    white-space:nowrap;
+    text-align:left;
+  }
+
+  .menu-level-3 .nav-item.active{
+    background:#FFF;
+    color:var(--black);
+    border-top: 1px solid #000;
+    border-right: 1px solid #000;
+    border-left: 1px solid #000;
+    height:calc(var(--menu-item-height) - 1px);
+  }
+
+  /* =========================================================
+     CONTENT AREA
+     ========================================================= */
+  .content{
+    padding:40px;
+    min-height: 60vh;
+  }
+
+  .content h1{
+    font-family: var(--font-main);
+    margin-top:0;
+  }
+
+  .content .page{
+    display:none;
+  }
+  .content .page.active{
+    display:block;
+  }
+
+  .placeholder-note{
+    color:#666;
+    font-style:italic;
+  }
+
+  @media (max-width: 700px){
+    .menu-level-1{ flex-wrap:wrap; }
+    .menu-level-1 .nav-items{ flex-wrap:wrap; justify-content:flex-start; }
+    .menu-level-2, .menu-level-3{ flex-wrap:wrap; }
+    .menu-level-2 .nav-item, .menu-level-3 .nav-item{ flex:1 1 50%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ LEVEL 1 ============ -->
+<div class="menu-level-1">
+  <div class="title-cell title" id="home-link" onclick="goHome()">DO YOU SEE WHAT I SEE?</div>
+  <div class="nav-items" id="level1-items">
+    <div class="nav-item" data-mode="work" onclick="selectMode('work')"><span class="dot"></span>Work Mode</div>
+    <div class="nav-item" data-mode="interview" onclick="selectMode('interview')"><span class="dot"></span>Interview Mode</div>
+    <div class="nav-item" data-mode="manifesto" onclick="selectMode('manifesto')"><span class="dot"></span>Manifesto Mode</div>
+    <div class="nav-item" data-mode="about" onclick="selectMode('about')"><span class="dot"></span>About</div>
+  </div>
+</div>
+
+<!-- ============ LEVEL 2 (Sessions) ============ -->
+<div class="menu-level-2 hidden" id="level2-sessions">
+  <div class="nav-item" data-session="1" onclick="selectSession(1)">Session 1</div>
+  <div class="nav-item" data-session="2" onclick="selectSession(2)">Session 2</div>
+  <div class="nav-item" data-session="3" onclick="selectSession(3)">Session 3</div>
+  <div class="nav-item" data-session="4" onclick="selectSession(4)">Session 4</div>
+  <div class="nav-item" data-session="5" onclick="selectSession(5)">Session 5</div>
+  <div class="nav-item" data-session="6" onclick="selectSession(6)">Session 6</div>
+</div>
+
+<!-- ============ LEVEL 2 (Interviews) ============ -->
+<div class="menu-level-2 hidden" id="level2-interviews">
+  <div class="nav-item" data-interview="1" onclick="selectInterview(1)">Interview 1</div>
+  <div class="nav-item" data-interview="2" onclick="selectInterview(2)">Interview 2</div>
+  <div class="nav-item" data-interview="3" onclick="selectInterview(3)">Interview 3</div>
+  <div class="nav-item" data-interview="4" onclick="selectInterview(4)">Interview 4</div>
+  <div class="nav-item" data-interview="5" onclick="selectInterview(5)">Interview 5</div>
+  <div class="nav-item" data-interview="6" onclick="selectInterview(6)">Interview 6</div>
+  <div class="nav-item" data-interview="7" onclick="selectInterview(7)">Interview 7</div>
+</div>
+
+<!-- ============ LEVEL 3 (Intro/Analog/Digital/Notes) ============ -->
+<div class="menu-level-3 hidden" id="level3-sub">
+  <div class="nav-item" data-sub="intro" onclick="selectSub('intro')">Intro</div>
+  <div class="nav-item" data-sub="analog" onclick="selectSub('analog')">Analog</div>
+  <div class="nav-item" data-sub="digital" onclick="selectSub('digital')">Digital</div>
+  <div class="nav-item" data-sub="notes" onclick="selectSub('notes')">Notes</div>
+</div>
+
+<!-- ============ CONTENT ============ -->
+<div class="content" id="content">
+
+  <div class="page" id="page-home">
+    <h1>Do you see what I see?</h1>
+    <p class="placeholder-note">Startseite — wähle oben einen Menüpunkt.</p>
+  </div>
+
+  <div class="page" id="page-about">
+    <h1>About</h1>
+    <p class="placeholder-note">[ Platzhalter: About-Inhalt hier einfügen ]</p>
+  </div>
+
+  <div class="page" id="page-manifesto">
+    <h1>Manifesto</h1>
+    <p class="placeholder-note">[ Platzhalter: Manifest-Text hier einfügen ]</p>
+  </div>
+
+  <!-- Session sub-pages: dynamically titled via JS, container shown/hidden -->
+  <div class="page" id="page-session-sub">
+    <h1 id="session-sub-title">Session</h1>
+    <p class="placeholder-note" id="session-sub-text">[ Platzhalter: Inhalt ]</p>
+  </div>
+
+  <!-- Interview pages -->
+  <div class="page" id="page-interview">
+    <h1 id="interview-title">Interview</h1>
+    <p class="placeholder-note" id="interview-text">[ Platzhalter: Interview-Inhalt ]</p>
+  </div>
+
+</div>
+
+<script>
+  let currentMode = null;
+  let currentSession = null;
+  let currentInterview = null;
+
+  function clearActive(container){
+    container.querySelectorAll('.nav-item, .title-cell').forEach(el => el.classList.remove('active'));
+  }
+
+  function showPage(id){
+    document.querySelectorAll('.content .page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function hideLevels23(){
+    document.getElementById('level2-sessions').classList.add('hidden');
+    document.getElementById('level2-interviews').classList.add('hidden');
+    document.getElementById('level3-sub').classList.add('hidden');
+  }
+
+  function goHome(){
+    currentMode = null;
+    currentSession = null;
+    currentInterview = null;
+    clearActive(document.getElementById('level1-items'));
+    document.getElementById('home-link').classList.add('active');
+    hideLevels23();
+    showPage('page-home');
+  }
+
+  function selectMode(mode){
+    currentMode = mode;
+    currentSession = null;
+    currentInterview = null;
+
+    clearActive(document.getElementById('level1-items'));
+    document.getElementById('home-link').classList.remove('active');
+    document.querySelector('.nav-item[data-mode="' + mode + '"]').classList.add('active');
+
+    hideLevels23();
+
+    if(mode === 'work'){
+      document.getElementById('level2-sessions').classList.remove('hidden');
+      clearActive(document.getElementById('level2-sessions'));
+      showPage('page-home'); // nothing selected yet within sessions
+    } else if(mode === 'interview'){
+      document.getElementById('level2-interviews').classList.remove('hidden');
+      clearActive(document.getElementById('level2-interviews'));
+      showPage('page-home');
+    } else if(mode === 'manifesto'){
+      showPage('page-manifesto');
+    } else if(mode === 'about'){
+      showPage('page-about');
+    }
+  }
+
+  function selectSession(n){
+    currentSession = n;
+    clearActive(document.getElementById('level2-sessions'));
+    document.querySelector('.nav-item[data-session="' + n + '"]').classList.add('active');
+
+    document.getElementById('level3-sub').classList.remove('hidden');
+    clearActive(document.getElementById('level3-sub'));
+    // default to Intro sub-page
+    selectSub('intro');
+  }
+
+  function selectSub(sub){
+    clearActive(document.getElementById('level3-sub'));
+    document.querySelector('.nav-item[data-sub="' + sub + '"]').classList.add('active');
+
+    const labels = { intro: 'Intro', analog: 'Analog', digital: 'Digital', notes: 'Notes' };
+    document.getElementById('session-sub-title').textContent =
+      'Session ' + currentSession + ' — ' + labels[sub];
+    document.getElementById('session-sub-text').textContent =
+      '[ Platzhalter: Inhalt für Session ' + currentSession + ', ' + labels[sub] + ' ]';
+
+    showPage('page-session-sub');
+  }
+
+  function selectInterview(n){
+    currentInterview = n;
+    clearActive(document.getElementById('level2-interviews'));
+    document.querySelector('.nav-item[data-interview="' + n + '"]').classList.add('active');
+
+    document.getElementById('interview-title').textContent = 'Interview ' + n;
+    document.getElementById('interview-text').textContent =
+      '[ Platzhalter: Inhalt für Interview ' + n + ' ]';
+
+    showPage('page-interview');
+  }
+
+  // init
+  goHome();
+</script>
+
+</body>
+</html>
