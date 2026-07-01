@@ -1,9 +1,8 @@
-
 @font-face {
-    font-family: "DINdong";
-    src: url("fonts/DINdong.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
+  font-family: "DINdong";
+  src: url("../fonts/DINdong.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
 
   :root{
@@ -11,7 +10,8 @@
     --white:#fff;
     --border-w:1px;
     --menu-gap:2px;
-    --menu-item-height:36px;
+    --menu-item-height:40px;
+    --menu-font-size:24px;
     --font-main:"DINdong", sans-serif;
   }
 
@@ -23,7 +23,7 @@
     background:var(--white);
     color:var(--black);
     font-family:var(--font-main);
-    font-size:24px;
+    font-size:var(--menu-font-size);
   }
 
   /* All text on the page uses the same font as the body */
@@ -60,7 +60,7 @@
     display:flex;
     align-items:center;
     padding: 6px 15px;
-    font-size: 1.5rem;
+   font-size:var(--menu-font-size);
     background:var(--white);
     color:var(--black);
     border-right: var(--border-w) solid var(--black);
@@ -138,6 +138,7 @@
     color:var(--white);
     white-space:nowrap;
     text-align:left;
+    font-size:var(--menu-font-size);
   }
 
   .menu-level-2 .nav-item.active{
@@ -171,6 +172,7 @@
     color:var(--white);
     white-space:nowrap;
     text-align:left;
+    font-size:var(--menu-font-size);
   }
 
   .menu-level-3 .nav-item.active{
