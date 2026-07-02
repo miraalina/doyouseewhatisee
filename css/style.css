@@ -43,156 +43,89 @@
   }
 
   /* =========================================================
-     MENU — LEVEL 1
-     Title (home link) + right-aligned top nav items
-     ========================================================= */
-  .menu-level-1{
-    display:flex;
-    align-items:stretch;
-    background:var(--white);
-    margin-bottom:var(--menu-gap);
-    gap:var(--menu-gap);
-  }
+   MENU — GLOBAL
+   ========================================================= */
 
-  .menu-level-1 .title-cell{
-    flex:0 0 auto;
-    height:var(--menu-item-height);
-    display:flex;
-    align-items:center;
-    padding: 6px 15px;
-   font-size:var(--menu-font-size);
-    background:var(--white);
-    color:var(--black);
-    border-right: var(--border-w) solid var(--black);
-    white-space:nowrap;
-    cursor:pointer;
-  }
+.menu-level-1,
+.menu-level-2,
+.menu-level-3{
+  display:flex;
+  background:var(--white);
+  margin-bottom:var(--menu-gap);
+  gap:var(--menu-gap);
+}
 
-  .menu-level-1 .nav-items{
-    flex:1 1 auto;
-    display:flex;
-    gap:var(--menu-gap);
-  }
+.menu-level-1{
+  align-items:stretch;
+}
 
-  .menu-level-1 .nav-item{
-    display:flex;
-    height:var(--menu-item-height);
-    padding: 6px 15px;
-    align-items:center;
-    gap:10px;
-    flex: 1 0 0;
-    background:#000;
-    border-top: 1px solid #000;
-    border-right: 1px solid #000;
-    border-left: 1px solid #000;
-    color:var(--white);
-    white-space:nowrap;
-  }
+.menu-level-2.hidden,
+.menu-level-3.hidden{
+  display:none;
+}
 
-  .menu-level-1 .nav-item .dot{
-    width:8px;
-    height:8px;
-    border-radius:50%;
-    border:1px solid var(--white);
-    display:inline-block;
-  }
+.menu-level-1 .nav-items{
+  flex:1 1 auto;
+  display:flex;
+  gap:var(--menu-gap);
+}
 
-  .menu-level-1 .nav-item.active .dot{
-    background:var(--white);
-  }
+.nav-item{
+  display:flex;
+  height:var(--menu-item-height);
+  padding:6px 15px;
+  align-items:center;
+  gap:10px;
+  flex:1 0 0;
+  background:var(--black);
+  color:var(--white);
+  border-top:var(--border-w) solid var(--black);
+  border-right:var(--border-w) solid var(--black);
+  border-left:var(--border-w) solid var(--black);
+  white-space:nowrap;
+  text-align:left;
+  font-size:var(--menu-font-size);
+  cursor:pointer;
+}
 
-  /* Active state: white bg, black text, thin black border left/right/top */
-  .menu-level-1 .nav-item.active{
-    background:#FFF;
-    color:var(--black);
-    border-top: 1px solid #000;
-    border-right: 1px solid #000;
-    border-left: 1px solid #000;
-    height:calc(var(--menu-item-height) - 1px);
-  }
-  .menu-level-1 .nav-item.active .dot{
-    border-color:var(--black);
-    background:var(--black);
-  }
+.nav-item.active{
+  background:var(--white);
+  color:var(--black);
+  height:calc(var(--menu-item-height) - var(--border-w));
+}
 
-  .menu-level-1 .title-cell.active{
-    border-top: var(--border-w) solid var(--black);
-  }
+/* Home / title cell */
+.title-cell{
+  flex:0 0 auto;
+  height:var(--menu-item-height);
+  display:flex;
+  align-items:center;
+  padding:6px 15px;
+  font-size:var(--menu-font-size);
+  background:var(--white);
+  color:var(--black);
+  border-right:var(--border-w) solid var(--black);
+  white-space:nowrap;
+  cursor:pointer;
+}
 
-  /* =========================================================
-     MENU — LEVEL 2  (Sessions 1-6  /  Interviews 1-7)
-     ========================================================= */
-  .menu-level-2{
-    display:flex;
-    background:var(--white);
-    margin-bottom:var(--menu-gap);
-    gap:var(--menu-gap);
-  }
-  .menu-level-2.hidden{ display:none; }
+.title-cell.active{
+  border-top:var(--border-w) solid var(--black);
+}
 
-  .menu-level-2 .nav-item{
-    display:flex;
-    height:var(--menu-item-height);
-    padding: 6px 15px;
-    align-items:center;
-    gap:10px;
-    flex: 1 0 0;
-    background:#000;
-    border-top: 1px solid #000;
-    border-right: 1px solid #000;
-    border-left: 1px solid #000;
-    color:var(--white);
-    white-space:nowrap;
-    text-align:left;
-    font-size:var(--menu-font-size);
-  }
+/* Dot */
+.nav-item .dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  border:var(--border-w) solid var(--white);
+  display:inline-block;
+}
 
-  .menu-level-2 .nav-item.active{
-    background:#FFF;
-    color:var(--black);
-    border-top: 1px solid #000;
-    border-right: 1px solid #000;
-    border-left: 1px solid #000;
-    height:calc(var(--menu-item-height) - 1px);
-  }
-
-  /* =========================================================
-     MENU — LEVEL 3  (Intro / Analog / Digital / Notes)
-     ========================================================= */
-  .menu-level-3{
-    display:flex;
-    background:var(--white);
-    margin-bottom:var(--menu-gap);
-    gap:var(--menu-gap);
-  }
-  .menu-level-3.hidden{ display:none; }
-
-  .menu-level-3 .nav-item{
-    display:flex;
-    height:var(--menu-item-height);
-    padding: 6px 15px;
-    align-items:center;
-    gap:10px;
-    flex: 1 0 0;
-    background:#000;
-    border-top: 1px solid #000;
-    border-right: 1px solid #000;
-    border-left: 1px solid #000;
-    color:var(--white);
-    white-space:nowrap;
-    text-align:left;
-    font-size:var(--menu-font-size);
-  }
-
-  .menu-level-3 .nav-item.active{
-    background:#FFF;
-    color:var(--black);
-    border-top: 1px solid #000;
-    border-right: 1px solid #000;
-    border-left: 1px solid #000;
-    height:calc(var(--menu-item-height) - 1px);
-  }
-
+.nav-item.active .dot{
+  border-color:var(--black);
+  background:var(--black);
+}
   /* =========================================================
      CONTENT AREA
      ========================================================= */
