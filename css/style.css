@@ -133,6 +133,15 @@ body{
 /* =========================================================
    CONTENT LAYOUT
    ========================================================= */
+.content{
+    padding-top:calc(var(--menu-item-height) * 2);
+}
+
+.page-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    column-gap:40px;
+}
 
 .content-layout{
     display:grid;
