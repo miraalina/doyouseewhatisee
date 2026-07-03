@@ -133,43 +133,38 @@ body{
 /* =========================================================
    CONTENT LAYOUT
    ========================================================= */
-.content{
-    padding-top:calc(var(--menu-item-height) * 2);
-}
 
-.page-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    column-gap:40px;
+.content{
+  padding:0;
+  padding-top:calc(var(--menu-item-height) * 2);
 }
 
 .content-layout{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:2px;
-    margin-top:40px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:var(--menu-gap);
+  margin-top:0;
 }
 
 .content-column{
-    display:flex;
-    flex-direction:column;
+  display:flex;
+  flex-direction:column;
 }
 
 .content-header{
-    height:40px;
-
-    display:flex;
-    align-items:center;
-
-    padding:0 15px;
-
-    background:#fff;
-
-    border-top:1px solid #000;
-    border-right:1px solid #000;
-    border-left:1px solid #000;
+  height:var(--menu-item-height);
+  display:flex;
+  align-items:center;
+  padding:0 15px;
+  background:var(--white);
+  border-top:var(--border-w) solid var(--black);
+  border-right:var(--border-w) solid var(--black);
+  border-left:var(--border-w) solid var(--black);
+  font-size:var(--content-font-size);
 }
 
 .content-block{
-    padding:25px 15px;
+  padding:25px 15px;
+  font-size:var(--content-font-size);
+  line-height:1.4;
 }
