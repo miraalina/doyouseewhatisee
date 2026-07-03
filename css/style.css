@@ -12,8 +12,9 @@
     --menu-gap:2px;
     --menu-item-height:40px;
     --menu-font-size:20px;
+    --content-font-size:16px;
     --font-main:"DINdong", sans-serif;
-  }
+}
 
   *{box-sizing:border-box;}
 
@@ -126,34 +127,39 @@
   border-color:var(--black);
   background:var(--black);
 }
-  /* =========================================================
-     CONTENT AREA
-     ========================================================= */
-  .content{
-    padding:40px;
-    min-height: 60vh;
-  }
 
-  .content h1{
-    font-family: var(--font-main);
-    margin-top:0;
-  }
 
-  .content .page{
-    display:none;
-  }
-  .content .page.active{
-    display:block;
-  }
+/* =========================================================
+   CONTENT LAYOUT
+   ========================================================= */
 
-  .placeholder-note{
-    color:#666;
-    font-style:italic;
-  }
+.content-layout{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:2px;
+    margin-top:40px;
+}
 
-  @media (max-width: 700px){
-    .menu-level-1{ flex-wrap:wrap; }
-    .menu-level-1 .nav-items{ flex-wrap:wrap; justify-content:flex-start; }
-    .menu-level-2, .menu-level-3{ flex-wrap:wrap; }
-    .menu-level-2 .nav-item, .menu-level-3 .nav-item{ flex:1 1 50%; }
-  }
+.content-column{
+    display:flex;
+    flex-direction:column;
+}
+
+.content-header{
+    height:40px;
+
+    display:flex;
+    align-items:center;
+
+    padding:0 15px;
+
+    background:#fff;
+
+    border-top:1px solid #000;
+    border-right:1px solid #000;
+    border-left:1px solid #000;
+}
+
+.content-block{
+    padding:25px 15px;
+}
