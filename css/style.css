@@ -134,9 +134,8 @@ body{
    CONTENT LAYOUT
    ========================================================= */
 
-.content{
-  padding:0;
-  padding-top:calc(var(--menu-item-height) * 2);
+#page-content{
+  padding-top:calc((var(--menu-item-height) * 2) + (var(--menu-gap) * 2));
 }
 
 .content-layout{
