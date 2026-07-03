@@ -66,17 +66,11 @@
   }
 
   function selectSub(sub){
-    clearActive(document.getElementById('level3-sub'));
-    document.querySelector('.nav-item[data-sub="' + sub + '"]').classList.add('active');
+    if (currentSession === 1 && sub === "notes") {
+  loadContent("content/sessions/session1/notes1.html");
+  return;
+}
 
-    const labels = { intro: 'Intro', analog: 'Analog', digital: 'Digital', notes: 'Notes' };
-    document.getElementById('session-sub-title').textContent =
-      'Session ' + currentSession + ' — ' + labels[sub];
-    document.getElementById('session-sub-text').textContent =
-      '[ Platzhalter: Inhalt für Session ' + currentSession + ', ' + labels[sub] + ' ]';
-
-    showPage('page-session-sub');
-  }
 
   function selectInterview(n){
     currentInterview = n;
@@ -89,6 +83,24 @@
 
     showPage('page-interview');
   }
+ /* content aus seiten laden */
+function loadContent(path){
+  fetch(path)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Content konnte nicht geladen werden: " + path);
+      }
+      return response.text();
+    })
+    .then(html => {
+      document.getElementById("page-content").innerHTML = html;
+    })
+    .catch(error => {
+      console.error(error);
+      document.getElementById("page-content").innerHTML =
+        "<p>Inhalt konnte nicht geladen werden.</p>";
+    });
+}
 
   // init
   goHome();
