@@ -167,3 +167,53 @@ body{
   font-size:var(--content-font-size);
   line-height:1.4;
 }
+
+/* =========================================================
+   NOTES LAYOUT
+   ========================================================= */
+
+.content-layout{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:var(--menu-gap);
+}
+
+.content-column{
+    display:flex;
+    flex-direction:column;
+}
+
+.content-header{
+    height:var(--menu-item-height);
+    display:flex;
+    align-items:center;
+    padding:0 15px;
+    background:var(--white);
+    border-top:var(--border-w) solid var(--black);
+    border-right:var(--border-w) solid var(--black);
+    border-left:var(--border-w) solid var(--black);
+    font-size:var(--content-font-size);
+    margin-bottom:32px;
+}
+
+.article{
+    display:flex;
+    flex-direction:column;
+    margin-bottom:64px;
+}
+
+.article p{
+    margin:0;
+    font-size:var(--content-font-size);
+    line-height:1.4;
+}
+
+.quote{
+    font-size:42px;
+    line-height:1.05;
+}
+
+.image{
+    height:260px;
+    background:#ddd;
+}
