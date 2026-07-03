@@ -70,6 +70,7 @@
   loadContent("content/sessions/session1/notes1.html");
   return;
 }
+}
 
 
   function selectInterview(n){
