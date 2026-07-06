@@ -9,7 +9,8 @@
 
   function showPage(id){
     document.querySelectorAll('.content .page').forEach(p => p.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
+    var el = document.getElementById(id);
+    if (el) el.classList.add('active');
   }
 
   function hideLevels23(){
@@ -25,7 +26,7 @@
     clearActive(document.getElementById('level1-items'));
     document.getElementById('home-link').classList.add('active');
     hideLevels23();
-    showPage('page-home');
+    document.getElementById('page-content').innerHTML = '';
   }
 
   function selectMode(mode){
@@ -42,11 +43,11 @@
     if(mode === 'work'){
       document.getElementById('level2-sessions').classList.remove('hidden');
       clearActive(document.getElementById('level2-sessions'));
-      showPage('page-home'); // nothing selected yet within sessions
+      document.getElementById('page-content').innerHTML = ''; // nothing selected yet within sessions
     } else if(mode === 'interview'){
       document.getElementById('level2-interviews').classList.remove('hidden');
       clearActive(document.getElementById('level2-interviews'));
-      showPage('page-home');
+      document.getElementById('page-content').innerHTML = '';
     } else if(mode === 'manifesto'){
       showPage('page-manifesto');
     } else if(mode === 'about'){
@@ -65,12 +66,17 @@
     selectSub('intro');
   }
 
+  var subFileMap = { intro: 'intro', analog: 'method', notes: 'notes' };
+
   function selectSub(sub){
-    if (currentSession === 1 && sub === "notes") {
-  loadContent("content/sessions/session1/notes1.html");
-  return;
-}
-}
+    clearActive(document.getElementById('level3-sub'));
+    document.querySelector('.nav-item[data-sub="' + sub + '"]').classList.add('active');
+
+    var fileBase = subFileMap[sub];
+    if (currentSession && fileBase) {
+      loadContent('content/sessions/session' + currentSession + '/' + fileBase + currentSession + '.html');
+    }
+  }
 
 
   function selectInterview(n){

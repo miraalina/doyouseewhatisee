@@ -366,26 +366,54 @@ body{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:var(--menu-gap);
-  align-items:stretch;
 }
 
-.intro-image-placeholder{
-  background:#ccc;
+/* Linke Spalte: große Leitfrage, rundum gerahmt */
+.intro-question{
   border:var(--border-w) solid var(--black);
-  min-height:320px;
+  display:flex;
+  align-items:center;
+  padding:60px 40px;
+  min-height:80vh;
+  font-size:44px;
+  line-height:1.2;
 }
+.intro-question p{ margin:0; }
 
+/* Rechte Spalte: Titel, Text und Metadaten-Tabelle, ohne Rahmen */
 .intro-text{
-  padding:25px 15px;
+  padding:0 15px;
   font-size:var(--content-font-size);
   line-height:1.4;
-  border:var(--border-w) solid var(--black);
 }
 .intro-text p{ margin:0 0 .8em; }
-.intro-text p:last-child{ margin-bottom:0; }
+.intro-text p:last-child{ margin-bottom:1.5em; }
+
+.intro-title{
+  font-size:22px;
+  font-weight:normal;
+  font-family:var(--font-main);
+  margin:0 0 .8em;
+}
+
+.intro-meta{
+  width:100%;
+  border-collapse:collapse;
+}
+.intro-meta th,
+.intro-meta td{
+  text-align:left;
+  font-weight:normal;
+  font-size:var(--content-font-size);
+  padding:10px 0;
+  border-bottom:var(--border-w) solid var(--black);
+}
+.intro-meta th{
+  border-top:var(--border-w) solid var(--black);
+}
 
 @media (max-width: 760px){
   .intro-layout{ grid-template-columns:1fr; }
-  .intro-image-placeholder{ min-height:220px; }
+  .intro-question{ min-height:40vh; font-size:32px; padding:30px 20px; }
 }
 
