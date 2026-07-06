@@ -16,6 +16,34 @@
   Zeilennummerierung übernimmt initInterview() automatisch.
 -->
 
+<!-- Vorspann: Portrait links, Beschreibungstext rechts, über die gesamte Breite -->
+<div class="interview-intro">
+  <div class="interview-portrait">
+    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+      <rect width="400" height="300" fill="#fff"/>
+      <circle cx="200" cy="115" r="58" fill="none" stroke="#000" stroke-width="2.4"/>
+      <path d="M95 300 C95 205, 305 205, 305 300" fill="none" stroke="#000" stroke-width="2.4"/>
+    </svg>
+  </div>
+  <div class="interview-intro-text">
+    <p>Ivo Brouwer is a graphic artist & type designer based in The Hague, Netherlands. His work consists of expressive typefaces, lettering, patterns and writing/tools. His work is visible in books, musea, galleries and public space.</p>
+    <p>Next to his own practice, he shares a practice with his collective High on Type. He is an experienced educator in type design and graphic design at various art academies. He holds an master’s degree in Arts (TypeMedia) from the Royal Academy of Arts The Hague (KABK).</p>
+  </div>
+</div>
+
+<div class="interview-layout">
+
+  <!-- Sprungleiste: eigenständige Spalte links neben dem Dialog-Grid,
+       listet die Titel der Redebeiträge auf, Klick springt zur passenden Stelle -->
+  <nav class="interview-toc">
+    <div class="content-header">Inhalt</div>
+    <a href="#turn-1">High on Type</a>
+    <a href="#turn-2">Personal Introduction</a>
+    <a href="#turn-3">Collective Work</a>
+    <a href="#turn-4">What is Collaboration?</a>
+
+  </nav>
+
 <div class="interview-grid">
 
   <!-- Kopfzeile: eine Zelle pro Person, Reihenfolge legt die Spalten fest -->
@@ -24,7 +52,7 @@
   <div class="content-header"><span class="dot"></span>Ivo</div>
 
   <!-- Beitrag 1 — Mira, kurz -->
-  <div class="interview-turn" data-col="1" data-img="img1"
+  <div class="interview-turn" id="turn-1" data-col="1" data-img="img1"
        data-title="Kontaktbogen, Woche 1"
        data-caption="Der Kontaktbogen, mit dem alles begann.">
     <span class="turn-name">Mira</span>
@@ -36,7 +64,7 @@
   </div>
 
   <!-- Beitrag 2 — Phuong, lang (wird auf 5 Zeilen gekürzt) -->
-  <div class="interview-turn" data-col="2" data-img="img2"
+  <div class="interview-turn" id="turn-2" data-col="2" data-img="img2"
        data-title="Küstenlinie bei Ebbe"
        data-caption="Ebbe um 5:52 Uhr — der schmale Streifen, der für neun Minuten beides ist: Land und Wasser.">
     <span class="turn-name">Phuong</span>
@@ -50,7 +78,7 @@
   </div>
 
   <!-- Beitrag 3 — Ivo, kurz -->
-  <div class="interview-turn" data-col="3" data-img="img3"
+  <div class="interview-turn" id="turn-3" data-col="3" data-img="img3"
        data-title="Randnotizen, Skizzenbuch"
        data-caption="Die ersten Linien entstehen nie auf der Seite selbst, sondern im Rand daneben.">
     <span class="turn-name">Ivo</span>
@@ -62,7 +90,7 @@
   </div>
 
   <!-- Beitrag 4 — Mira, lang -->
-  <div class="interview-turn" data-col="1" data-img="img4"
+  <div class="interview-turn" id="turn-4" data-col="1" data-img="img4"
        data-title="Umbruch, zwei Tage vor Andruck"
        data-caption="Die gestrichene Zeile ist die, die am meisten wehtat.">
     <span class="turn-name">Mira</span>
@@ -75,7 +103,7 @@
   </div>
 
   <!-- Beitrag 5 — Phuong, kurz -->
-  <div class="interview-turn" data-col="2" data-img="img5"
+  <div class="interview-turn" id="turn-5" data-col="2" data-img="img5"
        data-title="Dunkelkammer, Rotlicht an"
        data-caption="Das Bild kommt immer zuerst an den Rändern des Papiers zum Vorschein.">
     <span class="turn-name">Phuong</span>
@@ -87,7 +115,7 @@
   </div>
 
   <!-- Beitrag 6 — Ivo, lang -->
-  <div class="interview-turn" data-col="3" data-img="img6"
+  <div class="interview-turn" id="turn-6" data-col="3" data-img="img6"
        data-title="Tintenringe, letzte Illustration"
        data-caption="Die Ringe entstehen von selbst, wenn man das Blatt kippt, statt sie zu zeichnen.">
     <span class="turn-name">Ivo</span>
@@ -99,4 +127,5 @@
     </div>
   </div>
 
+</div>
 </div>

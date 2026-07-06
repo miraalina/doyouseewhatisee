@@ -247,6 +247,15 @@ function initInterview(){
     }
   });
 
+  var tocLinks = Array.prototype.slice.call(grid.querySelectorAll('.interview-toc a'));
+  tocLinks.forEach(function(link){
+    link.addEventListener('click', function(e){
+      e.preventDefault();
+      var target = document.getElementById(link.getAttribute('href').slice(1));
+      if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+
   if('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('visible'); });
