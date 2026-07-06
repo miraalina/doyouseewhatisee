@@ -169,94 +169,130 @@ body{
 }
 
 /* =========================================================
-   NOTES LAYOUT
+   INTERVIEW-MODUL — 3-Spalten-Dialog mit Hover-Fokus
+   Ans Ende von css/style.css anhängen.
+   Nutzt eure bestehenden Variablen (--black, --white, --border-w,
+   --menu-gap, --font-main, --content-font-size) — keine neuen Farben,
+   keine neue Schriftart, keine Radien, keine Schatten.
    ========================================================= */
 
-.content-layout{
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    gap:var(--menu-gap);
-    align-items:start;
+.interview-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:var(--menu-gap);
 }
 
-/* ---------- Dialog (Mira + Phuong) ---------- */
+/* Kopfzeile: 3 Zellen, eine pro Person — wiederverwendet .content-header,
+   ergänzt nur den Dot aus der Nav (gefüllt = gerade im Fokus) */
+.interview-grid .content-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  grid-row:1;
+}
+.interview-grid .content-header .dot{
+  width:8px;height:8px;border-radius:50%;
+  border:var(--border-w) solid var(--black);
+  display:inline-block;
+  transition:background .2s ease;
+}
+.interview-grid .content-header.focused .dot{ background:var(--black); }
 
-.dialog-layout{
-    display:flex;
-    flex-direction:column;
+/* Ein Redebeitrag */
+.interview-turn{
+  border-top:var(--border-w) solid var(--black);
+  padding:20px 15px;
+  position:relative;
+  opacity:0; transform:translateY(8px);
+  transition:opacity .5s ease, transform .5s ease, background .2s ease, color .2s ease;
+}
+.interview-turn.visible{ opacity:1; transform:none; }
+
+/* Fokus-Effekt beim Hover: invertiert wie eure .nav-item.active-Logik,
+   nur umgekehrt (hier: schwarz/weiß tauschen statt weiß/schwarz) */
+.interview-turn:hover,
+.interview-turn.active{
+  background:var(--black);
+}
+.interview-turn:hover .turn-text,
+.interview-turn.active .turn-text,
+.interview-turn:hover .turn-expand,
+.interview-turn.active .turn-expand{
+  color:var(--white);
+}
+.interview-turn:hover .turn-text.truncatable::after,
+.interview-turn.active .turn-text.truncatable::after{
+  background:linear-gradient(to bottom, transparent, var(--black));
 }
 
-.dialog-row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:var(--menu-gap);
-    align-items:start;
+/* Name pro Beitrag — nur auf schmalen Screens sichtbar (Desktop übernimmt die Kopfzeile) */
+.turn-name{
+  display:none;
+  font-size:var(--content-font-size);
+  font-weight:bold;
+  margin-bottom:8px;
 }
 
-.dialog-row .content-header{
-    height:var(--menu-item-height);
-    display:flex;
-    align-items:center;
-    padding:0 15px;
-    background:var(--white);
-    border-top:var(--border-w) solid var(--black);
-    border-right:var(--border-w) solid var(--black);
-    border-left:var(--border-w) solid var(--black);
-    font-size:var(--content-font-size);
-    margin-bottom:40px;
+/* Text auf 5 Zeilen begrenzt */
+.text-wrap{ position:relative; }
+.turn-text{
+  font-size:var(--content-font-size); line-height:1.4;
+  max-height:7em; /* ≈ 5 Zeilen bei line-height 1.4 */
+  overflow:hidden; position:relative;
+}
+.turn-text.fits{ max-height:none; }
+.turn-text p{ margin:0 0 .8em; }
+.turn-text p:last-child{ margin-bottom:0; }
+.turn-text.truncatable::after{
+  content:""; position:absolute; left:0; right:0; bottom:0; height:2em;
+  background:linear-gradient(to bottom, transparent, var(--white));
+  transition:opacity .25s ease, background .2s ease;
+}
+.interview-turn:hover .turn-text.truncatable::after,
+.interview-turn.active .turn-text.truncatable::after{ opacity:0; }
+
+/* Ausgeklappter Volltext als Overlay — verschiebt nichts im Fluss, kein Sprung */
+.turn-expand{
+  position:absolute; top:0; left:0; right:0;
+  background:var(--black);
+  padding:20px 15px; margin:-20px -15px 0;
+  opacity:0; pointer-events:none; transform:translateY(-2px);
+  transition:opacity .25s ease, transform .25s ease;
+  font-size:var(--content-font-size); line-height:1.4;
+  z-index:5;
+}
+.turn-expand p{ margin:0 0 .8em; }
+.turn-expand p:last-child{ margin-bottom:0; }
+.interview-turn:hover .turn-expand,
+.interview-turn.active .turn-expand{ opacity:1; transform:none; pointer-events:auto; }
+
+/* Bild folgt dem Mauszeiger */
+.cursor-figure{
+  position:fixed; top:0; left:0; width:220px; z-index:100;
+  opacity:0; pointer-events:none;
+  transform:translate(-9999px,-9999px);
+  transition:opacity .2s ease;
+}
+.cursor-figure.visible{ opacity:1; }
+.cursor-figure .frame{
+  aspect-ratio:4/3.1;
+  border:var(--border-w) solid var(--black);
+  background:var(--white);
+  overflow:hidden;
+}
+.cursor-figure .frame svg{ display:block; width:100%; height:100%; }
+.cursor-figure .cap{
+  font-size:13px; line-height:1.35;
+  background:var(--white); border:var(--border-w) solid var(--black); border-top:none;
+  padding:8px 10px;
+}
+.cursor-figure .cap b{ display:block; font-weight:bold; margin-bottom:2px; }
+
+@media (max-width: 760px){
+  .interview-grid{ grid-template-columns:1fr !important; }
+  .interview-grid .content-header{ display:none !important; }
+  .interview-turn{ grid-column:1 !important; }
+  .turn-name{ display:block; }
+  .cursor-figure{ display:none; }
 }
 
-.dialog-row .article{
-    padding:0 15px;
-    margin-bottom:64px;
-}
-
-.dialog-row .article p{
-    margin:0;
-    font-size:var(--content-font-size);
-    line-height:1.4;
-}
-
-.empty{
-    visibility:hidden;
-}
-
-/* ---------- Material-Spalte ---------- */
-
-.content-column{
-    display:flex;
-    flex-direction:column;
-}
-
-.content-column .content-header{
-    height:var(--menu-item-height);
-    display:flex;
-    align-items:center;
-    padding:0 15px;
-    background:var(--white);
-    border-top:var(--border-w) solid var(--black);
-    border-right:var(--border-w) solid var(--black);
-    border-left:var(--border-w) solid var(--black);
-    font-size:var(--content-font-size);
-    margin-bottom:40px;
-}
-
-.content-column .article{
-    padding:0 15px;
-    margin-bottom:64px;
-}
-
-.content-column .article p{
-    margin:0;
-    line-height:1.4;
-}
-
-.quote{
-    font-size:42px;
-    line-height:1.05;
-}
-
-.image{
-    height:260px;
-    background:#ddd;
-}

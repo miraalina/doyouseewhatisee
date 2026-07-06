@@ -54,5 +54,104 @@
 
 <script src="js/main.js"></script>
 
+
+<!--
+  Diese zwei Blöcke einmalig kurz vor </body> in index.html einfügen
+  (also NICHT in den Interview-Fragmenten wiederholen — sie gelten
+  seitenweit, da der Header/das Grundgerüst ja bestehen bleibt).
+-->
+
+<!-- Bild folgt dem Mauszeiger beim Hover über eine Aussage -->
+<div class="cursor-figure" id="cursorFigure" aria-hidden="true">
+  <div class="frame" id="cursorFrame"></div>
+  <div class="cap" id="cursorCap"></div>
+</div>
+
+<!-- Bild-Definitionen: einmal geschrieben, von main.js per JS in cursorFrame geklont.
+     Monochrom (nur --black/--white), passend zu eurem Design. Bilder/Themen frei
+     austauschbar — einfach zusätzliche <svg id="def-imgX"> ergänzen und in den
+     Interview-Fragmenten per data-img="imgX" referenzieren. -->
+<div id="imgdefs" hidden>
+
+  <svg id="def-img1" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <rect width="400" height="300" fill="#fff"/>
+    <g fill="none" stroke="#000" stroke-width="1.4"><g id="grid1"></g></g>
+    <rect x="150" y="90" width="55" height="42" fill="none" stroke="#000" stroke-width="2.4"/>
+    <script>
+      (function(){
+        var g=document.currentScript.parentElement.querySelector('#grid1');
+        var cols=6, rows=4, w=340, h=220, x0=30, y0=40, gap=8;
+        var cw=(w-(cols-1)*gap)/cols, ch=(h-(rows-1)*gap)/rows;
+        for(var r=0;r<rows;r++){for(var c=0;c<cols;c++){
+          var rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
+          rect.setAttribute('x', x0+c*(cw+gap)); rect.setAttribute('y', y0+r*(ch+gap));
+          rect.setAttribute('width', cw); rect.setAttribute('height', ch);
+          rect.setAttribute('fill', '#000');
+          rect.setAttribute('opacity', 0.15+((r*cols+c)%5)*0.13);
+          g.appendChild(rect);
+        }}
+      })();
+    </script>
+  </svg>
+
+  <svg id="def-img2" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <rect width="400" height="300" fill="#fff"/>
+    <path d="M0 165 L60 158 L140 172 L220 150 L300 175 L400 160 L400 300 L0 300 Z" fill="#000" opacity="0.85"/>
+    <line x1="0" y1="150" x2="400" y2="150" stroke="#000" stroke-width="1"/>
+    <g stroke="#000" stroke-width="1" opacity="0.5" fill="none">
+      <path d="M40 230 a30 8 0 0 0 60 0"/>
+      <path d="M180 250 a45 10 0 0 0 90 0"/>
+      <path d="M300 220 a25 6 0 0 0 50 0"/>
+    </g>
+  </svg>
+
+  <svg id="def-img3" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <rect width="400" height="300" fill="#fff"/>
+    <g stroke="#000" stroke-width="1" opacity="0.4">
+      <line x1="40" y1="40" x2="40" y2="270"/>
+      <line x1="0" y1="60" x2="400" y2="60"/><line x1="0" y1="95" x2="400" y2="95"/>
+      <line x1="0" y1="130" x2="400" y2="130"/><line x1="0" y1="165" x2="400" y2="165"/>
+      <line x1="0" y1="200" x2="400" y2="200"/><line x1="0" y1="235" x2="400" y2="235"/>
+    </g>
+    <path d="M60 90 C 110 40, 160 140, 210 80 S 320 60, 340 120" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M70 170 C 130 200, 150 130, 220 190 S 300 150, 330 210" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+  </svg>
+
+  <svg id="def-img4" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <rect width="400" height="300" fill="#fff"/>
+    <rect x="120" y="35" width="160" height="230" fill="#fff" stroke="#000" stroke-width="1.4"/>
+    <g fill="#000" opacity="0.8">
+      <rect x="136" y="55" width="128" height="6"/><rect x="136" y="70" width="128" height="6"/>
+      <rect x="136" y="85" width="90" height="6"/><rect x="136" y="120" width="128" height="6"/>
+      <rect x="136" y="135" width="128" height="6"/><rect x="136" y="150" width="70" height="6"/>
+    </g>
+    <line x1="136" y1="118" x2="264" y2="160" stroke="#000" stroke-width="2.2"/>
+  </svg>
+
+  <svg id="def-img5" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <rect width="400" height="300" fill="#000"/>
+    <rect x="150" y="70" width="100" height="130" fill="#fff"/>
+    <line x1="175" y1="55" x2="175" y2="70" stroke="#fff" stroke-width="2"/>
+    <line x1="225" y1="55" x2="225" y2="70" stroke="#fff" stroke-width="2"/>
+    <line x1="140" y1="55" x2="260" y2="55" stroke="#fff" stroke-width="2.2"/>
+    <g stroke="#fff" stroke-width="1" opacity="0.5">
+      <path d="M60 240 a40 9 0 0 0 80 0"/><path d="M260 250 a50 10 0 0 0 100 0"/>
+    </g>
+  </svg>
+
+  <svg id="def-img6" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <rect width="400" height="300" fill="#fff"/>
+    <g fill="none" stroke="#000">
+      <circle cx="150" cy="150" r="14" stroke-width="2" opacity="0.9"/>
+      <circle cx="150" cy="150" r="34" stroke-width="1.6" opacity="0.7"/>
+      <circle cx="150" cy="150" r="58" stroke-width="1.3" opacity="0.5"/>
+      <circle cx="150" cy="150" r="86" stroke-width="1" opacity="0.35"/>
+      <circle cx="150" cy="150" r="118" stroke-width="0.8" opacity="0.2"/>
+    </g>
+    <circle cx="150" cy="150" r="5" fill="#000"/>
+  </svg>
+
+</div>
+
 </body>
 </html>

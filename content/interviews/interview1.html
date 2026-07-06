@@ -1,0 +1,102 @@
+<!--
+  content/interviews/interview1.html
+  Wird per fetch() in #page-content geladen, wenn "Interview 1" angeklickt
+  wird. Enthält NUR den Inhalt — Header/Menü kommen weiterhin aus index.html
+  und bleiben beim Laden unverändert stehen.
+
+  Pro Aussage:
+    data-col      = 1, 2 oder 3 → welcher Spalte (Person) sie gehört,
+                    muss zur Reihenfolge der drei .content-header unten passen
+    data-img      = welches Bild aus den imgdefs (in index.html) gezeigt wird
+    data-title    = kleine Überschrift im Bild-Popup
+    data-caption  = kurzer Beschreibungstext im Bild-Popup
+
+  Zum Verlängern/Verkürzen des Gesprächs einfach weitere .interview-turn
+  Blöcke in chronologischer Reihenfolge ergänzen oder entfernen — die
+  Zeilennummerierung übernimmt initInterview() automatisch.
+-->
+
+<div class="interview-grid">
+
+  <!-- Kopfzeile: eine Zelle pro Person, Reihenfolge legt die Spalten fest -->
+  <div class="content-header"><span class="dot"></span>Mira</div>
+  <div class="content-header"><span class="dot"></span>Phuong</div>
+  <div class="content-header"><span class="dot"></span>Ivo</div>
+
+  <!-- Beitrag 1 — Mira, kurz -->
+  <div class="interview-turn" data-col="1" data-img="img1"
+       data-title="Kontaktbogen, Woche 1"
+       data-caption="Der Kontaktbogen, mit dem alles begann.">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Ränder interessieren mich, weil dort etwas endet und gleichzeitig etwas beginnt. Für diese Ausgabe wollten wir eine ganze Nummer der Grenzlinie widmen.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Beitrag 2 — Phuong, lang (wird auf 5 Zeilen gekürzt) -->
+  <div class="interview-turn" data-col="2" data-img="img2"
+       data-title="Küstenlinie bei Ebbe"
+       data-caption="Ebbe um 5:52 Uhr — der schmale Streifen, der für neun Minuten beides ist: Land und Wasser.">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Ich bin an drei Morgen hintereinander um vier aufgestanden, weil die Ebbe jeden Tag neun Minuten später kam und ich genau das Fenster brauchte, in dem der Sand noch nass ist, aber das Wasser schon weit genug zurückgewichen. Neun Minuten, in denen die Grenze zwischen Meer und Land nicht mehr Linie, sondern Fläche ist.</p>
+        <p>Ich habe zwölf Belichtungen gemacht, nur die Blende variiert. Am Ende war es die neunte Aufnahme, die blieb — nicht die schärfste, sondern die einzige, auf der man das Gefühl hat, gleich würde sich etwas bewegen, obwohl nichts sich bewegt.</p>
+        <p>Was mich am meisten beschäftigt hat: Man kann sich auf keine Formel verlassen. Man kann nur da sein, früh genug, oft genug, und akzeptieren, dass zwei der drei Morgen für nichts waren.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Beitrag 3 — Ivo, kurz -->
+  <div class="interview-turn" data-col="3" data-img="img3"
+       data-title="Randnotizen, Skizzenbuch"
+       data-caption="Die ersten Linien entstehen nie auf der Seite selbst, sondern im Rand daneben.">
+    <span class="turn-name">Ivo</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Ich zeichne nie direkt auf das Motiv, sondern in den Rand daneben — als würde ich mit Phuongs Bild reden, statt es zu illustrieren.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Beitrag 4 — Mira, lang -->
+  <div class="interview-turn" data-col="1" data-img="img4"
+       data-title="Umbruch, zwei Tage vor Andruck"
+       data-caption="Die gestrichene Zeile ist die, die am meisten wehtat.">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Redigieren ist im Grunde auch eine Arbeit an Rändern — man entscheidet nicht, was in der Mitte des Textes wichtig ist, sondern wo er aufhören darf. Zwei Tage vor Andruck hatten wir noch achthundert Wörter zu viel.</p>
+        <p>Die Zeile, die am Ende raus musste, war die, die mir persönlich am besten gefiel. Genau deshalb musste sie weg: Wenn man aus Eitelkeit zögert und nicht aus redaktionellem Grund, ist das meistens das Zeichen, dass sie schon vorher hätte gestrichen werden sollen.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Beitrag 5 — Phuong, kurz -->
+  <div class="interview-turn" data-col="2" data-img="img5"
+       data-title="Dunkelkammer, Rotlicht an"
+       data-caption="Das Bild kommt immer zuerst an den Rändern des Papiers zum Vorschein.">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>In der Dunkelkammer kommt ein Bild immer zuerst an den Rändern des Papiers zum Vorschein, nie in der Mitte. Man sieht die Kanten, bevor man das Motiv selbst sieht.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Beitrag 6 — Ivo, lang -->
+  <div class="interview-turn" data-col="3" data-img="img6"
+       data-title="Tintenringe, letzte Illustration"
+       data-caption="Die Ringe entstehen von selbst, wenn man das Blatt kippt, statt sie zu zeichnen.">
+    <span class="turn-name">Ivo</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Die letzte Illustration ist eigentlich gar keine Zeichnung, sondern ein Zufall, den ich nur zugelassen habe. Jede Linie, die ich zog, sah zu kontrolliert aus für ein Motiv, das genau davon handelt, dass man nichts kontrollieren kann.</p>
+        <p>Ich habe stattdessen einen Tropfen Tinte auf feuchtes Papier gesetzt und das Blatt gekippt, bis die Tinte sich von selbst zu Ringen ausgebreitet hat. Nur einmal ist das Ergebnis nicht explodiert, sondern hat sich zu den Rändern hin verzogen — genau dieses Blatt haben wir gedruckt.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
