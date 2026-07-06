@@ -172,37 +172,47 @@ body{
    keine neue Schriftart, keine Radien, keine Schatten.
    ========================================================= */
 
-/* Vorspann über der Kopfzeile: Portrait links, Beschreibungstext rechts */
+/* Linke Spalte: Portrait+Text und Sprungleiste untereinander, als eine
+   Einheit neben dem Dialog-Grid — dadurch beginnt das Grid (Kopfzeile) auf
+   gleicher Höhe direkt unter dem Menü, statt unter einem volle-Breite-Vorspann */
+.interview-sidebar{
+  flex:0 0 260px;
+  display:flex;
+  flex-direction:column;
+  position:sticky;
+  top:0;
+  align-self:flex-start;
+}
+
+/* Vorspann: Portrait oben, Beschreibungstext darunter */
 .interview-intro{
   display:flex;
+  flex-direction:column;
   border-top:var(--border-w) solid var(--black);
   border-right:var(--border-w) solid var(--black);
   border-left:var(--border-w) solid var(--black);
   margin-bottom:var(--menu-gap);
 }
 .interview-portrait{
-  flex:1 1 0;
-  border-right:var(--border-w) solid var(--black);
   display:flex;
   align-items:center;
   justify-content:center;
-  align-self:flex-start;
   padding:2px 0;
 }
 .interview-portrait svg{ display:block; width:100%; height:100%; object-fit:cover; }
-.interview-portrait img{ display:block; width:50%; height:auto; max-width:100%; }
+.interview-portrait img{ display:block; width:85%; height:auto; max-width:100%; }
 .interview-intro-text{
-  flex:1 1 0;
   padding:20px 15px;
   font-size:var(--content-font-size);
   line-height:1.4;
+  border-top:var(--border-w) solid var(--black);
 }
 .interview-intro-text p{ margin:0 0 .8em; }
 .interview-intro-text p:last-child{ margin-bottom:0; }
 
-/* Layout: Sprungleiste links, Dialog-Grid rechts daneben — zwei einfache
-   Flex-Geschwister statt einer gemeinsamen Grid-Spalte, damit die Höhe der
-   Leiste nicht die Zeilenhöhen der Dialog-Zeilen im Grid mitbestimmt */
+/* Layout: linke Spalte, Dialog-Grid rechts daneben — zwei einfache
+   Flex-Geschwister, damit die Höhe der Spalte nicht die Zeilenhöhen der
+   Dialog-Zeilen im Grid mitbestimmt */
 .interview-layout{
   display:flex;
   align-items:flex-start;
@@ -229,10 +239,6 @@ body{
 /* Sprungleiste: listet die Abschnittsüberschriften (Titel der einzelnen
    Redebeiträge) auf und springt per Klick dorthin */
 .interview-toc{
-  flex:0 0 200px;
-  position:sticky;
-  top:0;
-  align-self:flex-start;
   display:flex;
   flex-direction:column;
 }
@@ -341,13 +347,45 @@ body{
 .cursor-figure .cap b{ display:block; font-weight:bold; margin-bottom:2px; }
 
 @media (max-width: 760px){
-  .interview-intro{ flex-direction:column; }
-  .interview-portrait{ flex:0 0 auto; aspect-ratio:4/3; border-right:none; border-bottom:var(--border-w) solid var(--black); }
+  .interview-layout{ flex-direction:column; }
+  .interview-sidebar{ position:static; flex:0 0 auto; width:100%; }
+  .interview-portrait{ flex:0 0 auto; aspect-ratio:4/3; border-bottom:var(--border-w) solid var(--black); }
   .interview-grid{ grid-template-columns:1fr !important; }
   .interview-grid .content-header{ display:none !important; }
   .interview-toc{ display:none !important; }
   .interview-turn{ grid-column:1 !important; }
   .turn-name{ display:block; }
   .cursor-figure{ display:none; }
+}
+
+/* =========================================================
+   SESSION INTRO-MODUL — 2-Spalten-Layout: Bild-Platzhalter + Text
+   ========================================================= */
+
+.intro-layout{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:var(--menu-gap);
+  align-items:stretch;
+}
+
+.intro-image-placeholder{
+  background:#ccc;
+  border:var(--border-w) solid var(--black);
+  min-height:320px;
+}
+
+.intro-text{
+  padding:25px 15px;
+  font-size:var(--content-font-size);
+  line-height:1.4;
+  border:var(--border-w) solid var(--black);
+}
+.intro-text p{ margin:0 0 .8em; }
+.intro-text p:last-child{ margin-bottom:0; }
+
+@media (max-width: 760px){
+  .intro-layout{ grid-template-columns:1fr; }
+  .intro-image-placeholder{ min-height:220px; }
 }
 
