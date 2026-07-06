@@ -190,17 +190,10 @@ body{
   gap:10px;
   grid-row:1;
 }
-.interview-grid .content-header .dot{
-  width:8px;height:8px;border-radius:50%;
-  border:var(--border-w) solid var(--black);
-  display:inline-block;
-  transition:background .2s ease;
-}
-.interview-grid .content-header.focused .dot{ background:var(--black); }
+.interview-grid .content-header .dot{ display:none; }
 
 /* Ein Redebeitrag */
 .interview-turn{
-  border-top:var(--border-w) solid var(--black);
   padding:20px 15px;
   position:relative;
   opacity:0; transform:translateY(8px);
