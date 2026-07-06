@@ -172,21 +172,28 @@ body{
    NOTES LAYOUT
    ========================================================= */
 
-.notes-layout{
+.content-layout{
     display:grid;
-    grid-template-columns:repeat(3, 1fr);
+    grid-template-columns:2fr 1fr;
     gap:var(--menu-gap);
-    width:100%;
     align-items:start;
 }
 
-.notes-layout .content-column{
+/* ---------- Dialog (Mira + Phuong) ---------- */
+
+.dialog-layout{
     display:flex;
     flex-direction:column;
-    min-width:0;
 }
 
-.notes-layout .content-header{
+.dialog-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:var(--menu-gap);
+    align-items:start;
+}
+
+.dialog-row .content-header{
     height:var(--menu-item-height);
     display:flex;
     align-items:center;
@@ -196,28 +203,60 @@ body{
     border-right:var(--border-w) solid var(--black);
     border-left:var(--border-w) solid var(--black);
     font-size:var(--content-font-size);
-    margin-bottom:64px;
+    margin-bottom:40px;
 }
 
-.notes-layout .article{
-    display:flex;
-    flex-direction:column;
+.dialog-row .article{
     padding:0 15px;
     margin-bottom:64px;
 }
 
-.notes-layout .article p{
+.dialog-row .article p{
     margin:0;
     font-size:var(--content-font-size);
     line-height:1.4;
 }
 
-.notes-layout .quote{
+.empty{
+    visibility:hidden;
+}
+
+/* ---------- Material-Spalte ---------- */
+
+.content-column{
+    display:flex;
+    flex-direction:column;
+}
+
+.content-column .content-header{
+    height:var(--menu-item-height);
+    display:flex;
+    align-items:center;
+    padding:0 15px;
+    background:var(--white);
+    border-top:var(--border-w) solid var(--black);
+    border-right:var(--border-w) solid var(--black);
+    border-left:var(--border-w) solid var(--black);
+    font-size:var(--content-font-size);
+    margin-bottom:40px;
+}
+
+.content-column .article{
+    padding:0 15px;
+    margin-bottom:64px;
+}
+
+.content-column .article p{
+    margin:0;
+    line-height:1.4;
+}
+
+.quote{
     font-size:42px;
     line-height:1.05;
 }
 
-.notes-layout .image{
+.image{
     height:260px;
     background:#ddd;
 }
