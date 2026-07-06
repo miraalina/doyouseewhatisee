@@ -1,2 +1,66 @@
+<!--
+  content/sessions/session1/notes1.html
+  Wird per fetch() in #page-content geladen, wenn innerhalb einer Session
+  der Reiter "Notes" angeklickt wird. Enthält NUR den Inhalt — Header/Menü
+  kommen weiterhin aus index.html.
 
-        
+  Nutzt dasselbe Dialog-Grid wie die Interviews (initInterview() aus
+  main.js initialisiert es automatisch mit), allerdings ohne die linke
+  Sidebar (Portrait/Sprungleiste) und mit nur 2 Spalten statt 3.
+
+  Pro Aussage:
+    data-col = 1 (Phuong) oder 2 (Mira) → muss zur Reihenfolge der
+               beiden .content-header unten passen
+
+  Zum Verlängern/Verkürzen einfach weitere .interview-turn Blöcke in
+  chronologischer Reihenfolge ergänzen oder entfernen.
+-->
+
+<div class="interview-grid cols-2">
+
+  <!-- Kopfzeile: eine Zelle pro Person, Reihenfolge legt die Spalten fest -->
+  <div class="content-header"><span class="dot"></span>Phuong</div>
+  <div class="content-header"><span class="dot"></span>Mira</div>
+
+  <!-- Beitrag 1 — Phuong -->
+  <div class="interview-turn" id="turn-1" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel nisi placerat, interdum leo vel, imperdiet odio. Morbi at cursus risus.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Beitrag 2 — Mira -->
+  <div class="interview-turn" id="turn-2" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Sed sodales elit eros, in ultrices dolor vehicula sit amet. Donec condimentum libero nisl, at posuere felis laoreet at. Ut felis lacus, volutpat sed consectetur quis, finibus eu nisi.</p>
+        <p>Nam luctus consectetur justo, eget bibendum dui consequat at. Maecenas eu sem non nisl cursus iaculis.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Beitrag 3 — Phuong -->
+  <div class="interview-turn" id="turn-3" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Ut dignissim velit vestibulum finibus fringilla. Integer sodales odio lacus, quis fringilla leo consequat sagittis. Ut vel efficitur neque.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Beitrag 4 — Mira -->
+  <div class="interview-turn" id="turn-4" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Ut tincidunt porttitor consequat. Sed tristique mollis tellus, nec molestie arcu sollicitudin non. Suspendisse potenti. Vivamus non mattis tortor.</p>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -74,7 +74,7 @@
 
     var fileBase = subFileMap[sub];
     if (currentSession && fileBase) {
-      loadContent('content/sessions/session' + currentSession + '/' + fileBase + currentSession + '.html');
+      loadContent('content/sessions/session' + currentSession + '/' + fileBase + currentSession + '.html', initInterview);
     }
   }
 

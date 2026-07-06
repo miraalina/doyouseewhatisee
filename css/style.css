@@ -166,10 +166,6 @@ body{
 
 /* =========================================================
    INTERVIEW-MODUL — 3-Spalten-Dialog mit Hover-Fokus
-   Ans Ende von css/style.css anhängen.
-   Nutzt eure bestehenden Variablen (--black, --white, --border-w,
-   --menu-gap, --font-main, --content-font-size) — keine neuen Farben,
-   keine neue Schriftart, keine Radien, keine Schatten.
    ========================================================= */
 
 /* Linke Spalte: Portrait+Text und Sprungleiste untereinander, als eine
@@ -210,9 +206,7 @@ body{
 .interview-intro-text p{ margin:0 0 .8em; }
 .interview-intro-text p:last-child{ margin-bottom:0; }
 
-/* Layout: linke Spalte, Dialog-Grid rechts daneben — zwei einfache
-   Flex-Geschwister, damit die Höhe der Spalte nicht die Zeilenhöhen der
-   Dialog-Zeilen im Grid mitbestimmt */
+/* Layout: linke Spalte, Dialog-Grid rechts daneben */
 .interview-layout{
   display:flex;
   align-items:flex-start;
@@ -226,8 +220,12 @@ body{
   gap:var(--menu-gap);
 }
 
-/* Kopfzeile: 3 Zellen, eine pro Person — wiederverwendet .content-header,
-   ergänzt nur den Dot aus der Nav (gefüllt = gerade im Fokus) */
+/* Variante ohne Sidebar (z.B. Session-Notes): nur 2 Spalten */
+.interview-grid.cols-2{
+  grid-template-columns:repeat(2,1fr);
+}
+
+/* Kopfzeile: 3 Zellen, eine pro Person  */
 .interview-grid .content-header{
   display:flex;
   align-items:center;
