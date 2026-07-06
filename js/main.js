@@ -97,24 +97,3 @@ function selectInterview(n){
 }
 
 goHome();
-
-
-/* Notes page*/
-
-<script>
-const articles = document.querySelectorAll(".article:not(.empty)");
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-        }
-    });
-}, {
-    threshold: 0.2
-});
-
-articles.forEach(article => {
-    observer.observe(article);
-});
-</script>
