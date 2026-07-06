@@ -172,18 +172,21 @@ body{
    NOTES LAYOUT
    ========================================================= */
 
-.content-layout{
+.notes-layout{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:repeat(3, 1fr);
     gap:var(--menu-gap);
+    width:100%;
+    align-items:start;
 }
 
-.content-column{
+.notes-layout .content-column{
     display:flex;
     flex-direction:column;
+    min-width:0;
 }
 
-.content-header{
+.notes-layout .content-header{
     height:var(--menu-item-height);
     display:flex;
     align-items:center;
@@ -193,27 +196,28 @@ body{
     border-right:var(--border-w) solid var(--black);
     border-left:var(--border-w) solid var(--black);
     font-size:var(--content-font-size);
-    margin-bottom:32px;
-}
-
-.article{
-    display:flex;
-    flex-direction:column;
     margin-bottom:64px;
 }
 
-.article p{
+.notes-layout .article{
+    display:flex;
+    flex-direction:column;
+    padding:0 15px;
+    margin-bottom:64px;
+}
+
+.notes-layout .article p{
     margin:0;
     font-size:var(--content-font-size);
     line-height:1.4;
 }
 
-.quote{
+.notes-layout .quote{
     font-size:42px;
     line-height:1.05;
 }
 
-.image{
+.notes-layout .image{
     height:260px;
     background:#ddd;
 }
