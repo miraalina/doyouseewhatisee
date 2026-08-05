@@ -172,7 +172,12 @@ body{
    Einheit neben dem Dialog-Grid — dadurch beginnt das Grid (Kopfzeile) auf
    gleicher Höhe direkt unter dem Menü, statt unter einem volle-Breite-Vorspann */
 .interview-sidebar{
-  flex:0 0 260px;
+  /* Breite an .title-cell ("Do you see what I see?") angeglichen:
+     15px + 115px Padding + Textbreite bei 20px DINdong ≈ 342px.
+     Bewusst flex-shrink:0 wie .title-cell selbst (auch flex:0 0 auto) —
+     die Sidebar bleibt starr, .interview-grid daneben übernimmt das
+     Schrumpfen, genau wie die .nav-items neben der Title-Cell. */
+  flex:0 0 342px;
   display:flex;
   flex-direction:column;
   position:sticky;
@@ -218,6 +223,7 @@ body{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:var(--menu-gap);
+  border-left:var(--border-w) solid var(--black);
 }
 
 /* Variante ohne Sidebar (z.B. Session-Notes): nur 2 Spalten */
@@ -231,6 +237,7 @@ body{
   align-items:center;
   gap:10px;
   grid-row:1;
+  border-left:none;
 }
 .interview-grid .content-header .dot{ display:none; }
 
