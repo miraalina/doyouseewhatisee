@@ -432,3 +432,68 @@ body{
   .intro-question{ min-height:40vh; font-size:32px; padding:30px 20px; }
 }
 
+/* =========================================================
+   METHOD-MODUL — Text links (sticky), Bilder rechts (scrollend)
+   Beim Scrollen bleibt die linke Spalte stehen (position:sticky),
+   nur die rechte Bilderspalte läuft darunter/daran vorbei.
+   ========================================================= */
+
+.method-layout{
+  display:flex;
+  align-items:flex-start;
+  gap:var(--menu-gap);
+}
+
+/* Linke Spalte: Headline + Text, rundum gerahmt wie .interview-intro */
+.method-text{
+  flex:0 0 342px;
+  position:sticky;
+  top:0;
+  align-self:flex-start;
+  border:var(--border-w) solid var(--black);
+  padding:40px 30px;
+}
+.method-title{
+  font-size:22px;
+  font-weight:normal;
+  font-family:var(--font-main);
+  margin:0 0 .8em;
+}
+.method-text p{
+  font-size:var(--content-font-size);
+  line-height:1.4;
+  margin:0 0 .8em;
+}
+.method-text p:last-child{ margin-bottom:0; }
+
+/* Rechte Spalte: Bilder untereinander, jedes gerahmt */
+.method-images{
+  flex:1 1 auto;
+  display:flex;
+  flex-direction:column;
+  gap:var(--menu-gap);
+}
+.method-image{
+  margin:0;
+  border:var(--border-w) solid var(--black);
+  aspect-ratio:4/3;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.method-image img{ display:block; width:100%; height:100%; object-fit:cover; }
+
+/* Platzhalter, solange noch kein echtes Bild eingesetzt ist —
+   sobald ein <img> ergänzt wird, greift stattdessen die Regel oben */
+.method-image.placeholder{
+  font-size:var(--content-font-size);
+  color:var(--black);
+  opacity:.4;
+}
+
+@media (max-width: 760px){
+  .method-layout{ flex-direction:column; }
+  .method-text{ position:static; flex:0 0 auto; width:100%; }
+}
+

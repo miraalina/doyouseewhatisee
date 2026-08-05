@@ -1,0 +1,35 @@
+<!--
+  content/sessions/session1/method1.html
+  Wird per fetch() in #page-content geladen, wenn innerhalb von Session 1
+  der Reiter "Method" angeklickt wird. Enthält NUR den Inhalt —
+  Header/Menü kommen weiterhin aus index.html.
+
+  Linke Spalte (.method-text) bleibt beim Scrollen stehen (position:sticky),
+  rechte Spalte (.method-images) läuft darunter durch — dafür muss sie
+  höher als die linke Spalte sein, sonst gibt es nichts zum Scrollen.
+
+  Bilder: Sobald echte Fotos in content/images/Sessions/Session1/ liegen,
+  ersetzt pro Platzhalter den <div class="method-image placeholder">…</div>
+  durch:
+    <figure class="method-image">
+      <img src="content/images/Sessions/Session1/DATEINAME.jpg" alt="">
+    </figure>
+  Zum Verlängern/Verkürzen einfach weitere .method-image Blöcke ergänzen
+  oder entfernen.
+-->
+
+<div class="method-layout">
+
+  <div class="method-text">
+    <h2 class="method-title">[Platzhalter: Method-Titel]</h2>
+    <p>[Platzhalter: Beschreibungstext zur Methode dieser Session — wird noch ergänzt.]</p>
+  </div>
+
+  <div class="method-images">
+    <div class="method-image placeholder">Bild 1</div>
+    <div class="method-image placeholder">Bild 2</div>
+    <div class="method-image placeholder">Bild 3</div>
+    <div class="method-image placeholder">Bild 4</div>
+  </div>
+
+</div>
