@@ -6,24 +6,38 @@
 
   Nutzt dasselbe Dialog-Grid wie die Interviews (initInterview() aus
   main.js initialisiert es automatisch mit), allerdings ohne die linke
-  Sidebar (Portrait/Sprungleiste) und mit nur 2 Spalten statt 3.
+  Sidebar (Portrait/Sprungleiste). 4 Spalten im Verhältnis 2:3:3:2
+  (.cols-4-notes in style.css): eine freie Notes-Spalte ganz links, Phuong,
+  Mira, und noch eine freie Notes-Spalte ganz rechts — beide Notes-
+  Spalten ohne eigene Dialog-Turns.
 
   Die .interview-turn-Blöcke unten werden von
   scripts/build-interview-turns.js aus content/transcripts/notes1 erzeugt:
     node scripts/build-interview-turns.js content/transcripts/notes1 content/sessions/session1/notes1.html
-  Das Skript liest die Spaltenreihenfolge aus den beiden .content-header
-  unten (Phuong = Spalte 1, Mira = Spalte 2) — nicht von Hand bearbeiten,
-  stattdessen das Transkript ändern und das Skript erneut laufen lassen.
+  Das Skript liest die Spaltenreihenfolge aus den vier .content-header
+  unten (Notes = Spalte 1, Phuong = Spalte 2, Mira = Spalte 3, Notes =
+  Spalte 4) — nicht von Hand bearbeiten, stattdessen das Transkript
+  ändern und das Skript erneut laufen lassen.
 -->
 
-<div class="interview-grid cols-2">
+<div class="interview-grid cols-4-notes">
 
   <!-- Kopfzeile: eine Zelle pro Person, Reihenfolge legt die Spalten fest -->
+  <div class="content-header"><span class="dot"></span></div>
   <div class="content-header"><span class="dot"></span>Phuong</div>
   <div class="content-header"><span class="dot"></span>Mira</div>
+  <div class="content-header"><span class="dot"></span></div>
+
+  <!-- Beide Notes-Spalten und die Mira-Redebeiträge haben selbst keine
+       Border; diese unsichtbaren Elemente ziehen die rechte Trennlinie
+       über die volle Höhe aller Zeilen (Zeilen-Spanne setzt main.js
+       dynamisch). Spalte 1 (Notes links) und Spalte 3 (Mira) bekommen
+       so ihre rechte Linie bis zum Seitenende. -->
+  <div class="col-divider" style="grid-column:1" aria-hidden="true"></div>
+  <div class="col-divider" style="grid-column:3" aria-hidden="true"></div>
 
   <!-- AUTO-GENERATED TURNS START (scripts/build-interview-turns.js — nicht von Hand bearbeiten, Skript neu laufen lassen) -->
-  <div class="interview-turn" id="turn-1" data-col="1">
+  <div class="interview-turn" id="turn-1" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -32,7 +46,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-2" data-col="2">
+  <div class="interview-turn" id="turn-2" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -41,7 +55,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-3" data-col="1">
+  <div class="interview-turn" id="turn-3" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -50,7 +64,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-4" data-col="2">
+  <div class="interview-turn" id="turn-4" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -59,7 +73,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-5" data-col="1">
+  <div class="interview-turn" id="turn-5" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -68,7 +82,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-6" data-col="2">
+  <div class="interview-turn" id="turn-6" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -77,7 +91,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-7" data-col="1">
+  <div class="interview-turn" id="turn-7" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -86,7 +100,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-8" data-col="2">
+  <div class="interview-turn" id="turn-8" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -95,7 +109,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-9" data-col="1">
+  <div class="interview-turn" id="turn-9" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -104,7 +118,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-10" data-col="2">
+  <div class="interview-turn" id="turn-10" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -113,7 +127,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-11" data-col="1">
+  <div class="interview-turn" id="turn-11" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -122,7 +136,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-12" data-col="2">
+  <div class="interview-turn" id="turn-12" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -131,7 +145,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-13" data-col="1">
+  <div class="interview-turn" id="turn-13" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -141,7 +155,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-14" data-col="2">
+  <div class="interview-turn" id="turn-14" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -151,7 +165,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-15" data-col="1">
+  <div class="interview-turn" id="turn-15" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -160,7 +174,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-16" data-col="2">
+  <div class="interview-turn" id="turn-16" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -169,7 +183,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-17" data-col="1">
+  <div class="interview-turn" id="turn-17" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -178,7 +192,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-18" data-col="2">
+  <div class="interview-turn" id="turn-18" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -187,7 +201,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-19" data-col="1">
+  <div class="interview-turn" id="turn-19" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -196,7 +210,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-20" data-col="2">
+  <div class="interview-turn" id="turn-20" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -205,7 +219,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-21" data-col="1">
+  <div class="interview-turn" id="turn-21" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -214,7 +228,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-22" data-col="2">
+  <div class="interview-turn" id="turn-22" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -223,7 +237,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-23" data-col="1">
+  <div class="interview-turn" id="turn-23" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -232,7 +246,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-24" data-col="2">
+  <div class="interview-turn" id="turn-24" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -241,7 +255,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-25" data-col="1">
+  <div class="interview-turn" id="turn-25" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -250,7 +264,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-26" data-col="2">
+  <div class="interview-turn" id="turn-26" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -259,7 +273,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-27" data-col="1">
+  <div class="interview-turn" id="turn-27" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -269,7 +283,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-28" data-col="2">
+  <div class="interview-turn" id="turn-28" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -278,7 +292,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-29" data-col="1">
+  <div class="interview-turn" id="turn-29" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -287,7 +301,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-30" data-col="2">
+  <div class="interview-turn" id="turn-30" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -296,7 +310,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-31" data-col="1">
+  <div class="interview-turn" id="turn-31" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -305,7 +319,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-32" data-col="2">
+  <div class="interview-turn" id="turn-32" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -314,7 +328,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-33" data-col="1">
+  <div class="interview-turn" id="turn-33" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -323,7 +337,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-34" data-col="2">
+  <div class="interview-turn" id="turn-34" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -332,7 +346,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-35" data-col="1">
+  <div class="interview-turn" id="turn-35" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -341,7 +355,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-36" data-col="2">
+  <div class="interview-turn" id="turn-36" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -351,7 +365,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-37" data-col="1">
+  <div class="interview-turn" id="turn-37" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -360,7 +374,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-38" data-col="2">
+  <div class="interview-turn" id="turn-38" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -369,7 +383,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-39" data-col="1">
+  <div class="interview-turn" id="turn-39" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -378,7 +392,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-40" data-col="2">
+  <div class="interview-turn" id="turn-40" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -387,7 +401,7 @@
     </div>
   </div>
 
-  <div class="interview-turn interview-note" id="turn-41" data-col="1 / 3">
+  <div class="interview-turn interview-note" id="turn-41" data-col="1 / 5">
     <div class="text-wrap">
       <div class="turn-text">
         <p><em>(Pause)</em></p>
@@ -395,7 +409,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-42" data-col="2">
+  <div class="interview-turn" id="turn-42" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -404,7 +418,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-43" data-col="1">
+  <div class="interview-turn" id="turn-43" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -414,7 +428,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-44" data-col="2">
+  <div class="interview-turn" id="turn-44" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -425,7 +439,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-45" data-col="1">
+  <div class="interview-turn" id="turn-45" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -434,7 +448,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-46" data-col="2">
+  <div class="interview-turn" id="turn-46" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -444,7 +458,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-47" data-col="1">
+  <div class="interview-turn" id="turn-47" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -453,7 +467,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-48" data-col="2">
+  <div class="interview-turn" id="turn-48" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -462,7 +476,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-49" data-col="1">
+  <div class="interview-turn" id="turn-49" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -471,7 +485,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-50" data-col="2">
+  <div class="interview-turn" id="turn-50" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -480,7 +494,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-51" data-col="2">
+  <div class="interview-turn" id="turn-51" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -489,7 +503,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-52" data-col="1">
+  <div class="interview-turn" id="turn-52" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -498,7 +512,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-53" data-col="2">
+  <div class="interview-turn" id="turn-53" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -507,7 +521,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-54" data-col="1">
+  <div class="interview-turn" id="turn-54" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -516,7 +530,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-55" data-col="2">
+  <div class="interview-turn" id="turn-55" data-col="3">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
@@ -525,7 +539,7 @@
     </div>
   </div>
 
-  <div class="interview-turn" id="turn-56" data-col="1">
+  <div class="interview-turn" id="turn-56" data-col="2">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">

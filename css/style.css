@@ -184,16 +184,21 @@ body{
    gleicher Höhe direkt unter dem Menü, statt unter einem volle-Breite-Vorspann */
 .interview-sidebar{
   /* Breite an .title-cell ("Do you see what I see?") angeglichen:
-     15px + 115px Padding + Textbreite bei 20px DINdong ≈ 342px.
-     Bewusst flex-shrink:0 wie .title-cell selbst (auch flex:0 0 auto) —
-     die Sidebar bleibt starr, .interview-grid daneben übernimmt das
-     Schrumpfen, genau wie die .nav-items neben der Title-Cell. */
-  flex:0 0 342px;
+     15px + 115px Padding + Textbreite bei 20px DINdong ≈ 342px. */
+  width:342px;
   display:flex;
   flex-direction:column;
-  position:sticky;
+  /* position:fixed statt sticky — die Sidebar bleibt dadurch komplett
+     unbewegt stehen, unabhängig davon wie lang das Interview daneben
+     ist (bei sticky löst sie sich am Ende der eigenen Box wieder).
+     Dafür raus aus dem Flex-Fluss: .interview-grid bekommt stattdessen
+     einen margin-left in gleicher Breite, damit nichts überlappt. */
+  position:fixed;
+  left:0;
   top:var(--menu-height, 40px);
-  align-self:flex-start;
+  bottom:0;
+  overflow-y:auto;
+  border-right:var(--border-w) solid var(--black);
 }
 
 /* Vorspann: Portrait oben, Beschreibungstext darunter */
@@ -201,7 +206,6 @@ body{
   display:flex;
   flex-direction:column;
   border-top:var(--border-w) solid var(--black);
-  border-right:var(--border-w) solid var(--black);
   border-left:var(--border-w) solid var(--black);
   margin-bottom:var(--menu-gap);
 }
@@ -209,10 +213,14 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:2px 0;
+  /* Gleichmäßig 2px auf allen Seiten statt vorher nur oben/unten mit
+     85%-Breite (die ließ links/rechts viel mehr Luft als 2px) — die
+     Sidebar-Breite selbst (342px) bleibt dabei unverändert, nur der
+     Freiraum innerhalb der Box wird auf 2px reduziert. */
+  padding:2px;
 }
 .interview-portrait svg{ display:block; width:100%; height:100%; object-fit:cover; }
-.interview-portrait img{ display:block; width:85%; height:auto; max-width:100%; }
+.interview-portrait img{ display:block; width:100%; height:auto; max-width:100%; }
 .interview-intro-text{
   padding:20px 15px;
   font-size:var(--content-font-size);
@@ -225,7 +233,7 @@ body{
 /* Layout: linke Spalte, Dialog-Grid rechts daneben */
 .interview-layout{
   display:flex;
-  align-items:flex-start;
+  align-items:stretch;
   gap:var(--menu-gap);
 }
 
@@ -234,12 +242,47 @@ body{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:var(--menu-gap);
-  border-left:var(--border-w) solid var(--black);
+}
+
+/* Ausgleich dafür, dass .interview-sidebar jetzt fixed und damit aus dem
+   Flex-Fluss raus ist — sonst würde das Grid darunter liegen. Nur auf
+   Interview-Seiten (mit .interview-layout-Sidebar), NICHT auf Seiten wie
+   notes1.html, die .interview-grid ganz ohne Sidebar nutzen. */
+.interview-layout .interview-grid{
+  margin-left:calc(342px + var(--menu-gap));
 }
 
 /* Variante ohne Sidebar (z.B. Session-Notes): nur 2 Spalten */
 .interview-grid.cols-2{
   grid-template-columns:repeat(2,1fr);
+}
+
+/* Spaltenbreiten wie im Method-Modul (Exercise1.html): 3:3:2 statt gleicher Drittel */
+.interview-grid.cols-3{
+  grid-template-columns:3fr 3fr 2fr;
+}
+
+/* 4 gleich breite Spalten, z.B. für Interviews mit 2 Gesprächspartner:innen
+   + Phuong/Mira statt nur 1 */
+.interview-grid.cols-4{
+  grid-template-columns:repeat(4,1fr);
+}
+
+/* Feedback-Seite: Notes-Spalte links UND rechts (je 2fr, gleich schmal),
+   Phuong/Mira in der Mitte (je 3fr) */
+.interview-grid.cols-4-notes{
+  grid-template-columns:2fr 3fr 3fr 2fr;
+}
+
+/* Unsichtbares Grid-Item, das nur eine Spaltentrennlinie über die volle
+   Höhe zeichnet — für Spalten, deren eigene Elemente keine Border haben
+   (z.B. Redebeiträge, oder eine leere Spalte ganz ohne Turns). Die
+   Spaltenposition kommt per style="grid-column:N" direkt am Element,
+   die Zeilen-Spanne (grid-row) setzt main.js dynamisch passend zur
+   tatsächlichen Redebeitrags-Anzahl. */
+.col-divider{
+  border-right:var(--border-w) solid var(--black);
+  pointer-events:none;
 }
 
 /* Kopfzeile: 3 Zellen, eine pro Person  */
@@ -252,33 +295,67 @@ body{
   position:sticky;
   top:var(--menu-height, 40px);
   z-index:10;
+  font-size:var(--menu-font-size);
 }
 .interview-grid .content-header .dot{ display:none; }
 
-/* Sprungleiste: listet die Abschnittsüberschriften (Titel der einzelnen
-   Redebeiträge) auf und springt per Klick dorthin */
-.interview-toc{
+/* Feste Navigation unten links: Trigger-Button in Sidebar-Breite, öffnet
+   beim Hover (bzw. Klick auf Touch-Geräten, siehe main.js) ein Panel mit
+   den Sprungmarken zu den Redebeiträgen — wächst nach OBEN auf, weil das
+   Panel per bottom:100% direkt über dem Trigger andockt und seine eigene
+   Höhe per max-height-Transition aufklappt statt nach unten zu schieben. */
+.interview-nav{
+  position:fixed;
+  left:0;
+  bottom:0;
+  width:342px; /* wie .interview-sidebar */
+  z-index:60;
+}
+.interview-nav-trigger{
+  height:var(--menu-item-height);
+  display:flex;
+  align-items:center;
+  padding:0 15px;
+  background:var(--black);
+  color:var(--white);
+  font-size:var(--content-font-size);
+  cursor:pointer;
+}
+.interview-nav-panel{
+  position:absolute;
+  left:0;
+  bottom:100%;
+  width:100%;
   display:flex;
   flex-direction:column;
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .35s cubic-bezier(.4,0,.2,1);
 }
-.interview-toc a{
+.interview-nav:hover .interview-nav-panel,
+.interview-nav.open .interview-nav-panel{
+  max-height:60vh;
+}
+.interview-nav-panel a{
   display:block;
   padding:12px 15px;
-  font-size:var(--content-font-size);
-  line-height:1.3;
+  background:var(--white);
+  color:var(--black);
   border-top:var(--border-w) solid var(--black);
   border-right:var(--border-w) solid var(--black);
   border-left:var(--border-w) solid var(--black);
+  font-size:var(--content-font-size);
+  line-height:1.3;
   cursor:pointer;
 }
-.interview-toc a:hover{
+.interview-nav-panel a:hover{
   background:var(--black);
   color:var(--white);
 }
 
 /* Ein Redebeitrag */
 .interview-turn{
-  padding:20px 15px;
+  padding:10px 15px;
   position:relative;
   opacity:0; transform:translateY(8px);
   transition:opacity .5s ease, transform .5s ease, background .2s ease, color .2s ease;
@@ -306,6 +383,11 @@ body{
    Spalten (data-col="1 / 4"), zentriert und kursiv statt linksbündig */
 .interview-turn.interview-note{
   text-align:center;
+  /* Rein informative Randnotiz, keine Aussage einer Person — deshalb
+     keinerlei Hover-/Klick-Interaktion (schwarze Box, Bild-Popup, …).
+     pointer-events:none nimmt sie komplett aus der Maus-/Touch-Erkennung
+     raus, wodurch weder :hover in CSS noch main.js' Event-Listener greifen. */
+  pointer-events:none;
 }
 .interview-turn.interview-note .turn-text{
   font-style:italic;
@@ -346,7 +428,7 @@ body{
 .turn-expand{
   position:absolute; top:0; left:0; right:0;
   background:var(--black);
-  padding:20px 15px; margin:-20px -15px 0;
+  padding:10px 15px; margin:-10px -15px 0;
   max-height:7em;
   overflow:hidden;
   opacity:0; pointer-events:none;
@@ -387,11 +469,11 @@ body{
 
 @media (max-width: 760px){
   .interview-layout{ flex-direction:column; }
-  .interview-sidebar{ position:static; flex:0 0 auto; width:100%; }
+  .interview-sidebar{ position:static; width:100%; bottom:auto; overflow-y:visible; border-right:none; }
   .interview-portrait{ flex:0 0 auto; aspect-ratio:4/3; border-bottom:var(--border-w) solid var(--black); }
-  .interview-grid{ grid-template-columns:1fr !important; }
+  .interview-grid{ grid-template-columns:1fr !important; margin-left:0; }
   .interview-grid .content-header{ display:none !important; }
-  .interview-toc{ display:none !important; }
+  .interview-nav{ display:none !important; }
   .interview-turn{ grid-column:1 !important; }
   .turn-name{ display:block; }
   .cursor-figure{ display:none; }

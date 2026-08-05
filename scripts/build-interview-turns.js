@@ -63,7 +63,10 @@ function readColumnsFromTarget(targetHtml) {
     throw new Error('Kein .interview-grid vor dem AUTO-GENERATED-Bereich gefunden.');
   }
   const scope = targetHtml.slice(gridIdx, markerIdx);
-  const headerRe = /<div class="content-header">\s*(?:<span class="dot"><\/span>)?\s*([^<]+?)\s*<\/div>/g;
+  // [^<]*? statt +? — auch leere Reiter (keine Überschrift, nur Platz/
+  // Farbpunkt) zählen als eigene Spalte, sonst verschiebt sich die
+  // erkannte Spaltenreihenfolge für alles danach.
+  const headerRe = /<div class="content-header">\s*(?:<span class="dot"><\/span>)?\s*([^<]*?)\s*<\/div>/g;
   const names = [];
   let m;
   while ((m = headerRe.exec(scope))) {

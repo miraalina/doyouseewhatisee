@@ -197,6 +197,15 @@ function initInterview(){
     turn.style.gridRow = i + 2;
   });
 
+  // Trennlinien-Elemente (.col-divider) über Kopfzeile + alle
+  // Redebeiträge spannen. "grid-row:1/-1" in CSS würde hier nicht
+  // funktionieren, weil die Zeilen implizit entstehen (kein
+  // grid-template-rows) — -1 bezieht sich nur auf explizit definierte
+  // Zeilen.
+  Array.prototype.slice.call(grid.querySelectorAll('.col-divider')).forEach(function(div){
+    div.style.gridRow = '1 / ' + (turns.length + 2);
+  });
+
   function cloneInto(container, imgId){
     var def = document.getElementById('def-' + imgId);
     if(!def) return;
@@ -272,14 +281,30 @@ function initInterview(){
     }
   });
 
-  var tocLinks = Array.prototype.slice.call(grid.querySelectorAll('.interview-toc a'));
-  tocLinks.forEach(function(link){
+  // .interview-nav liegt außerhalb von .interview-grid (fixiert unten
+  // links), darum hier bewusst document-weit statt auf grid beschränkt
+  // suchen.
+  var interviewNav = document.getElementById('interview-nav');
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.interview-nav-panel a'));
+  navLinks.forEach(function(link){
     link.addEventListener('click', function(e){
       e.preventDefault();
       var target = document.getElementById(link.getAttribute('href').slice(1));
       if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+      if(interviewNav) interviewNav.classList.remove('open');
     });
   });
+
+  // Ohne Hover (Touch) öffnet ein Klick auf den Trigger das Panel, statt
+  // sich auf :hover zu verlassen.
+  if(interviewNav && !hasHover){
+    var navTrigger = interviewNav.querySelector('.interview-nav-trigger');
+    if(navTrigger){
+      navTrigger.addEventListener('click', function(){
+        interviewNav.classList.toggle('open');
+      });
+    }
+  }
 
   if('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(entries){

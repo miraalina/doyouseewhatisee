@@ -1,3 +1,5 @@
+ <!-- IVO -->
+
 <!--
   content/interviews/interview1.html
   Wird per fetch() in #page-content geladen, wenn "Interview 1" angeklickt
@@ -32,17 +34,20 @@
       </div>
     </div>
 
-    <!-- Sprungleiste: listet die Titel der Redebeiträge auf,
-         Klick springt zur passenden Stelle -->
-    <nav class="interview-toc">
-      <div class="content-header">Content</div>
+  </div>
+
+  <!-- Feste Navigation unten links (position:fixed, siehe style.css) —
+       öffnet sich beim Hover/Klick nach oben und zeigt die Sprungmarken
+       zu den Redebeiträgen. Klick springt zur passenden Stelle. -->
+  <nav class="interview-nav" id="interview-nav">
+    <div class="interview-nav-trigger">Navigation</div>
+    <div class="interview-nav-panel">
       <a href="#turn-12">Personal Introduction</a>
       <a href="#turn-14">High on Type</a>
       <a href="#turn-18">Collective Work</a>
       <a href="#turn-59">What is Collaboration?</a>
-    </nav>
-
-  </div>
+    </div>
+  </nav>
 
 <div class="interview-grid">
 

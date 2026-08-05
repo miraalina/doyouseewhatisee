@@ -1,0 +1,66 @@
+<!-- HANLI -->
+
+<!--
+  content/interviews/interview5.html
+  Wird per fetch() in #page-content geladen, wenn "Studio HanLi" angeklickt
+  wird. Enthält NUR den Inhalt — Header/Menü kommen weiterhin aus index.html
+  und bleiben beim Laden unverändert stehen.
+
+  Layout 1:1 von interview1.html übernommen, aber 4 statt 3 Spalten im
+  Transkript-Grid (.cols-4 in style.css, gleich breit), da Studio HanLi
+  aus zwei Personen besteht. Noch zu ergänzen, sobald Material vorliegt:
+    - Portrait-Bild unter content/images/interviews/Studio_HanLi.jpg ablegen
+    - Bio-Text in .interview-intro-text
+    - Transkript in content/transcripts/interview_HanLi, dann:
+        node scripts/build-interview-turns.js content/transcripts/interview_HanLi content/interviews/interview5.html
+      (das Skript liest die Spaltenreihenfolge automatisch aus den vier
+      .content-header unten: Elias, Lucas, Phuong, Mira)
+    - Sprungleiste (.interview-nav-panel) manuell mit Themen-Ankern füllen,
+      sobald die Redebeiträge (und ihre turn-IDs) feststehen
+
+  Pro Aussage:
+    data-col      = 1, 2, 3 oder 4 → welcher Spalte (Person) sie gehört,
+                    muss zur Reihenfolge der vier .content-header unten passen
+    data-img      = welches Bild aus den imgdefs (in index.html) gezeigt wird
+    data-title    = kleine Überschrift im Bild-Popup
+    data-caption  = kurzer Beschreibungstext im Bild-Popup
+-->
+
+<div class="interview-layout">
+
+  <!-- Linke Spalte: Portrait+Text und Sprungleiste untereinander -->
+  <div class="interview-sidebar">
+
+    <!-- Vorspann: Portrait oben, Beschreibungstext darunter -->
+    <div class="interview-intro">
+      <div class="interview-portrait">
+        <img src="content/images/interviews/Studio_HanLi.jpg" alt="Studio HanLi">
+      </div>
+      <div class="interview-intro-text">
+        <p>[Platzhalter: Kurzbio Studio HanLi]</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Feste Navigation unten links (position:fixed, siehe style.css) —
+       sobald Redebeiträge feststehen, hier Themen-Anker auf die
+       passenden #turn-N ergänzen (siehe interview1.html) -->
+  <nav class="interview-nav" id="interview-nav">
+    <div class="interview-nav-trigger">Navigation</div>
+    <div class="interview-nav-panel"></div>
+  </nav>
+
+<div class="interview-grid cols-4">
+
+  <!-- Kopfzeile: eine Zelle pro Person, Reihenfolge legt die Spalten fest -->
+  <div class="content-header"><span class="dot"></span>Elias</div>
+  <div class="content-header"><span class="dot"></span>Lucas</div>
+  <div class="content-header"><span class="dot"></span>Phuong</div>
+  <div class="content-header"><span class="dot"></span>Mira</div>
+
+  <!-- AUTO-GENERATED TURNS START (scripts/build-interview-turns.js — nicht von Hand bearbeiten, Skript neu laufen lassen) -->
+  <!-- AUTO-GENERATED TURNS END -->
+
+</div>
+</div>
