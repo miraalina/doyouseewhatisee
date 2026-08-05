@@ -281,6 +281,16 @@ body{
   background:linear-gradient(to bottom, transparent, var(--black));
 }
 
+/* Regieanweisung / Randnotiz ohne festen Sprecher — geht über alle drei
+   Spalten (data-col="1 / 4"), zentriert und kursiv statt linksbündig */
+.interview-turn.interview-note{
+  text-align:center;
+}
+.interview-turn.interview-note .turn-text{
+  font-style:italic;
+  opacity:.65;
+}
+
 /* Name pro Beitrag — nur auf schmalen Screens sichtbar (Desktop übernimmt die Kopfzeile) */
 .turn-name{
   display:none;
