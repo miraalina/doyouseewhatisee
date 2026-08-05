@@ -62,11 +62,13 @@
 
     document.getElementById('level3-sub').classList.remove('hidden');
     clearActive(document.getElementById('level3-sub'));
-    // default to Intro sub-page
-    selectSub('intro');
+    // default to Exercise sub-page
+    selectSub('exercise');
   }
 
-  var subFileMap = { intro: 'intro', analog: 'method', notes: 'notes' };
+  // Dateiname-Präfix je Reiter — "Exercise" mit großem E, weil die Datei
+  // (z.B. Exercise1.html) auch so heißt und Dateinamen case-sensitive sind.
+  var subFileMap = { exercise: 'Exercise', type: 'type', notes: 'notes' };
 
   function selectSub(sub){
     clearActive(document.getElementById('level3-sub'));
@@ -108,6 +110,20 @@ function loadContent(path){
         "<p>Inhalt konnte nicht geladen werden.</p>";
     });
 }
+
+  /* Hält --menu-height synchron mit der tatsächlich gerenderten Höhe des
+     sticky Menüs (variiert je nach Seite: 1, 2 oder 3 sichtbare Ebenen).
+     Sticky Elemente weiter unten (.interview-sidebar, .method-text) lesen
+     diese Variable als top-Offset, damit sie direkt unter dem Menü andocken
+     statt darunter zu verschwinden. */
+  var siteMenu = document.getElementById('site-menu');
+  if(siteMenu && 'ResizeObserver' in window){
+    var menuObserver = new ResizeObserver(function(entries){
+      var height = entries[0].contentRect.height;
+      document.documentElement.style.setProperty('--menu-height', height + 'px');
+    });
+    menuObserver.observe(siteMenu);
+  }
 
   // init
   goHome();
@@ -203,6 +219,9 @@ function initInterview(){
         expand.className = 'turn-expand';
         expand.innerHTML = text.innerHTML;
         wrap.appendChild(expand);
+        // Echte Höhe messen, damit die max-height-Transition beim Aufklappen
+        // exakt bis zum Textende läuft statt einen groben Schätzwert zu nutzen.
+        expand.style.setProperty('--expand-height', expand.scrollHeight + 'px');
       } else {
         text.classList.add('fits');
       }

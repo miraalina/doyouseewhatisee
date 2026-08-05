@@ -5,12 +5,16 @@
   Liest ein Transkript im Format
       Name: Aussage
   (eine Zeile = ein Absatz, Leerzeilen sind optionale Trenner) und erzeugt
-  daraus die .interview-turn-Blöcke für eine content/interviews/interviewN.html.
+  daraus .interview-turn-Blöcke für eine beliebige interview-grid-Seite
+  (Interviews mit 3 Spalten, Notes mit 2 — die Anzahl Spalten und die
+  Sprecher-Reihenfolge werden aus den vorhandenen .content-header-Zellen
+  der Ziel-Datei gelesen, nicht hartkodiert).
+
   Aufeinanderfolgende Zeilen ohne neuen "Name:"-Präfix werden als weitere
   Absätze demselben Redebeitrag zugerechnet. Zeilen, die komplett in
-  Klammern stehen, z.B. "(Ivo tries to find the other two Zines)", sowie
-  gemeinsame Sprecherzeilen wie "Phuong & Mira: ..." werden als
-  spaltenübergreifende Randnotiz gerendert (data-col="1 / 4").
+  Klammern stehen, z.B. "(Pause)", sowie gemeinsame Sprecherzeilen wie
+  "Phuong & Mira: ..." werden als spaltenübergreifende Randnotiz
+  gerendert (data-col="1 / N+1", N = Spaltenzahl).
 
   Ersetzt in der Ziel-HTML-Datei nur den Bereich zwischen
       <!-- AUTO-GENERATED TURNS START ... -->
@@ -20,33 +24,22 @@
   Aufruf:
     node scripts/build-interview-turns.js <transcript-datei> <ziel-html-datei>
 
-  Beispiel:
+  Beispiele:
     node scripts/build-interview-turns.js \
       content/transcripts/interview_Ivo \
       content/interviews/interview1.html
+    node scripts/build-interview-turns.js \
+      content/transcripts/notes1 \
+      content/sessions/session1/notes1.html
 */
 
 const fs = require('fs');
 
-// Sprecher → Spalte. Muss zur Reihenfolge der drei .content-header in der
-// Ziel-HTML passen (aktuell: Ivo, Phuong, Mira).
-const SPEAKER_COLUMN = {
-  'Ivo': 1,
-  'Phuong': 2,
-  'Phuong Nguyen': 2,
-  'Mira': 3,
-};
-const SPEAKER_DISPLAY = {
-  'Ivo': 'Ivo',
-  'Phuong': 'Phuong',
+// Bekannte Schreibvarianten eines Namens im Transkript → kanonischer Name,
+// wie er auch in den .content-header-Zellen der Ziel-Datei steht.
+const NAME_ALIASES = {
   'Phuong Nguyen': 'Phuong',
-  'Mira': 'Mira',
 };
-
-const SPEAKER_NAMES = Object.keys(SPEAKER_COLUMN).sort((a, b) => b.length - a.length);
-const SPEAKER_LINE_RE = new RegExp('^(' + SPEAKER_NAMES.join('|') + ')\\s*:\\s*(.*)$');
-const JOINT_SPEAKER_LINE_RE = /^([A-Za-z][A-Za-z\s]*?)\s*&\s*([A-Za-z][A-Za-z\s]*?)\s*:\s*(.*)$/;
-const PARENTHETICAL_LINE_RE = /^\(.*\)$/;
 
 function escapeHtml(str) {
   return str
@@ -55,35 +48,85 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;');
 }
 
-function parseTranscript(text) {
+// Liest die Sprecher-Reihenfolge aus den .content-header-Zellen innerhalb
+// des .interview-grid-Wrappers, der dem AUTO-GENERATED-Bereich vorausgeht
+// — Spalte 1 = erste Zelle usw. Wichtig: nur INNERHALB des Grids suchen,
+// nicht im ganzen Dokument, sonst wird z.B. das "Content"-Label der
+// Sprungleiste (.interview-toc) fälschlich als eigene Spalte mitgezählt.
+function readColumnsFromTarget(targetHtml) {
+  const markerIdx = targetHtml.indexOf('<!-- AUTO-GENERATED TURNS START');
+  if (markerIdx === -1) {
+    throw new Error('AUTO-GENERATED TURNS START Marker nicht gefunden.');
+  }
+  const gridIdx = targetHtml.lastIndexOf('interview-grid', markerIdx);
+  if (gridIdx === -1) {
+    throw new Error('Kein .interview-grid vor dem AUTO-GENERATED-Bereich gefunden.');
+  }
+  const scope = targetHtml.slice(gridIdx, markerIdx);
+  const headerRe = /<div class="content-header">\s*(?:<span class="dot"><\/span>)?\s*([^<]+?)\s*<\/div>/g;
+  const names = [];
+  let m;
+  while ((m = headerRe.exec(scope))) {
+    names.push(m[1].trim());
+  }
+  if (names.length === 0) {
+    throw new Error('Keine .content-header-Zellen im .interview-grid gefunden — Spaltenreihenfolge unbekannt.');
+  }
+  return names;
+}
+
+function buildSpeakerMaps(columnNames) {
+  const column = {};
+  const display = {};
+  columnNames.forEach((name, i) => {
+    column[name] = i + 1;
+    display[name] = name;
+  });
+  Object.entries(NAME_ALIASES).forEach(([alias, canonical]) => {
+    if (canonical in column) {
+      column[alias] = column[canonical];
+      display[alias] = canonical;
+    }
+  });
+  return { column, display };
+}
+
+function parseTranscript(text, speakerColumn, speakerDisplay, numColumns) {
+  const speakerNames = Object.keys(speakerColumn).sort((a, b) => b.length - a.length);
+  const speakerLineRe = new RegExp('^(' + speakerNames.join('|') + ')\\s*:\\s*(.*)$');
+  const jointSpeakerLineRe = /^([A-Za-z][A-Za-z\s]*?)\s*&\s*([A-Za-z][A-Za-z\s]*?)\s*:\s*(.*)$/;
+  const parentheticalLineRe = /^\(.*\)$/;
+  const noteSpan = '1 / ' + (numColumns + 1);
+
   const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
   const turns = [];
 
   for (const line of lines) {
-    const speakerMatch = line.match(SPEAKER_LINE_RE);
+    const speakerMatch = line.match(speakerLineRe);
     if (speakerMatch) {
       const [, name, rest] = speakerMatch;
       turns.push({
         type: 'dialogue',
-        speaker: SPEAKER_DISPLAY[name],
-        col: SPEAKER_COLUMN[name],
+        speaker: speakerDisplay[name],
+        col: speakerColumn[name],
         paragraphs: [rest],
       });
       continue;
     }
 
-    const jointMatch = line.match(JOINT_SPEAKER_LINE_RE);
+    const jointMatch = line.match(jointSpeakerLineRe);
     if (jointMatch) {
       const [, a, b, rest] = jointMatch;
       turns.push({
         type: 'note',
+        span: noteSpan,
         paragraphs: [a.trim() + ' & ' + b.trim() + ': ' + rest],
       });
       continue;
     }
 
-    if (PARENTHETICAL_LINE_RE.test(line)) {
-      turns.push({ type: 'note', paragraphs: [line] });
+    if (parentheticalLineRe.test(line)) {
+      turns.push({ type: 'note', span: noteSpan, paragraphs: [line] });
       continue;
     }
 
@@ -106,7 +149,7 @@ function renderTurn(turn, index) {
 
   if (turn.type === 'note') {
     return [
-      '  <div class="interview-turn interview-note" id="' + id + '" data-col="1 / 4">',
+      '  <div class="interview-turn interview-note" id="' + id + '" data-col="' + turn.span + '">',
       '    <div class="text-wrap">',
       '      <div class="turn-text">',
       paragraphsHtml.replace(/<p>(.*)<\/p>/, '<p><em>$1</em></p>'),
@@ -135,11 +178,6 @@ function main() {
     process.exit(1);
   }
 
-  const transcriptText = fs.readFileSync(transcriptPath, 'utf8');
-  const turns = parseTranscript(transcriptText);
-
-  const turnsHtml = turns.map(renderTurn).join('\n\n');
-
   const targetHtml = fs.readFileSync(targetPath, 'utf8');
   const startMarker = /<!-- AUTO-GENERATED TURNS START[^>]*-->/;
   const endMarker = /<!-- AUTO-GENERATED TURNS END -->/;
@@ -148,6 +186,14 @@ function main() {
     console.error('Marker "AUTO-GENERATED TURNS START/END" nicht in ' + targetPath + ' gefunden.');
     process.exit(1);
   }
+
+  const columnNames = readColumnsFromTarget(targetHtml);
+  const { column: speakerColumn, display: speakerDisplay } = buildSpeakerMaps(columnNames);
+
+  const transcriptText = fs.readFileSync(transcriptPath, 'utf8');
+  const turns = parseTranscript(transcriptText, speakerColumn, speakerDisplay, columnNames.length);
+
+  const turnsHtml = turns.map(renderTurn).join('\n\n');
 
   const startMatch = targetHtml.match(startMarker)[0];
   const newHtml = targetHtml.replace(
@@ -164,6 +210,7 @@ function main() {
     if (t.type === 'dialogue') perSpeaker[t.speaker] = (perSpeaker[t.speaker] || 0) + 1;
   });
 
+  console.log('Spalten erkannt: ' + columnNames.join(', '));
   console.log('Fertig: ' + turns.length + ' Turns in ' + targetPath + ' geschrieben.');
   console.log('  Dialog-Turns: ' + dialogueCount + ' (' + Object.entries(perSpeaker).map(([k, v]) => k + ': ' + v).join(', ') + ')');
   console.log('  Randnotizen: ' + noteCount);

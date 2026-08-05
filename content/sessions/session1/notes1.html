@@ -8,12 +8,12 @@
   main.js initialisiert es automatisch mit), allerdings ohne die linke
   Sidebar (Portrait/Sprungleiste) und mit nur 2 Spalten statt 3.
 
-  Pro Aussage:
-    data-col = 1 (Phuong) oder 2 (Mira) → muss zur Reihenfolge der
-               beiden .content-header unten passen
-
-  Zum Verlängern/Verkürzen einfach weitere .interview-turn Blöcke in
-  chronologischer Reihenfolge ergänzen oder entfernen.
+  Die .interview-turn-Blöcke unten werden von
+  scripts/build-interview-turns.js aus content/transcripts/notes1 erzeugt:
+    node scripts/build-interview-turns.js content/transcripts/notes1 content/sessions/session1/notes1.html
+  Das Skript liest die Spaltenreihenfolge aus den beiden .content-header
+  unten (Phuong = Spalte 1, Mira = Spalte 2) — nicht von Hand bearbeiten,
+  stattdessen das Transkript ändern und das Skript erneut laufen lassen.
 -->
 
 <div class="interview-grid cols-2">
@@ -22,45 +22,517 @@
   <div class="content-header"><span class="dot"></span>Phuong</div>
   <div class="content-header"><span class="dot"></span>Mira</div>
 
-  <!-- Beitrag 1 — Phuong -->
+  <!-- AUTO-GENERATED TURNS START (scripts/build-interview-turns.js — nicht von Hand bearbeiten, Skript neu laufen lassen) -->
   <div class="interview-turn" id="turn-1" data-col="1">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel nisi placerat, interdum leo vel, imperdiet odio. Morbi at cursus risus.</p>
+        <p>Do you want to start?</p>
       </div>
     </div>
   </div>
 
-  <!-- Beitrag 2 — Mira -->
   <div class="interview-turn" id="turn-2" data-col="2">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
-        <p>Sed sodales elit eros, in ultrices dolor vehicula sit amet. Donec condimentum libero nisl, at posuere felis laoreet at. Ut felis lacus, volutpat sed consectetur quis, finibus eu nisi.</p>
-        <p>Nam luctus consectetur justo, eget bibendum dui consequat at. Maecenas eu sem non nisl cursus iaculis.</p>
+        <p>You wanted to mention something.</p>
       </div>
     </div>
   </div>
 
-  <!-- Beitrag 3 — Phuong -->
   <div class="interview-turn" id="turn-3" data-col="1">
     <span class="turn-name">Phuong</span>
     <div class="text-wrap">
       <div class="turn-text">
-        <p>Ut dignissim velit vestibulum finibus fringilla. Integer sodales odio lacus, quis fringilla leo consequat sagittis. Ut vel efficitur neque.</p>
+        <p>Okay, definitely. Um, I'm not in the beginning, but I would just, um, Let me rethink what I wrote. Yeah, I started with what did I have in mind when I started the workshop?</p>
       </div>
     </div>
   </div>
 
-  <!-- Beitrag 4 — Mira -->
   <div class="interview-turn" id="turn-4" data-col="2">
     <span class="turn-name">Mira</span>
     <div class="text-wrap">
       <div class="turn-text">
-        <p>Ut tincidunt porttitor consequat. Sed tristique mollis tellus, nec molestie arcu sollicitudin non. Suspendisse potenti. Vivamus non mattis tortor.</p>
+        <p>Oh, good, that you brought in this perspective. Yeah, you had something in your mind.</p>
       </div>
     </div>
   </div>
+
+  <div class="interview-turn" id="turn-5" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yeah, because I was thinking, in the first workshop we did, we were trying to kind of, back and forth between us, like one person’d do one thing, the next person’d do the next. And then I was thinking of it kind of like ping pong.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-6" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Mm-hmm.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-7" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>But then for ping pong, we always try to sabotage each other, and we never try to work towards a goal. And for that, what we did, we were trying to work towards a goal and it was kind of contradictory to the process we were doing. So it wouldn't ever work in that way anyway. That's why I came up with a workshop where we don't have a goal and just try to sabotage what the other was trying to do by our next step. Yeah, but that is just what I had in mind. And then…</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-8" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I think in general, that you can separate the whole session into 2 parts.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-9" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I think so, too.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-10" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yeah, first, the technique and method, and then the second part is the development of the font and the letters.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-11" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>So first, the ideation and experimentation, and then execution is a separate thing, right?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-12" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yeah, definitely.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-13" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>That is also a problem I had, because I feel like the workshop idea didn't cover the 2nd part.</p>
+        <p>And for the 2nd part, we don't work in a new way, which is to how people would normally do. And I felt like it was not so…</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-14" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>But, I mean, the first part was, exploring together how to come up with an idea for</p>
+        <p>a font. Or like a rule or something</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-15" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yes, but do we just want to have this experiment part for the rest of the workshops or do we also want to develop it into something?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-16" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I would say it's also nice to develop into something because you can also see different kinds of working together and I imagine that this process will develop also. Like first, it's fun for both of us. We don't know what will happen (the experimental part). In the second part, we have to collaborate more seriously and we will get into this more and more with the workshops. So I think both parts are super important. For each session, one person is planning and bringing a vision for an idea, a method, I don't know, and then we explore it together. And the second part is collaborative working.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-17" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>But then the second part should also be experimenting with how we work together, right? Or should it just unfold how it goes, you know what I mean?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-18" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I would say, it would just unfold. But on the other hand, I don't know how we could, um, design this. Like, how can we experiment while working together, except for maybe something like we aren't allowed to talk to each other… We could do that.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-19" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Actually, we could do that. But then I would say these two are separate from each other. Like you said, right? And every time we come up with an idea for the first part, but also for the second part, which doesn't have to be related to the first.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-20" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>For the next session, I tried to also separate it a little bit.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-21" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Ok, nice!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-22" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I try to, at least. And also, I try to say how I imagine the second part. Not very experimental, but I try to write it down how I imagine it…</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-23" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Okay. But then if you vocalize it, then we can also keep it in mind while working to follow it, even if it's not perfect.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-24" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yeah, I mean, it's not a real rule, but it helps us not to be completely lost, and we have to think about this during the process.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-25" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>But that's good. Because that was also my challenge yesterday, I was trying to come up with the next one, and then I was thinking of ideas for, like, ideation experiments, but then it doesn't cover the second part, and then…</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-26" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>And maybe the first is always, like, the first pancake. It's not the best, but we have to start somewhere. I think we did great for that. And now, this is also part of how we will work together. We have to, I hate this German saying that “Der Weg ist das Ziel”, the way is the goal, but in this case, it is. And this is also maybe my conclusion from our last session, I would say. Do we want to go deeper into the first session? Like maybe everyone can sum up the most important part.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-27" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yes, I have another observation of the way we work together for the second part.</p>
+        <p>At one point, you said, “Okay, if I sketch faster, then I would get more responsibility for that part.” But I feel that you would then, at that point, also get more responsibility for something else, which is the decision making. So I think that when working together, it's not always us sharing the same power or authority on everything. But it's rather how we assume different roles and work through it. And I think if I just work alone, then, okay, maybe I could sketch all of these, but then I would not stick so much to the rules. And then…</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-28" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yes, and then it's not like, as I would brief you, if I would be the client, maybe also somehow, the decision maker. Like... Yeah, I think that's harder and not the best thing because then for me, for collaboration, we don't always have to work next to each other. But, I think, we should stick to our main working sessions that we agreed on, and when something happens in between, like, after our first session, you wanted to redraw it, then we talked together about it when we saw each other, and I think that's super important. And we have different time capacities. So it’s definitely okay when something like this happens, but I think it’s also important that we have to, this is what I said before, we have to find an end after a session. Because the process is the interesting part of this project, and we don’t always need to focus too much on finishing a font. I mean, I would love to. But at one point, as we said, last time...</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-29" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>It's too much.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-30" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>It's too much. We had two super intense sessions, which were really hard, and I also wrote that communication and mutual understanding was so important. Like you had understanding for the time when my head is full. At that point, I couldn’t really draw anymore. And then we switched to our rules, more or less. And I mean, yeah, we bring different skills to the table. And that's also important to recognize and to work with that. And I think that will be super important for the second part as well. Like when we try to bring everything together. But, I mean, we should also challenge ourselves and really try to only work together, you know what I mean? And I know this is for both of us a challenge, because we always say, “Okay, at home, I could do this or that as well,” because when I'm alone, I work faster but, yeah, we should try to stick to these working sessions.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-31" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I would say the same.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-32" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>And I also wrote that, sorry, for talking that much…</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-33" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>That's what the recording is for.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-34" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Because of that point with breaking rules, I was thinking that if we would work alone, it's easier to break rules, of course. And we could just make a new rule that we develop. But I think the rule is our common ground, which makes it easier to align. But on the other hand, it also raises for me the question, are we limiting ourselves too much for being more creative, maybe? I don't have an answer for this question, but at this moment, I would say, they are really necessary for working together.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-35" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yes. I would say the same. I think the more rules we have, the easier it is to experiment. If you say anything is possible, then we don't have breakthroughs</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-36" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>And if we don’t have rules, it's harder to think in the same way.</p>
+        <p>Because, when we drew together, like, I already had a vision of a letter, I was done, and you were like, “Okay, let's finish this.” And I was, okay, for me, it's already finished, I don't know what you wanted to do but do it. And, we had so many different visions. The ways we drew were so different. Because we have so...</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-37" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>We also have different backgrounds from how we studied it.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-38" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yeah, we study what we see, look, our view of the world is so different, this is deep, but yeah, this influences everything.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-39" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>But I think then, because the first session I came up with was more of my roam. So I felt more comfortable in it, but maybe for the next sessions, we can choose something that is more of the way you design. Because for me, it's very hard to create a sans-serif or, like, very systematic typefaces. But we don't have to do that, but more of the way you think, so that you will lead the design more and maybe I can then do the decision making.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-40" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yeah, we will see which rules we will have during this process. We can also write down the question, which rules will develop during this process, right?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn interview-note" id="turn-41" data-col="1 / 3">
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p><em>(Pause)</em></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-42" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yes, is there anything else?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-43" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yes, I have two more points. Um... First is... Okay, I also have some, like, observations for the ideation part. At first, it was very hard for us to come up with really interesting things, and a lot of times, we just mirror each other.</p>
+        <p>Or we just added things that didn’t make… Okay, it was not supposed to make sense, but like it was not going anywhere. But at one point, you started to draw a line and then everything just clicked and it was much more free for us. And then, the good ideas came after that.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-44" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>It became interesting.</p>
+        <p>But like, yeah, the mirroring thing was super interesting. You're right. We always came back to mirroring at some point.</p>
+        <p>But what I also liked was the part in between the ideation experimenting and the developing of the font because together, we hung up all our drawings on one wall, looked at it, and recognized patterns. And we could both easily agree on which models fit together and saw the patterns and decided on which we wanted to continue with. I really liked that. I mean, this was something unplanned. But it worked really well and really, yeah, democratic more or less.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-45" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yes. But speaking about being democratic, I feel like up until now, we were very democratic about our way of working. And I was thinking in the future, should we challenge that? For example, if none of us have the authority and we leave everything up to chance, or I don't know, how can we just ruin this?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-46" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yeah, this sabotaging... thing. Yeah. I mean, this is something we have to keep in mind. For the next sessions, I think both of us have to come up with 2 more workshops. And I also, for today, I brought a warm up.</p>
+        <p>So I just limited it to 10 minutes, but when we also think about something like this, we have more things we can work on. And I also have something more creative in my mind. Alright, because I saw a reel where kids were working together and I was like, oh, yeah.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-47" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I think we should do more of the kids' things, like more primitive ways of working instead of being too deep into type design.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-48" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I brought something.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-49" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Ok nice!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-50" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>And then I just have a final sum up of the last session of what worked and what didn't. Since we are both type designers, when we draw, it's kind of similar sometimes. But I can imagine if there's an illustrator and a graphic designer who works with grids working together, then it would be even more interesting. So that could work. And the thing that didn't work was time, but I think time … Time is more of, like, the working together part rather than the ideation part.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-51" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yes, true. Ah, and I wanted to add that you have more skills in drawing letters, more than me. But when we just would say, okay, you do the letters of drawing and I do the decisions, I couldn't learn from it. And this is also something where I wouldn't be strictly into separating rules before. I love to see how the rules develop in the process in the end. Then we can look at it again, and maybe choose one idea, where for me, it's easier to do the drawing or whatever. And you do more of the decision or like, which rule…</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-52" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I have an idea for a workshop like that where you only draw and I don't draw.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-53" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Okay, write it down.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-54" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Next time, okay. Then I think… Do you have anything else?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-55" data-col="2">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>No.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-56" data-col="1">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Then we can start the next session.</p>
+      </div>
+    </div>
+  </div>
+  <!-- AUTO-GENERATED TURNS END -->
 
 </div>

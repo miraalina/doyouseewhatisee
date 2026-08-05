@@ -1,0 +1,68 @@
+<!--
+  content/sessions/session1/method1.html
+  Wird per fetch() in #page-content geladen, wenn innerhalb von Session 1
+  der Reiter "Method" angeklickt wird. Enthält NUR den Inhalt —
+  Header/Menü kommen weiterhin aus index.html.
+
+  3 Spalten im Verhältnis 2:1:1 (siehe .method-layout in style.css):
+    "Intro"         — Fließtext
+    "Instructions"  — Aufzählung (ol/ul)
+    "Visuals"       — Bilder
+
+  Jede Spalte hat oben einen Reiter (.content-header) im Stil der
+  Interview-Seite, der beim Scrollen stehen bleibt.
+
+  Bilder: zum Verlängern/Verkürzen einfach weitere .method-image Blöcke
+  in der Visuals-Spalte ergänzen oder entfernen.
+-->
+
+<div class="method-layout">
+
+  <!-- Spalte 1: Intro -->
+  <div class="method-col method-col-intro">
+    <div class="content-header">Intro</div>
+    <div class="method-text method-intro-text">
+
+      <p>One of the simplest ways two people can design an object together is by adding elements one after another: a line, a module, or a new feature. But doing this without communication leads to misalignment. We can’t work toward a common goal if we don’t know what the other is thinking. At the same time, we often rely on design conventions when looking for new forms (for example, standard Latin letterforms), which restricts our exploration of new forms.</p>
+      <p>This exercise looks at two questions: How can we turn miscommunication and sabotage during collaboration into a tool for ideation? And how can we use that process to break away from conventions and discover unexpected forms?</p>
+
+       <table class="intro-meta">
+      <tr><th>Parameter: </th><th>Tool: Pen, Paper</th></tr>
+      <tr><td>Time: 4h</td><td>Playlist: Lo-Fo-Hip-Hop Radio</td></tr>
+    </table>
+
+    </div>
+  </div>
+
+  <!-- Spalte 2: Instructions -->
+  <div class="method-col method-col-instructions">
+    <div class="content-header">Instructions</div>
+    <div class="method-text">
+
+        <p>Step 1: Without thinking of a specific letter, the first person draws a single stroke.</p>
+        <p>Step 2: The next person adds the second stroke. Keep switching back and forth. If you see the other person building toward a specific letter, deliberately sabotage it.</p>
+        <p>Step 3: Stop drawing as soon as you both recognize a Latin letter starting to form.</p>
+        <p>Step 4: Repeat this process for at least 20 sheets.</p>
+        <p>Step 5: Hang all the drawings on the wall and cluster them by similar patterns or shapes.</p>
+        <p>Step 6: Sit together and pick out the most exciting features or details to set the rules for your next typeface.</p>
+
+    </div>
+  </div>
+
+  <!-- Spalte 3: Visuals -->
+  <div class="method-col method-col-visuals">
+    <div class="content-header">Visuals</div>
+    <div class="method-images">
+      <figure class="method-image"><img src="content/images/Sessions/Session1/IMG_6251.jpg" alt=""></figure>
+      <figure class="method-image"><img src="content/images/Sessions/Session1/IMG_6256.jpg" alt=""></figure>
+      <figure class="method-image"><img src="content/images/Sessions/Session1/IMG_6257.jpg" alt=""></figure>
+      <figure class="method-image"><img src="content/images/Sessions/Session1/IMG_6259.jpg" alt=""></figure>
+      <figure class="method-image"><img src="content/images/Sessions/Session1/IMG_6268.jpg" alt=""></figure>
+      <figure class="method-image"><img src="content/images/Sessions/Session1/IMG_6300.jpg" alt=""></figure>
+      <figure class="method-image"><img src="content/images/Sessions/Session1/IMG_6302.jpg" alt=""></figure>
+      <figure class="method-image"><img src="content/images/Sessions/Session1/IMG_6311.jpg" alt=""></figure>
+      <figure class="method-image"><img src="content/images/Sessions/Session1/IMG_6312.jpg" alt=""></figure>
+    </div>
+  </div>
+
+</div>

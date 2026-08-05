@@ -48,6 +48,17 @@ body{
    MENU — GLOBAL
    ========================================================= */
 
+/* Bleibt beim Scrollen oben stehen, auf jeder Seite. main.js schreibt
+   die tatsächliche gerenderte Höhe in --menu-height, damit sticky
+   Elemente weiter unten (z.B. .interview-sidebar) wissen, wie weit sie
+   selbst vom oberen Rand abrücken müssen, um nicht darunter zu verschwinden. */
+.site-menu{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:var(--white);
+}
+
 .menu-level-1,
 .menu-level-2,
 .menu-level-3{
@@ -181,7 +192,7 @@ body{
   display:flex;
   flex-direction:column;
   position:sticky;
-  top:0;
+  top:var(--menu-height, 40px);
   align-self:flex-start;
 }
 
@@ -238,6 +249,9 @@ body{
   gap:10px;
   grid-row:1;
   border-left:none;
+  position:sticky;
+  top:var(--menu-height, 40px);
+  z-index:10;
 }
 .interview-grid .content-header .dot{ display:none; }
 
@@ -324,20 +338,30 @@ body{
 .interview-turn:hover .turn-text.truncatable::after,
 .interview-turn.active .turn-text.truncatable::after{ opacity:0; }
 
-/* Ausgeklappter Volltext als Overlay — verschiebt nichts im Fluss, kein Sprung */
+/* Ausgeklappter Volltext als Overlay — verschiebt nichts im Fluss, kein Sprung.
+   Klappt per max-height-Transition organisch nach unten auf, statt einfach
+   einzublenden. main.js schreibt die tatsächliche Textgröße in
+   --expand-height, damit der Übergang exakt bis zur echten Höhe läuft,
+   statt zu früh fertig zu wirken oder abgeschnitten zu bleiben. */
 .turn-expand{
   position:absolute; top:0; left:0; right:0;
   background:var(--black);
   padding:20px 15px; margin:-20px -15px 0;
-  opacity:0; pointer-events:none; transform:translateY(-2px);
-  transition:opacity .25s ease, transform .25s ease;
+  max-height:7em;
+  overflow:hidden;
+  opacity:0; pointer-events:none;
+  transition:opacity .3s ease, max-height .45s cubic-bezier(.4,0,.2,1);
   font-size:var(--content-font-size); line-height:1.4;
   z-index:5;
 }
 .turn-expand p{ margin:0 0 .8em; }
 .turn-expand p:last-child{ margin-bottom:0; }
 .interview-turn:hover .turn-expand,
-.interview-turn.active .turn-expand{ opacity:1; transform:none; pointer-events:auto; }
+.interview-turn.active .turn-expand{
+  opacity:1;
+  max-height:var(--expand-height, 1000px);
+  pointer-events:auto;
+}
 
 /* Bild folgt dem Mauszeiger */
 .cursor-figure{
@@ -433,49 +457,131 @@ body{
 }
 
 /* =========================================================
-   METHOD-MODUL — Text links (sticky), Bilder rechts (scrollend)
-   Beim Scrollen bleibt die linke Spalte stehen (position:sticky),
-   nur die rechte Bilderspalte läuft darunter/daran vorbei.
+   METHOD-MODUL — 3 Spalten wie beim Interview-Grid: "Intro" (Text),
+   "Instructions" (Aufzählung), "Visuals" (Bilder). Spalte 1 und 2 sind
+   gleich breit, Spalte 3 (Visuals) bleibt schmaler (Verhältnis 3:3:2).
+   Jede Spalte hat oben einen Reiter im
+   .content-header-Stil der Interview-Seite (Ivo/Phuong/Mira) — genauso
+   breit wie die eigene Spalte und beim Scrollen sticky.
    ========================================================= */
 
+/* Die Seite selbst scrollt nicht — sie füllt exakt die Höhe unterhalb
+   des Menüs. Nur die Visuals-Spalte bekommt ihren eigenen Scrollbereich,
+   Intro und Instructions bleiben unbewegt stehen. */
 .method-layout{
-  display:flex;
-  align-items:flex-start;
+  display:grid;
+  grid-template-columns:3fr 3fr 2fr;
   gap:var(--menu-gap);
+  align-items:start;
+  height:calc(100vh - var(--menu-height, 40px));
+  overflow:hidden;
 }
 
-/* Linke Spalte: Headline + Text, rundum gerahmt wie .interview-intro */
-.method-text{
-  flex:0 0 342px;
+.method-col{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  overflow:hidden;
+}
+
+/* Reiter: gleiche Optik wie .interview-grid .content-header, aber pro
+   Spalte statt in einer gemeinsamen Grid-Reihe — bleibt trotzdem exakt
+   so breit wie die eigene Spalte, weil er ein Block-Kind von .method-col ist.
+   Intro/Instructions scrollen nicht mehr, also bleibt ihr Reiter ganz
+   normal an seiner ursprünglichen Position (kein sticky nötig — mit
+   sticky würde er sich hier sogar verschieben, weil .method-col durch
+   overflow:hidden selbst zum Scroll-Container wird). */
+.method-layout .content-header{
+  z-index:10;
+  margin-bottom:var(--menu-gap);
+  flex:0 0 auto;
+  font-size:var(--menu-font-size);
+}
+
+/* Visuals-Spalte: einzige Spalte, die scrollt — nur hier klebt der
+   Reiter am oberen Rand des eigenen Scrollbereichs. */
+.method-col-visuals{
+  overflow-y:auto;
+}
+.method-col-visuals .content-header{
   position:sticky;
   top:0;
-  align-self:flex-start;
-  border:var(--border-w) solid var(--black);
-  padding:40px 30px;
+  border-left:none;
 }
-.method-title{
-  font-size:22px;
-  font-weight:normal;
-  font-family:var(--font-main);
-  margin:0 0 .8em;
+
+/* Trennlinien zwischen den Spalten über die volle Spaltenhöhe statt nur
+   auf Höhe des Reiters — der Reiter selbst verliert dafür jeweils seinen
+   eigenen Rand an der Stelle, sonst wäre die Linie dort doppelt so dick
+   wie darunter. */
+.method-col-intro{
+  border-right:var(--border-w) solid var(--black);
 }
-.method-text p{
+.method-col-intro .content-header{ border-right:none; }
+.method-col-instructions{
+  border-right:var(--border-w) solid var(--black);
+}
+.method-col-instructions .content-header{
+  border-left:none;
+  border-right:none;
+}
+
+/* Text- und Listen-Spalten (Intro, Instructions) — kein Rahmen,
+   gleiche Typo wie .intro-text */
+.method-text{
+  padding:15px 15px 20px;
   font-size:var(--content-font-size);
   line-height:1.4;
-  margin:0 0 .8em;
 }
+.method-text p{ margin:0 0 .8em; }
 .method-text p:last-child{ margin-bottom:0; }
 
-/* Rechte Spalte: Bilder untereinander, jedes gerahmt */
+/* Intro-Spalte: große Leitfrage über dem Fließtext */
+.method-intro-headline{
+  font-size:36px;
+  font-weight:normal;
+  font-family:var(--font-main);
+  line-height:1.2;
+  margin:0 0 .5em;
+}
+
+/* Listen sollen sich wie Fließtext einfügen, nicht wie Standard-Listen wirken */
+.method-text ul,
+.method-text ol{
+  margin:0 0 .8em;
+  padding-left:1.2em;
+}
+.method-text ul{ list-style:disc; }
+.method-text ul:last-child,
+.method-text ol:last-child{ margin-bottom:0; }
+.method-text li{ margin:0 0 .4em; }
+.method-text li:last-child{ margin-bottom:0; }
+
+/* Nummerierte Listen (Instructions) bekommen statt "1." / "2." die
+   Beschriftung "Step 1", "Step 2" … vor jedem Punkt */
+.method-text ol{
+  list-style:none;
+  counter-reset:step;
+  padding-left:0;
+}
+.method-text ol li{
+  counter-increment:step;
+  display:flex;
+  gap:.5em;
+}
+.method-text ol li::before{
+  content:"Step " counter(step) ".";
+  flex:0 0 auto;
+  font-weight:bold;
+}
+
+/* Visuals-Spalte: Bilder untereinander, ohne Rahmen */
 .method-images{
-  flex:1 1 auto;
   display:flex;
   flex-direction:column;
   gap:var(--menu-gap);
 }
 .method-image{
   margin:0;
-  border:var(--border-w) solid var(--black);
   aspect-ratio:4/3;
   overflow:hidden;
   display:flex;
@@ -484,16 +590,13 @@ body{
 }
 .method-image img{ display:block; width:100%; height:100%; object-fit:cover; }
 
-/* Platzhalter, solange noch kein echtes Bild eingesetzt ist —
-   sobald ein <img> ergänzt wird, greift stattdessen die Regel oben */
-.method-image.placeholder{
-  font-size:var(--content-font-size);
-  color:var(--black);
-  opacity:.4;
-}
-
 @media (max-width: 760px){
-  .method-layout{ flex-direction:column; }
-  .method-text{ position:static; flex:0 0 auto; width:100%; }
+  /* Fixe Höhe + Scroll-nur-in-Visuals ist auf einer einspaltig
+     gestapelten mobilen Seite keine sinnvolle UX — hier scrollt wieder
+     die ganze Seite ganz normal. */
+  .method-layout{ grid-template-columns:1fr; height:auto; overflow:visible; }
+  .method-col{ height:auto; overflow:visible; }
+  .method-col-visuals{ overflow-y:visible; }
+  .method-layout .content-header{ position:static; }
 }
 
