@@ -136,6 +136,128 @@ body{
   background:var(--black);
 }
 
+/* Mobiler Menü-Trigger ("Mode" / aktueller Modus + Punkt), ersetzt auf
+   schmalen Screens die inline sichtbare Level-1-Liste (siehe Media Query
+   unten). Auf Desktop bleibt er ausgeblendet. */
+.mode-toggle{
+  display:none;
+}
+
+/* =========================================================
+   MENU — MOBILE (Level 1 als Dropdown)
+   ========================================================= */
+
+@media (max-width:760px){
+  /* Kopfzeile (Titel + Mode-Trigger) bleibt eine Zeile, das Dropdown mit
+     den vier Modi rutscht per order + flex-basis:100% direkt darunter. */
+  .menu-level-1{
+    flex-wrap:wrap;
+  }
+
+  .title-cell{
+    order:1;
+    flex:1 1 auto;
+    padding-right:15px;
+  }
+
+  .mode-toggle{
+    order:2;
+    display:flex;
+    flex:0 0 auto;
+    align-items:center;
+    gap:10px;
+    height:var(--menu-item-height);
+    padding:6px 15px;
+    background:var(--white);
+    color:var(--black);
+    border-top:var(--border-w) solid var(--black);
+    border-right:var(--border-w) solid var(--black);
+    border-left:var(--border-w) solid var(--black);
+    font-size:var(--menu-font-size);
+    white-space:nowrap;
+    cursor:pointer;
+  }
+
+  .site-menu.mobile-open .mode-toggle{
+    background:var(--black);
+    color:var(--white);
+  }
+
+  .mode-toggle .dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    border:var(--border-w) solid var(--black);
+    display:none;
+  }
+
+  .mode-toggle.mode-active .dot{
+    display:inline-block;
+    background:var(--black);
+  }
+
+  .site-menu.mobile-open .mode-toggle .dot{
+    border-color:var(--white);
+    background:var(--white);
+  }
+
+  /* Level-1-Items: auf Desktop eine Reihe, hier standardmäßig verborgen
+     und als vertikale Liste unter der Kopfzeile, sobald der Trigger
+     geöffnet ist. */
+  .menu-level-1 .nav-items{
+    order:3;
+    display:none;
+    flex:0 0 100%;
+    flex-direction:column;
+  }
+
+  .site-menu.mobile-open .menu-level-1 .nav-items{
+    display:flex;
+  }
+
+  .menu-level-1 .nav-items .nav-item{
+    flex:0 0 auto;
+    width:100%;
+  }
+
+  .menu-level-1 .nav-items .nav-item:last-child{
+    border-bottom:var(--border-w) solid var(--black);
+  }
+
+  /* Solange das Dropdown offen ist, bleiben Level 2/3 ausgeblendet, damit
+     sie sich nicht mit der Liste überlagern — sie kommen automatisch
+     zurück, sobald ein Modus gewählt wird (selectMode schließt das Dropdown). */
+  .site-menu.mobile-open .menu-level-2,
+  .site-menu.mobile-open .menu-level-3{
+    display:none;
+  }
+
+  /* Level-2/3-Reiter (Sessions, Interviews, Exercise/Type/Feedback) bleiben
+     eine einzige Reihe über die volle Menübreite. Passt ein Name nicht
+     komplett hinein, wird er am rechten Rand ausgeblendet statt die
+     Nachbar-Reiter zu überlappen. */
+  .menu-level-2 .nav-item,
+  .menu-level-3 .nav-item{
+    position:relative;
+    overflow:hidden;
+  }
+
+  .menu-level-2 .nav-item::after,
+  .menu-level-3 .nav-item::after{
+    content:"";
+    position:absolute;
+    top:0; right:0; bottom:0;
+    width:16px;
+    background:linear-gradient(to right, transparent, var(--black));
+    pointer-events:none;
+  }
+
+  .menu-level-2 .nav-item.active::after,
+  .menu-level-3 .nav-item.active::after{
+    background:linear-gradient(to right, transparent, var(--white));
+  }
+}
+
 
 /* =========================================================
    CONTENT LAYOUT

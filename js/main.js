@@ -27,6 +27,31 @@
     document.getElementById('home-link').classList.add('active');
     hideLevels23();
     document.getElementById('page-content').innerHTML = '';
+    updateModeToggle(null);
+    closeMobileMenu();
+  }
+
+  /* Mobiles Level-1-Dropdown (siehe CSS .site-menu.mobile-open). Auf Desktop
+     ist #mode-toggle per CSS ausgeblendet, die Funktionen bleiben dort also
+     folgenlos. */
+  function toggleMobileMenu(){
+    document.getElementById('site-menu').classList.toggle('mobile-open');
+  }
+
+  function closeMobileMenu(){
+    document.getElementById('site-menu').classList.remove('mobile-open');
+  }
+
+  function updateModeToggle(mode){
+    var label = document.getElementById('mode-toggle-label');
+    var toggle = document.getElementById('mode-toggle');
+    if(mode){
+      label.textContent = mode.charAt(0).toUpperCase() + mode.slice(1);
+      toggle.classList.add('mode-active');
+    } else {
+      label.textContent = 'Mode';
+      toggle.classList.remove('mode-active');
+    }
   }
 
   function selectMode(mode){
@@ -37,6 +62,8 @@
     clearActive(document.getElementById('level1-items'));
     document.getElementById('home-link').classList.remove('active');
     document.querySelector('.nav-item[data-mode="' + mode + '"]').classList.add('active');
+    updateModeToggle(mode);
+    closeMobileMenu();
 
     hideLevels23();
 

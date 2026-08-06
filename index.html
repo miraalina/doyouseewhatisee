@@ -23,6 +23,13 @@
     <div class="nav-item" data-mode="manifesto" onclick="selectMode('manifesto')"><span class="dot"></span>Manifesto Mode</div>
     <div class="nav-item" data-mode="about" onclick="selectMode('about')"><span class="dot"></span>About</div>
   </div>
+  <!-- Nur mobil sichtbar (siehe CSS @media max-width:760px): öffnet/schließt
+       das Level-1-Dropdown und zeigt statt "Mode" den aktuell gewählten
+       Modus mit gefülltem Punkt an, sobald einer aktiv ist. -->
+  <div class="mode-toggle" id="mode-toggle" onclick="toggleMobileMenu()">
+    <span class="dot" id="mode-toggle-dot"></span>
+    <span id="mode-toggle-label">Mode</span>
+  </div>
 </div>
 
 <!-- ============ LEVEL 2 (Sessions) ============ -->
