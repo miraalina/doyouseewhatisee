@@ -240,6 +240,7 @@ body{
   .menu-level-3 .nav-item{
     position:relative;
     overflow:hidden;
+    min-width:0;
   }
 
   .menu-level-2 .nav-item::after,
@@ -255,6 +256,19 @@ body{
   .menu-level-2 .nav-item.active::after,
   .menu-level-3 .nav-item.active::after{
     background:linear-gradient(to right, transparent, var(--white));
+  }
+
+  /* Aktiver Reiter (Level 2, z.B. Interview-Namen) wächst auf seine volle
+     Textbreite, statt wie die anderen gleichmäßig geteilt zu werden — die
+     übrigen Reiter weichen dafür und schrumpfen. */
+  .menu-level-2 .nav-item{
+    flex:1 1 0;
+  }
+  .menu-level-2 .nav-item.active{
+    flex:0 0 auto;
+  }
+  .menu-level-2 .nav-item.active::after{
+    display:none;
   }
 }
 
@@ -493,7 +507,9 @@ body{
 .interview-turn:hover .turn-text,
 .interview-turn.active .turn-text,
 .interview-turn:hover .turn-expand,
-.interview-turn.active .turn-expand{
+.interview-turn.active .turn-expand,
+.interview-turn:hover .turn-name,
+.interview-turn.active .turn-name{
   color:var(--white);
 }
 .interview-turn:hover .turn-text.truncatable::after,
@@ -519,8 +535,8 @@ body{
 /* Name pro Beitrag — nur auf schmalen Screens sichtbar (Desktop übernimmt die Kopfzeile) */
 .turn-name{
   display:none;
-  font-size:var(--content-font-size);
-  font-weight:bold;
+  font-size:calc(var(--content-font-size) + 2px);
+  font-weight:normal;
   margin-bottom:8px;
 }
 
@@ -591,14 +607,47 @@ body{
 
 @media (max-width: 760px){
   .interview-layout{ flex-direction:column; }
-  .interview-sidebar{ position:static; width:100%; bottom:auto; overflow-y:visible; border-right:none; }
+  .interview-sidebar{ position:static; width:100%; bottom:auto; overflow-y:visible; border-right:none; border-bottom:var(--border-w) solid var(--black); }
   .interview-portrait{ flex:0 0 auto; aspect-ratio:4/3; border-bottom:var(--border-w) solid var(--black); }
-  .interview-grid{ grid-template-columns:1fr !important; margin-left:0; }
+  /* Bild füllt den Rahmen (2px Abstand kommt von .interview-portrait's
+     padding) und wird zugeschnitten statt verzerrt oder überzulaufen. */
+  .interview-portrait img{ width:100%; height:100%; object-fit:cover; }
+  /* .interview-layout .interview-grid (Desktop) ist spezifischer als ein
+     einfaches .interview-grid — ohne !important würde der 342px-Versatz
+     für die Sidebar hier stehen bleiben und die Spalte auf einen
+     schmalen Rest zusammenquetschen. */
+  .interview-grid{
+    grid-template-columns:1fr !important;
+    margin-left:0 !important;
+    /* Platz am Seitenende, damit die letzten Redebeiträge nicht unter der
+       fixen Navigationsleiste verschwinden. */
+    padding-bottom:calc(var(--menu-item-height) + 20px);
+  }
   .interview-grid .content-header{ display:none !important; }
-  .interview-nav{ display:none !important; }
   .interview-turn{ grid-column:1 !important; }
   .turn-name{ display:block; }
   .cursor-figure{ display:none; }
+
+  /* Auf mobil kein "5 Zeilen + Overlay aufklappen" — der Text steht
+     direkt in voller Länge da. Tippen auf einen Redebeitrag färbt den
+     Hintergrund trotzdem schwarz (siehe .interview-turn.active oben),
+     nur eben ohne Höhen-Animation, weil nichts mehr aufzuklappen ist. */
+  .turn-text{ max-height:none !important; overflow:visible; }
+  .turn-text.truncatable::after{ display:none; }
+  .turn-expand{ display:none !important; }
+
+  /* Navigation: auf Desktop links unten fest positioniert (342px breit,
+     Hover öffnet nach oben). Auf mobil stattdessen über die volle
+     Fensterbreite unten fixiert, Klick öffnet/schließt (siehe main.js:
+     initInterview bindet dafür bereits einen click-Listener, sobald kein
+     Hover verfügbar ist — hier wird nur die Sichtbarkeit/Position
+     angepasst). Bleibt beim Scrollen stehen, genau wie das Menü oben. */
+  .interview-nav{ width:100%; }
+  /* :hover bleibt auf manchen Touch-Browsern nach dem Tippen "hängen" und
+     würde das Panel offen halten, obwohl main.js die .open-Klasse längst
+     entfernt hat — auf mobil steuert daher ausschließlich .open. */
+  .interview-nav:hover .interview-nav-panel{ max-height:0; }
+  .interview-nav.open .interview-nav-panel{ max-height:60vh; }
 }
 
 /* =========================================================
