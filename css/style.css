@@ -168,8 +168,8 @@ body{
     gap:10px;
     height:var(--menu-item-height);
     padding:6px 15px;
-    background:var(--white);
-    color:var(--black);
+    background:var(--black);
+    color:var(--white);
     border-top:var(--border-w) solid var(--black);
     border-right:var(--border-w) solid var(--black);
     border-left:var(--border-w) solid var(--black);
@@ -179,26 +179,26 @@ body{
   }
 
   .site-menu.mobile-open .mode-toggle{
-    background:var(--black);
-    color:var(--white);
+    background:var(--white);
+    color:var(--black);
   }
 
   .mode-toggle .dot{
     width:8px;
     height:8px;
     border-radius:50%;
-    border:var(--border-w) solid var(--black);
+    border:var(--border-w) solid var(--white);
     display:none;
   }
 
   .mode-toggle.mode-active .dot{
     display:inline-block;
-    background:var(--black);
+    background:var(--white);
   }
 
   .site-menu.mobile-open .mode-toggle .dot{
-    border-color:var(--white);
-    background:var(--white);
+    border-color:var(--black);
+    background:var(--black);
   }
 
   /* Level-1-Items: auf Desktop eine Reihe, hier standardmäßig verborgen
