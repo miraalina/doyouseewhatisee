@@ -415,10 +415,16 @@ body{
    (z.B. Redebeiträge, oder eine leere Spalte ganz ohne Turns). Die
    Spaltenposition kommt per style="grid-column:N" direkt am Element,
    die Zeilen-Spanne (grid-row) setzt main.js dynamisch passend zur
-   tatsächlichen Redebeitrags-Anzahl. */
+   tatsächlichen Redebeitrags-Anzahl.
+   position+z-index über den sticky .content-header-Zellen (z-index:10):
+   die haben einen eigenen weißen Hintergrund und liegen sonst ohne
+   z-index-Vergleich automatisch darüber, was die Trennlinie genau auf
+   Höhe der Kopfzeile unsichtbar macht. */
 .col-divider{
   border-right:var(--border-w) solid var(--black);
   pointer-events:none;
+  position:relative;
+  z-index:11;
 }
 
 /* Kopfzeile: 3 Zellen, eine pro Person  */
@@ -851,5 +857,142 @@ body{
   .method-col{ height:auto; overflow:visible; }
   .method-col-visuals{ overflow-y:visible; }
   .method-layout .content-header{ position:static; }
+}
+
+/* =========================================================
+   MANIFESTO-MODUL — 2 gleich große Spalten: links "10 Questions"
+   (nochmal unterteilt in Mira/Phuong, per .interview-grid.cols-2
+   wiederverwendet), rechts der Manifesto-Fließtext. Die Navigation
+   unten übernimmt .interview-nav 1:1, nur mit einer Breite, die
+   main.js (initInterview) dynamisch auf die tatsächliche Breite der
+   linken Spalte synct (--manifesto-left-width), statt der festen
+   342px der Interview-Sidebar.
+
+   Die rechte Spalte ist wie .interview-sidebar fixiert (eigener
+   overflow-y:auto-Bereich, exakt von Menü- bis Fensterunterkante) statt
+   mit der linken Spalte mitzuwachsen — dadurch scrollt sie nur so weit,
+   wie ihr eigener Text reicht, unabhängig von der viel längeren linken
+   Spalte, die ganz normal mit der Seite scrollt.
+   ========================================================= */
+
+.manifesto-layout{
+  position:relative;
+}
+
+.manifesto-left{
+  width:calc(50% - var(--menu-gap) / 2);
+  padding-bottom:calc(var(--menu-item-height) + 20px);
+  /* Trennlinie zur rechten Spalte — läuft automatisch über die volle
+     Höhe der linken Spalte, da sie (im Gegensatz zu .manifesto-right)
+     ganz normal im Textfluss steht und nicht fixiert ist. */
+  border-right:var(--border-w) solid var(--black);
+}
+
+.manifesto-right{
+  position:fixed;
+  /* + var(--menu-gap): gleicher Abstand zum Menü wie bei .manifesto-left,
+     die als normales Flow-Element durch den margin-bottom des Menüs
+     automatisch 1 Gap tiefer startet als --menu-height allein angibt —
+     sonst läge die eigene border-top der Kopfzeile direkt ohne Lücke am
+     Menü an und wäre davon optisch kaum zu unterscheiden. */
+  top:calc(var(--menu-height, 40px) + var(--menu-gap));
+  right:0;
+  bottom:0;
+  width:calc(50% - var(--menu-gap) / 2);
+  overflow-y:auto;
+  border-right:var(--border-w) solid var(--black);
+}
+
+/* Beide Top-Level-Reiter in gleicher Schriftgröße wie Mira/Phuong
+   darunter (statt der kleineren Fließtext-Größe der Basis-.content-header). */
+.manifesto-left > .content-header,
+.manifesto-right > .content-header{
+  font-size:var(--menu-font-size);
+}
+
+/* Titel bleibt beim Scrollen innerhalb der eigenen Spalte oben stehen,
+   wie .method-col-visuals .content-header. Kein border-left — die rechte
+   Spalte soll auf der linken Seite komplett randlos bleiben. */
+.manifesto-right > .content-header{
+  position:sticky;
+  top:0;
+  border-left:none;
+  z-index:10;
+}
+
+/* Genau EINE Trennlinie pro Kante statt doppelt gemalter Ränder: die
+   umschließenden Elemente (.manifesto-left über die volle Höhe,
+   .col-divider über die volle Höhe zwischen Mira/Phuong) übernehmen die
+   Border — alle .content-header darin verzichten daher auf ihre eigene
+   rechte Kante, exakt wie .method-col-intro/.method-col-instructions
+   das auf der Exercise-Seite machen. */
+.manifesto-left > .content-header,
+.manifesto-right > .content-header,
+.manifesto-left .interview-grid .content-header{
+  border-right:none;
+}
+
+/* Trennlinie zwischen Mira- und Phuong-Spalte über die volle Höhe —
+   .col-divider ist bereits generisch in main.js/initInterview() vorbereitet
+   (setzt grid-row automatisch passend zur Anzahl der Redebeiträge). */
+.manifesto-left .interview-grid .col-divider{
+  border-right:var(--border-w) solid var(--black);
+}
+
+/* Navigation unten links: gleiche Optik wie .interview-nav, aber Breite
+   folgt der tatsächlich gerenderten Breite von .manifesto-left statt
+   einer festen Sidebar-Breite. Muss VOR der Mobile-Media-Query stehen,
+   damit deren .interview-nav{width:100%} auf schmalen Screens weiterhin
+   gewinnt (gleiche Selektor-Spezifität, Reihenfolge im Stylesheet entscheidet). */
+.manifesto-nav{
+  width:var(--manifesto-left-width, 50vw);
+}
+
+/* Einheitliche Textgröße für Einleitung, Article-Überschriften und
+   Fließtext — genauso groß wie die Spaltenüberschrift ("Manifesto of
+   Collaboration") darüber, nur die eigene Zeile pro Article unterscheidet
+   sie optisch. */
+.manifesto-text{
+  padding:25px 15px 40px;
+  font-size:var(--menu-font-size);
+  line-height:1.5;
+}
+.manifesto-text .manifesto-intro{
+  margin:0 0 1.5em;
+}
+.manifesto-article{
+  margin:0 0 1.5em;
+}
+.manifesto-article:last-child{ margin-bottom:0; }
+.manifesto-article h3{
+  font-size:var(--menu-font-size);
+  font-weight:normal;
+  font-family:var(--font-main);
+  margin:0 0 .3em;
+}
+.manifesto-article p{ margin:0; }
+
+@media (max-width: 760px){
+  /* Vertikale Trennlinie ergibt bei gestapeltem Layout keinen Sinn —
+     .manifesto-right übernimmt die Trennung stattdessen per border-top. */
+  .manifesto-left{ width:100%; border-right:none; }
+  .manifesto-left > .content-header{ border-right:var(--border-w) solid var(--black); }
+  .manifesto-right{
+    position:static;
+    width:100%;
+    height:auto;
+    overflow-y:visible;
+    border-right:none;
+    border-top:var(--border-w) solid var(--black);
+  }
+  .manifesto-right > .content-header{
+    position:static;
+    border-right:var(--border-w) solid var(--black);
+    border-left:var(--border-w) solid var(--black);
+  }
+  .manifesto-left .interview-grid{ grid-template-columns:1fr !important; }
+  .manifesto-left .interview-grid .content-header{ display:none !important; }
+  .manifesto-left .interview-grid .col-divider{ display:none !important; }
+  .manifesto-left .interview-turn{ grid-column:1 !important; }
 }
 

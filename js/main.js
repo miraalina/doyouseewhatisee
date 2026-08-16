@@ -76,7 +76,7 @@
       clearActive(document.getElementById('level2-interviews'));
       document.getElementById('page-content').innerHTML = '';
     } else if(mode === 'manifesto'){
-      showPage('page-manifesto');
+      loadContent('content/Manifesto/manifesto.html', initInterview);
     } else if(mode === 'about'){
       showPage('page-about');
     }
@@ -340,5 +340,23 @@ function initInterview(){
     turns.forEach(function(t){ io.observe(t); });
   } else {
     turns.forEach(function(t){ t.classList.add('visible'); });
+  }
+
+  // Manifesto-Seite: .interview-nav bekommt dort zusätzlich die Klasse
+  // .manifesto-nav und muss die Breite der linken Spalte (.manifesto-left)
+  // treffen statt der festen 342px-Sidebar-Breite der Interview-Seiten —
+  // per ResizeObserver immer aktuell, auch beim Umschalten auf den
+  // einspaltigen Mobile-Layout.
+  var manifestoLeft = document.querySelector('.manifesto-left');
+  if(manifestoLeft){
+    var syncManifestoNavWidth = function(){
+      document.documentElement.style.setProperty('--manifesto-left-width', manifestoLeft.getBoundingClientRect().width + 'px');
+    };
+    syncManifestoNavWidth();
+    if('ResizeObserver' in window){
+      new ResizeObserver(syncManifestoNavWidth).observe(manifestoLeft);
+    } else {
+      window.addEventListener('resize', syncManifestoNavWidth);
+    }
   }
 }
