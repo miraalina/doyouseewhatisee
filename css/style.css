@@ -142,8 +142,11 @@ body{
 
 /* Erster/letzter Tab jeder Menüzeile sitzt an der äußeren Seitenkante —
    dort keine Randlinie, genau wie bei "10 Questions to Reflect the
-   Project" auf der Manifesto-Seite. */
-.nav-items .nav-item:first-child,
+   Project" auf der Manifesto-Seite. Level 1 ausgenommen: "Work Mode" (erstes
+   Kind von .nav-items) sitzt NICHT an der äußeren Seitenkante, sondern
+   direkt neben der Titelzelle — die braucht also weiterhin ihre linke
+   Randlinie. "About" (letztes Kind) sitzt dagegen wirklich am rechten
+   Seitenrand, wie gehabt. */
 .menu-level-2 .nav-item:first-child,
 .menu-level-3 .nav-item:first-child{
   border-left:none;
