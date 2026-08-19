@@ -344,7 +344,12 @@ body{
      Interview scrollbar, sobald er die verfügbare Höhe übersteigt. */
   position:fixed;
   left:0;
-  top:var(--menu-height, 40px);
+  /* + var(--menu-gap): die Sidebar ist fixed und startet sonst exakt bei
+     --menu-height, während der Inhalt rechts (.interview-grid, normaler
+     Textfluss) durch den margin-bottom des Menüs automatisch 1 Gap tiefer
+     beginnt — ohne den Ausgleich ragt die border-right der Sidebar oben
+     ca. 2px über die rechte Kopfzeile hinaus. */
+  top:calc(var(--menu-height, 40px) + var(--menu-gap));
   bottom:0;
   overflow-y:auto;
   border-right:var(--border-w) solid var(--black);
@@ -1002,6 +1007,12 @@ body{
 .manifesto-left > .content-header,
 .manifesto-right > .content-header{
   font-size:var(--menu-font-size);
+}
+/* "10 Questions..." braucht keine eigene linke Kante an der äußeren
+   Seitenkante — anders als bei den Menü-Reitern ("Blind Strokes",
+   "Exercise" …) soll hier links kein Rand stehen. */
+.manifesto-left > .content-header{
+  border-left:none;
 }
 
 /* Titel bleibt beim Scrollen innerhalb der eigenen Spalte oben stehen,
