@@ -119,6 +119,20 @@ body{
   height:calc(var(--menu-item-height) - var(--border-w));
 }
 
+/* Erster/letzter Tab jeder Menüzeile sitzt an der äußeren Seitenkante —
+   dort keine Randlinie, genau wie bei "10 Questions to Reflect the
+   Project" auf der Manifesto-Seite. */
+.nav-items .nav-item:first-child,
+.menu-level-2 .nav-item:first-child,
+.menu-level-3 .nav-item:first-child{
+  border-left:none;
+}
+.nav-items .nav-item:last-child,
+.menu-level-2 .nav-item:last-child,
+.menu-level-3 .nav-item:last-child{
+  border-right:none;
+}
+
 /* Home / title cell */
 .title-cell{
   flex:0 0 auto;
