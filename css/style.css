@@ -1018,6 +1018,14 @@ body{
   z-index:10;
 }
 
+/* Mira/Phuong (sticky, siehe Basis-.interview-grid .content-header-Regel)
+   kleben sonst ohne Lücke direkt am Menü, sobald man dorthin scrollt —
+   anders als die beiden Top-Level-Header oben, die durch den
+   margin-bottom des Menüs automatisch 1 Gap Abstand haben. */
+.manifesto-left .interview-grid .content-header{
+  top:calc(var(--menu-height, 40px) + var(--menu-gap));
+}
+
 /* Genau EINE Trennlinie an den äußeren Kanten (links/rechts der ganzen
    Spalte) statt doppelt gemalter Ränder: .manifesto-left/-right tragen
    ihre volle-Höhe-Border selbst, ihre eigenen Top-Level-.content-header
