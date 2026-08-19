@@ -572,13 +572,16 @@ body{
    über die Zeile hinaus, statt sie aufzublähen. top:0 verankert korrekt
    an der eigenen Grid-Zeile (Containing Block für Grid-Items), aber
    Chromium bezieht left/right/width dabei auf das ganze Grid statt nur
-   die eigene Spalte — deshalb width/left/right unten manuell auf die
-   20%-Breite von Spalte 1/4 berechnet (3 Gaps zwischen 4 Spalten). */
+   die eigene Spalte — UND zwar je nach Spalte inkonsistent (bei Spalte 4
+   löste sich %-basiertes width:calc() auf einen viel zu kleinen Wert
+   auf, bei Spalte 1 zufällig richtig). Deshalb keine %-Berechnung mehr:
+   main.js misst die tatsächliche Spaltenbreite und setzt sie als feste
+   Pixelbreite über --highlight-col-width. */
 .interview-turn.interview-highlight{
   pointer-events:none;
   position:absolute;
   top:0;
-  width:calc((100% - 3 * var(--menu-gap)) * 0.2);
+  width:var(--highlight-col-width, 20%);
 }
 .interview-turn.interview-highlight[data-col="1"]{ left:0; }
 .interview-turn.interview-highlight[data-col="4"]{ right:0; }

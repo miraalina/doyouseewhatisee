@@ -247,6 +247,26 @@ function initInterview(){
     turn.style.gridRow = row;
   });
 
+  // .interview-highlight (Notes/Feedback-Seiten) braucht eine feste
+  // Pixelbreite statt %-basiertem CSS calc(): width:calc(100% - …) löst
+  // sich für Spalte 1 und Spalte 4 in Chromium unterschiedlich auf
+  // (Spalte 4 landete auf einem winzigen Bruchteil der echten Breite),
+  // deshalb hier die tatsächlich gerenderte 20%-Spaltenbreite messen und
+  // als Pixelwert setzen — funktioniert für beide Seiten gleich.
+  if(grid.classList.contains('cols-4-notes')){
+    var syncHighlightWidth = function(){
+      var gapPx = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--menu-gap')) || 2;
+      var colWidth = (grid.getBoundingClientRect().width - 3 * gapPx) * 0.2;
+      grid.style.setProperty('--highlight-col-width', colWidth + 'px');
+    };
+    syncHighlightWidth();
+    if('ResizeObserver' in window){
+      new ResizeObserver(syncHighlightWidth).observe(grid);
+    } else {
+      window.addEventListener('resize', syncHighlightWidth);
+    }
+  }
+
   // Trennlinien-Elemente (.col-divider) über Kopfzeile + alle
   // Redebeiträge spannen. "grid-row:1/-1" in CSS würde hier nicht
   // funktionieren, weil die Zeilen implizit entstehen (kein
