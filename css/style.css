@@ -38,6 +38,18 @@ body{
     text-decoration:none;
   }
 
+  /* Inline-Links innerhalb von Fließtext (Interview-Redebeiträge, Bio,
+     Manifesto-Text) — Text bleibt schwarz (color:inherit von oben), nur
+     unterstrichen, damit er sich vom umgebenden Text abhebt. Bewusst nicht
+     global auf alle <a>, sonst würden auch Menü/Navigations-Links
+     mitbetroffen. */
+  .turn-text a,
+  .turn-expand a,
+  .interview-intro-text a,
+  .manifesto-text a{
+    text-decoration:underline;
+  }
+
   button{
     font-family:inherit;
     font-size:inherit;
@@ -319,16 +331,17 @@ body{
    Einheit neben dem Dialog-Grid — dadurch beginnt das Grid (Kopfzeile) auf
    gleicher Höhe direkt unter dem Menü, statt unter einem volle-Breite-Vorspann */
 .interview-sidebar{
-  /* Breite an .title-cell ("Do you see what I see?") angeglichen:
-     15px + 115px Padding + Textbreite bei 20px DINdong ≈ 342px. */
-  width:342px;
+  /* 1/5 der Seitenbreite. */
+  width:20%;
   display:flex;
   flex-direction:column;
   /* position:fixed statt sticky — die Sidebar bleibt dadurch komplett
      unbewegt stehen, unabhängig davon wie lang das Interview daneben
      ist (bei sticky löst sie sich am Ende der eigenen Box wieder).
      Dafür raus aus dem Flex-Fluss: .interview-grid bekommt stattdessen
-     einen margin-left in gleicher Breite, damit nichts überlappt. */
+     einen margin-left in gleicher Breite, damit nichts überlappt.
+     overflow-y:auto macht den Bio-Text unabhängig vom restlichen
+     Interview scrollbar, sobald er die verfügbare Höhe übersteigt. */
   position:fixed;
   left:0;
   top:var(--menu-height, 40px);
@@ -341,7 +354,6 @@ body{
 .interview-intro{
   display:flex;
   flex-direction:column;
-  border-top:var(--border-w) solid var(--black);
   border-left:var(--border-w) solid var(--black);
   margin-bottom:var(--menu-gap);
 }
@@ -378,6 +390,11 @@ body{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:var(--menu-gap);
+  /* Containing Block für absolut positionierte Grid-Items wie
+     .interview-highlight — ohne das würde deren position:absolute bis
+     zum nächsten positionierten Vorfahren (bzw. dem Viewport) durchreichen
+     statt auf die eigene Grid-Zelle beschränkt zu bleiben. */
+  position:relative;
 }
 
 /* Ausgleich dafür, dass .interview-sidebar jetzt fixed und damit aus dem
@@ -385,7 +402,7 @@ body{
    Interview-Seiten (mit .interview-layout-Sidebar), NICHT auf Seiten wie
    notes1.html, die .interview-grid ganz ohne Sidebar nutzen. */
 .interview-layout .interview-grid{
-  margin-left:calc(342px + var(--menu-gap));
+  margin-left:calc(20% + var(--menu-gap));
 }
 
 /* Variante ohne Sidebar (z.B. Session-Notes): nur 2 Spalten */
@@ -450,7 +467,7 @@ body{
   position:fixed;
   left:0;
   bottom:0;
-  width:342px; /* wie .interview-sidebar */
+  width:20%; /* wie .interview-sidebar */
   z-index:60;
 }
 .interview-nav-trigger{
@@ -501,6 +518,11 @@ body{
   position:relative;
   opacity:0; transform:translateY(8px);
   transition:opacity .5s ease, transform .5s ease, background .2s ease, color .2s ease;
+  /* Damit scrollIntoView() (Sprungmarken-Navigation) nie einen Redebeitrag
+     unter der klebenden Kopfzeile (Menü + Spalten-Reiter) versteckt lässt —
+     ohne das könnte ein kurzer vorheriger Redebeitrag in einer anderen
+     Spalte nicht genug Platz für den nächsten schaffen. */
+  scroll-margin-top:calc(var(--menu-height, 40px) + var(--menu-item-height));
 }
 .interview-turn.visible{ opacity:1; transform:none; }
 
@@ -538,6 +560,40 @@ body{
   opacity:.65;
 }
 
+/* Highlight-Zitat in der äußeren Notes-Spalte, größer gesetzt neben der
+   Original-Aussage (siehe scripts/build-interview-turns.js — aus
+   ==...== markierten Textstellen im Transkript erzeugt). Keine
+   Interaktion nötig, deshalb wie .interview-note pointer-events:none.
+
+   position:absolute statt des von .interview-turn geerbten relative:
+   dadurch trägt das Highlight nicht mehr zur Höhe seiner Grid-Zeile bei
+   (Phuong/Mira in derselben Zeile bleiben exakt so hoch wie ihr eigener
+   Text) und darf trotzdem beliebig länger sein — es läuft dann einfach
+   über die Zeile hinaus, statt sie aufzublähen. top:0 verankert korrekt
+   an der eigenen Grid-Zeile (Containing Block für Grid-Items), aber
+   Chromium bezieht left/right/width dabei auf das ganze Grid statt nur
+   die eigene Spalte — deshalb width/left/right unten manuell auf die
+   20%-Breite von Spalte 1/4 berechnet (3 Gaps zwischen 4 Spalten). */
+.interview-turn.interview-highlight{
+  pointer-events:none;
+  position:absolute;
+  top:0;
+  width:calc((100% - 3 * var(--menu-gap)) * 0.2);
+}
+.interview-turn.interview-highlight[data-col="1"]{ left:0; }
+.interview-turn.interview-highlight[data-col="4"]{ right:0; }
+.interview-turn.interview-highlight .turn-text{
+  font-size:22px;
+  line-height:1.3;
+  /* Nie kürzen — Zitate sind kurz genug, sollen aber unabhängig von der
+     5-Zeilen-Logik nie per Fade/Hover-Overlay abgeschnitten werden. */
+  max-height:none;
+  overflow:visible;
+}
+.interview-turn.interview-highlight .turn-text.truncatable::after{
+  display:none;
+}
+
 /* Name pro Beitrag — nur auf schmalen Screens sichtbar (Desktop übernimmt die Kopfzeile) */
 .turn-name{
   display:none;
@@ -556,6 +612,19 @@ body{
 .turn-text.fits{ max-height:none; }
 .turn-text p{ margin:0 0 .8em; }
 .turn-text p:last-child{ margin-bottom:0; }
+
+/* Inline-Bild innerhalb eines Redebeitrags (z.B. Venn-Diagramm). Auf
+   Desktop ausgeblendet — dort übernimmt stattdessen das per data-img
+   verknüpfte Cursor-Popup (.cursor-figure) die Bildanzeige beim Hover
+   über die ganze Sprechblase. Auf Mobil (siehe Media Query unten, kein
+   Hover/Popup möglich) bleibt es Teil des ohnehin voll ausgeschriebenen
+   Texts, ohne Rahmen. */
+.turn-image{
+  display:none;
+  width:100%;
+  height:auto;
+  margin:0 0 .8em;
+}
 .turn-text.truncatable::after{
   content:""; position:absolute; left:0; right:0; bottom:0; height:2em;
   background:linear-gradient(to bottom, transparent, var(--white));
@@ -591,7 +660,7 @@ body{
 
 /* Bild folgt dem Mauszeiger */
 .cursor-figure{
-  position:fixed; top:0; left:0; width:220px; z-index:100;
+  position:fixed; top:0; left:0; width:270px; z-index:100;
   opacity:0; pointer-events:none;
   transform:translate(-9999px,-9999px);
   transition:opacity .2s ease;
@@ -619,8 +688,8 @@ body{
      padding) und wird zugeschnitten statt verzerrt oder überzulaufen. */
   .interview-portrait img{ width:100%; height:100%; object-fit:cover; }
   /* .interview-layout .interview-grid (Desktop) ist spezifischer als ein
-     einfaches .interview-grid — ohne !important würde der 342px-Versatz
-     für die Sidebar hier stehen bleiben und die Spalte auf einen
+     einfaches .interview-grid — ohne !important würde der Sidebar-Versatz
+     (margin-left) hier stehen bleiben und die Spalte auf einen
      schmalen Rest zusammenquetschen. */
   .interview-grid{
     grid-template-columns:1fr !important;
@@ -641,6 +710,7 @@ body{
   .turn-text{ max-height:none !important; overflow:visible; }
   .turn-text.truncatable::after{ display:none; }
   .turn-expand{ display:none !important; }
+  .turn-image{ display:block; }
 
   /* Navigation: auf Desktop links unten fest positioniert (342px breit,
      Hover öffnet nach oben). Auf mobil stattdessen über die volle
@@ -654,6 +724,21 @@ body{
      entfernt hat — auf mobil steuert daher ausschließlich .open. */
   .interview-nav:hover .interview-nav-panel{ max-height:0; }
   .interview-nav.open .interview-nav-panel{ max-height:60vh; }
+
+  /* Notes/Feedback-Seiten: auf Mobil steht das Highlight ganz normal
+     zwischen den Redebeiträgen im Textfluss (einspaltig gestapelt) —
+     das absolute Positioning vom Desktop (siehe oben) würde es sonst
+     aus dem Fluss reißen und andere Redebeiträge überlappen. Zusätzlich
+     teilt es sich am Desktop bewusst die Grid-Zeile mit seinem
+     Quell-Turn (siehe main.js) — auf Mobil landen durch das erzwungene
+     grid-column:1 (oben) sonst BEIDE in derselben Zelle übereinander.
+     grid-row:auto lässt es stattdessen ganz normal in die nächste freie
+     Zeile einsortieren; width:auto hebt die 20%-Breite vom Desktop auf. */
+  .interview-turn.interview-highlight{
+    position:static;
+    grid-row:auto !important;
+    width:auto;
+  }
 }
 
 /* =========================================================
@@ -880,7 +965,8 @@ body{
 }
 
 .manifesto-left{
-  width:calc(50% - var(--menu-gap) / 2);
+  /* 2/3 - 1/3-Aufteilung. */
+  width:calc(66.6667% - var(--menu-gap) * 0.6667);
   padding-bottom:calc(var(--menu-item-height) + 20px);
   /* Trennlinie zur rechten Spalte — läuft automatisch über die volle
      Höhe der linken Spalte, da sie (im Gegensatz zu .manifesto-right)
@@ -898,9 +984,14 @@ body{
   top:calc(var(--menu-height, 40px) + var(--menu-gap));
   right:0;
   bottom:0;
-  width:calc(50% - var(--menu-gap) / 2);
+  /* 1/3 der Seitenbreite. */
+  width:calc(33.3333% - var(--menu-gap) * 0.3333);
   overflow-y:auto;
-  border-right:var(--border-w) solid var(--black);
+  /* Invertiert: weißer Text/weiße Linien auf schwarzem Grund, im
+     Gegensatz zur linken Spalte. */
+  background:var(--black);
+  color:var(--white);
+  border-right:var(--border-w) solid var(--white);
 }
 
 /* Beide Top-Level-Reiter in gleicher Schriftgröße wie Mira/Phuong
@@ -911,32 +1002,35 @@ body{
 }
 
 /* Titel bleibt beim Scrollen innerhalb der eigenen Spalte oben stehen,
-   wie .method-col-visuals .content-header. Kein border-left — die rechte
-   Spalte soll auf der linken Seite komplett randlos bleiben. */
+   wie .method-col-visuals .content-header. Kein border-left/-top — die
+   rechte Spalte soll komplett randlos bleiben. Eigener schwarzer
+   Hintergrund, da die Basis-.content-header-Regel von einem weißen
+   Hintergrund ausgeht. */
 .manifesto-right > .content-header{
   position:sticky;
   top:0;
+  background:var(--black);
+  border-top:none;
   border-left:none;
   z-index:10;
 }
 
-/* Genau EINE Trennlinie pro Kante statt doppelt gemalter Ränder: die
-   umschließenden Elemente (.manifesto-left über die volle Höhe,
-   .col-divider über die volle Höhe zwischen Mira/Phuong) übernehmen die
-   Border — alle .content-header darin verzichten daher auf ihre eigene
-   rechte Kante, exakt wie .method-col-intro/.method-col-instructions
-   das auf der Exercise-Seite machen. */
+/* Genau EINE Trennlinie an den äußeren Kanten (links/rechts der ganzen
+   Spalte) statt doppelt gemalter Ränder: .manifesto-left/-right tragen
+   ihre volle-Höhe-Border selbst, ihre eigenen Top-Level-.content-header
+   verzichten daher auf eine eigene rechte Kante — exakt wie
+   .method-col-intro/.method-col-instructions das auf der Exercise-Seite
+   machen. Mira behält ihre normale border-right von der Basis-
+   .content-header-Regel: das ist die einzige Quelle für die kurze Linie
+   zwischen Mira und Phuong (reicht bewusst nur so weit wie die
+   Kopfzeile). Phuong sitzt dagegen an der äußeren Kante der ganzen
+   linken Spalte — dort würde ihre eigene border-right sich mit der
+   volle-Höhe-Border von .manifesto-left überlagern, deshalb verzichtet
+   nur sie zusätzlich darauf. */
 .manifesto-left > .content-header,
 .manifesto-right > .content-header,
-.manifesto-left .interview-grid .content-header{
+.manifesto-left .interview-grid > .content-header:nth-child(2){
   border-right:none;
-}
-
-/* Trennlinie zwischen Mira- und Phuong-Spalte über die volle Höhe —
-   .col-divider ist bereits generisch in main.js/initInterview() vorbereitet
-   (setzt grid-row automatisch passend zur Anzahl der Redebeiträge). */
-.manifesto-left .interview-grid .col-divider{
-  border-right:var(--border-w) solid var(--black);
 }
 
 /* Navigation unten links: gleiche Optik wie .interview-nav, aber Breite
@@ -949,12 +1043,13 @@ body{
 }
 
 /* Einheitliche Textgröße für Einleitung, Article-Überschriften und
-   Fließtext — genauso groß wie die Spaltenüberschrift ("Manifesto of
-   Collaboration") darüber, nur die eigene Zeile pro Article unterscheidet
-   sie optisch. */
+   Fließtext — genauso groß wie der Fließtext in der linken Spalte
+   (.turn-text), damit auf der ganzen Seite (außer dem Menü) überall
+   dieselbe Schriftgröße steht. Nur die eigene Zeile pro Article
+   unterscheidet sie optisch. */
 .manifesto-text{
   padding:25px 15px 40px;
-  font-size:var(--menu-font-size);
+  font-size:var(--content-font-size);
   line-height:1.5;
 }
 .manifesto-text .manifesto-intro{
@@ -965,7 +1060,7 @@ body{
 }
 .manifesto-article:last-child{ margin-bottom:0; }
 .manifesto-article h3{
-  font-size:var(--menu-font-size);
+  font-size:var(--content-font-size);
   font-weight:normal;
   font-family:var(--font-main);
   margin:0 0 .3em;
@@ -983,16 +1078,15 @@ body{
     height:auto;
     overflow-y:visible;
     border-right:none;
-    border-top:var(--border-w) solid var(--black);
+    /* Kein border-top nötig — der Wechsel von weißem zu schwarzem
+       Hintergrund markiert die Grenze bereits selbst; eine weiße Linie
+       wäre gegen die weiße .manifesto-left darüber unsichtbar. */
   }
   .manifesto-right > .content-header{
     position:static;
-    border-right:var(--border-w) solid var(--black);
-    border-left:var(--border-w) solid var(--black);
   }
   .manifesto-left .interview-grid{ grid-template-columns:1fr !important; }
   .manifesto-left .interview-grid .content-header{ display:none !important; }
-  .manifesto-left .interview-grid .col-divider{ display:none !important; }
   .manifesto-left .interview-turn{ grid-column:1 !important; }
 }
 

@@ -1,0 +1,516 @@
+<!--
+  content/sessions/session3/notes3.html
+  Wird per fetch() in #page-content geladen, wenn innerhalb einer Session
+  der Reiter "Notes" angeklickt wird. Enthält NUR den Inhalt — Header/Menü
+  kommen weiterhin aus index.html.
+
+  Nutzt dasselbe Dialog-Grid wie die Interviews (initInterview() aus
+  main.js initialisiert es automatisch mit), allerdings ohne die linke
+  Sidebar (Portrait/Sprungleiste). 4 Spalten im Verhältnis 2:3:3:2
+  (.cols-4-notes in style.css): eine freie Notes-Spalte ganz links, Phuong,
+  Mira, und noch eine freie Notes-Spalte ganz rechts — beide Notes-
+  Spalten ohne eigene Dialog-Turns.
+
+  Die .interview-turn-Blöcke unten werden von
+  scripts/build-interview-turns.js aus content/transcripts/notes3 erzeugt:
+    node scripts/build-interview-turns.js content/transcripts/notes3 content/sessions/session3/notes3.html
+  Das Skript liest die Spaltenreihenfolge aus den vier .content-header
+  unten (Notes = Spalte 1, Phuong = Spalte 2, Mira = Spalte 3, Notes =
+  Spalte 4) — nicht von Hand bearbeiten, stattdessen das Transkript
+  ändern und das Skript erneut laufen lassen.
+-->
+
+<div class="interview-grid cols-4-notes">
+
+  <!-- Kopfzeile: eine Zelle pro Person, Reihenfolge legt die Spalten fest -->
+  <div class="content-header"><span class="dot"></span></div>
+  <div class="content-header"><span class="dot"></span>Phuong</div>
+  <div class="content-header"><span class="dot"></span>Mira</div>
+  <div class="content-header"><span class="dot"></span></div>
+
+  <!-- Beide Notes-Spalten und die Mira-Redebeiträge haben selbst keine
+       Border; diese unsichtbaren Elemente ziehen die rechte Trennlinie
+       über die volle Höhe aller Zeilen (Zeilen-Spanne setzt main.js
+       dynamisch). Spalte 1 (Notes links) und Spalte 3 (Mira) bekommen
+       so ihre rechte Linie bis zum Seitenende. -->
+  <div class="col-divider" style="grid-column:1" aria-hidden="true"></div>
+  <div class="col-divider" style="grid-column:3" aria-hidden="true"></div>
+
+  <!-- AUTO-GENERATED TURNS START (scripts/build-interview-turns.js — nicht von Hand bearbeiten, Skript neu laufen lassen) -->
+  <div class="interview-turn" id="turn-1" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>How are you today?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-2" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I feel tired but I think it's because I didn't sleep the complete REM sleep circle, because I actually slept a lot, but after talking for a while now my brain is kind of activated. And you?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-3" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I’m also tired, I definitely need a day off to rework my last days or even weeks because there's so much in my head which is motivating but at the same time...</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-4" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>It's draining right?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-5" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yeah and also I want to do so much but I can't do it like I think I'm not good enough maybe or I need more time…</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-6" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>*Gasps</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-7" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I had many ideas after getting so much input…</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-8" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>You also went to a symposium last week right?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-9" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yes, and I saw all those great people doing great stuff…</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn interview-note" id="turn-10" data-col="1 / 5">
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p><em>(We then talked about the symposium that Mira went to)</em></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-11" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Okay so.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-12" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>The last working session came out of the idea of opposites, both for the warm-up and the exercise. So the question was: “What if each person takes on an opposite part of the process, but neither of them can control the result?” It became a way to let go of authority and just let the process decide the result. That is why there were no expectations or sketching afterwards. It was just an experiment, and that was it.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-13" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yeah, we have to be fine with it, whether we like it or not. Exactly. I also wrote that down because we really had no control at all. We couldn’t have a vision or an idea of the result. We just had to trust the process and be okay with what came out because that was all we had.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-14" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I think it’s not just about being okay with the result, but also being okay with what the other person created. I think there was also a point when we realized that we were doing very opposite things…</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-15" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Even if we couldn’t control the result, there were still small parts we could control, like how we held the brush, whether we lifted it off the paper sometimes, or stayed on the paper the whole time.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-16" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yeah, so that was also another part of the acceptance. I also felt that we were opposites, not only in the process but also in how we created and how we wanted to do it.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-17" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I think that, compared to the other sessions, it was quite a quick process, which was refreshing for us. Because we usually wouldn’t work like this at all. We like to have control, take our time, and come up with the perfect thing and all that stuff. So I think we were both really challenged. And you also tried, in this uncontrolled process, to control something sometimes. Like, at one point, you came up with the idea of controlling the time and how long we were drawing until the ink was empty. But we only tried it once with the time, and we already saw…</p>
+        <p>We already saw how this disrupted the process and that we wouldn’t be as free as without the time. Or when we knew, okay, we have to draw until the ink is empty, I think we would have thought too much about it again. This really quick process, where one was moving this and the other was moving that, was already enough. We just had to trust it. But it was funny to see that we tried to bring this level of control into it again. Yeah, and we saw directly: no.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-18" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I came up with the idea for the timer because I think, in an environment where there are no restrictions and you’re just too free, there still need to be some constraints. How can I say it? Like controlled chaos. It is chaos, but it comes out of a system of rules. But maybe time shouldn’t be part of the framework. After trying it, we found that out. There should be other parameters, but time isn’t one of them.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-19" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>We set those parameters in the beginning, and I think this idea from you was so important. To define the essential qualities of each letter – they were the only thing we could lean on when drawing and making decisions. They also decided when we were done with a letter. When we thought we were done, we looked at it and asked: does it have the elements we wrote down in the beginning? If not, we had to continue. If yes, we were done, even if we weren’t happy with it. That was the one thing we stuck to, and without it, I don’t think it would have worked.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn interview-highlight" id="turn-20" data-col="4">
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>To define the essential qualities of each letter – they were the only thing we could lean on when drawing and making decisions</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-21" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yeah, otherwise they wouldn’t become letters, right? I think the problem for me was that, because we had done this before, I thought I needed to add more details and make it more complete. That’s why I kept adding more rules. We also didn’t try it out before, so while trying it, we kind of refined the process and made it into something that could work.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-22" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yeah, I think this is also something I thought about for the next working session. I was like, I have to go through it again and again and maybe even try it out, because that’s the only thing that shows whether it works or not. We planned the experiment, but we never really tried it out before. We just had the idea, tried it, and when something had to be fixed during the process, we fixed it. So yeah, I mean, it’s obvious, but you have to try it out to see whether the experiment works or whether you have to adjust some parameters.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn interview-highlight" id="turn-23" data-col="4">
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I have to go through it again and again and maybe even try it out, because that’s the only thing that shows whether it works or not. We planned the experiment, but we never really tried it out before. We just had the idea, tried it, and when something had to be fixed during the process, we fixed it. So yeah, I mean, it’s obvious, but you have to try it out to see whether the experiment works or whether you have to adjust some parameters.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-24" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yes, learning by doing, I’d say. But if we plan to expand this and not just do these workshops ourselves, these six workshops could be good test runs. Then we can refine them later.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-25" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yeah, definitely. I think we could continue this whole experiment until the end of the semester, but we limited ourselves. After the last session, I also realized that the next session definitely had to be different again. Otherwise, I felt like we would be going in circles, just trying another tool, maybe moving from the pen to the brush and then to something else, drawing with ink again, or one person moving this and the other moving that, or sabotaging each other. I think we had to come up with something new, like a new level or another aspect to explore through the experiments.</p>
+        <p>I think it’s so interesting that, even if we don’t think too much about the experiments or test them on ourselves before the sessions, we still find a pattern somehow. We just write down an idea and think, “This is funny, this could work, this might be nice.” But there are still certain aspects connecting the experiments. The last one was about control, and the one before was about different or unfamiliar tools. Like they all had a topic, but I think this came accidentally.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-26" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>But the first thing you said was that you wanted us to try out this new tool, so I think that in itself is…</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-27" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>This is like a parameter of working together. Like, the tools, and last time it was control, you know?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-28" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Okay, now I understand what you mean.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-29" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yeah, parameters of working together. And we accidentally tested those through the experiments, even if we didn’t think about them that precisely.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-30" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>We should write that down. Maybe we already did, like a parameter or topic for each session, such as control or tools.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-31" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I think we can do it ourselves on this main sheet. We can collect everything from our sessions here and give each one a title. I think this is like shapes, I don't know…</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-32" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>And now I just saw the amount of paper we used and I realized the last session was kind of a waste of paper.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-33" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>In the end, I would count the papers for each session, plus maybe 10% for testing.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-34" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I mean, we have never done these exercises before, that’s why we had to use so much paper. So if we refine the rules, the amount of paper would be lower anyway. Then we can also see which workshop is worth doing and which one is a waste of resources for future workshops.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-35" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I mean, this project can continue, like there can be a second issue.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-36" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>We can do it every semester.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-37" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>The next level would be doing this with more than two people.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-38" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I think that could work better because there are more unknowns. Because with two people, well, I already know the exercise and you don’t, so only one person is actually testing it.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-39" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I think it definitely depends on each experiment, but yeah, this would actually be super interesting. I mean, this is what we’re doing it for, so we can share it and maybe plan a second edition kind of. When we're more advanced and we’ve done everything already and we can think about an experience for the groups yeah.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-40" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>And maybe not with type but with something else… Okay, I also thought that for the next session, I would still use this concept of the process as the creation of the result, because I feel like it’s stronger than the previous exercises where the experiment and expansion were separated. Even though we’re supposed to have a methodology for working together to expand the alphabet, I feel like, in the normal context of a workshop that we facilitate with a group of people, we wouldn’t have that time either. And I feel like that's what you're doing today also so…</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-41" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yeah.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-42" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Then do you have any notes from working together?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-43" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>From the last session, maybe I’ll start with the cons… Okay, I wrote down that I think it was hard to make decisions when the opinions differed. Like we said, we don’t want to make compromises, or I said it once, because compromises aren’t a good thing, even if people always say you just have to make compromises.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn interview-highlight" id="turn-44" data-col="4">
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>we don’t want to make compromises, or I said it once, because compromises aren’t a good thing, even if people always say you just have to make compromises.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-45" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>No one is happy in a compromise so...</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-46" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I think we had two options for each letter. And even when they were very similar, we both had different opinions. It was like, okay, but which one are we taking? We agreed that both were similar and could work, but still, we would say, “But I like this one more.” This was like decision making.</p>
+        <p>And I also wrote down that adding more parameters to an experimental method can interrupt the process. And I liked this idea of the next step from pen and paper to brushes. Yeah, you know what I mean.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn interview-highlight" id="turn-47" data-col="4">
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>adding more parameters to an experimental method can interrupt the process</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-48" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Yeah, definitely.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-49" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>This agreeing on the elements for each letter, I really liked that. I think this was so important. And I also liked that we had each letter twice because then we could decide. Maybe one didn’t turn out as good as the other one because it was such a quick and experimental process. In the end, we could see which one worked better. I mean, we couldn’t control it anyway. And we could also think about, okay, does it fit better with the predetermined rules? So it was nice to have the options.</p>
+        <p>Yeah, these were just some pros and cons. What I wanted to add is that last time, you also thought about the font itself that came out. And I also thought about the typeface from the last session. I think the character of the typeface came from the speed of the process. You can see these quick movements with the brush in the typeface. And what I like even more is that you couldn’t create the letters we produced on your own. Exactly, it needed both of us to build this font, and I think that’s so nice. I think it’s also a good way to sum this up. From you?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn interview-highlight" id="turn-50" data-col="4">
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>you couldn’t create the letters we produced on your own. Exactly, it needed both of us to build this font</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-51" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I agree. And also, no notes from me. I think, for my pros and cons, I may have sprinkled them during the discussion. But maybe just one point, about the compromise. I think it is still a problem for us, and I’m not sure if there will be a solution to that, but I really hope there is…</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-52" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>I will try it today. We will… Okay, I will bring something in.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-53" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>Okay, then let's start!</p>
+      </div>
+    </div>
+  </div>
+  <!-- AUTO-GENERATED TURNS END -->
+
+</div>

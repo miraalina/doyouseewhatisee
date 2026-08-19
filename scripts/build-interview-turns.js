@@ -16,6 +16,15 @@
   "Phuong & Mira: ..." werden als spaltenübergreifende Randnotiz
   gerendert (data-col="1 / N+1", N = Spaltenzahl).
 
+  Highlights (nur bei 4-spaltigem Notes-Layout: leere Rand-Spalte, Phuong,
+  Mira, leere Rand-Spalte): eine Textstelle mit =={irgendwas}= davor UND
+  danach markieren (dieselbe Marker-Zeichenkette dient als Auf/Zu-Toggle,
+  ihr Inhalt ist egal — HIGHLIGHT_MARKER_RE matcht "==" + beliebige
+  Zeichen außer "=" + "="). Die Marker werden aus dem Fließtext entfernt;
+  die markierte Stelle erscheint zusätzlich als eigener, größer gesetzter
+  Redebeitrag in der äußeren Spalte neben dem Sprecher (Phuong → Spalte 1
+  links, Mira → Spalte 4 rechts), direkt nach dem Original-Turn.
+
   Ersetzt in der Ziel-HTML-Datei nur den Bereich zwischen
       <!-- AUTO-GENERATED TURNS START ... -->
       <!-- AUTO-GENERATED TURNS END -->
@@ -46,6 +55,41 @@ function escapeHtml(str) {
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
+}
+
+// Reiner Auf/Zu-Toggle-Marker: "==" als einfache, saubere Markierung,
+// ODER die von manchen Editoren per Autokorrektur verunstaltete Variante
+// "==dieser Satz=­=" (mit eingestreutem "=" und weichem Trennstrich vor
+// dem "=") — beide Varianten matchen komplett, damit nichts vom Marker
+// als Textmüll im Highlight/Fließtext übrig bleibt.
+const HIGHLIGHT_MARKER_RE = /==dieser Satz=­=|==/g;
+
+// Trennt Marker-Paare aus einer Zeile heraus: gibt den Text ohne Marker
+// zurück (clean) sowie die Liste der dazwischenliegenden, markierten
+// Ausschnitte (highlights). Bei ungerader Marker-Anzahl (fehlender
+// Schließer) wird nicht geraten, welcher Marker der Ausreißer ist —
+// stattdessen werden alle Marker in der Zeile nur entfernt (kein
+// Highlight erzeugt) und gewarnt.
+function extractHighlights(line) {
+  const markerCount = (line.match(HIGHLIGHT_MARKER_RE) || []).length;
+  if (markerCount === 0) {
+    return { clean: line, highlights: [] };
+  }
+  if (markerCount % 2 !== 0) {
+    console.warn('Warnung: ungerade Anzahl Highlight-Marker in Zeile, Marker werden entfernt, kein Highlight erzeugt: ' + line);
+    return { clean: line.replace(HIGHLIGHT_MARKER_RE, ''), highlights: [] };
+  }
+  const parts = line.split(HIGHLIGHT_MARKER_RE);
+  const highlights = [];
+  let clean = '';
+  parts.forEach((part, i) => {
+    clean += part; // markierter Text bleibt im normalen Lesefluss stehen
+    if (i % 2 === 0 && i + 1 < parts.length) {
+      const phrase = parts[i + 1].trim();
+      if (phrase) highlights.push(phrase);
+    }
+  });
+  return { clean, highlights };
 }
 
 // Liest die Sprecher-Reihenfolge aus den .content-header-Zellen innerhalb
@@ -104,7 +148,17 @@ function parseTranscript(text, speakerColumn, speakerDisplay, numColumns) {
   const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
   const turns = [];
 
-  for (const line of lines) {
+  // Nur bei genau 4 Spalten im leer/Phuong/Mira/leer-Muster gibt es
+  // überhaupt Rand-Spalten für Highlights (siehe Datei-Kommentar oben).
+  const highlightColFor = {};
+  if (numColumns === 4) {
+    if (speakerColumn['Phuong'] === 2) highlightColFor[2] = 1;
+    if (speakerColumn['Mira'] === 3) highlightColFor[3] = 4;
+  }
+
+  for (const rawLine of lines) {
+    const { clean: line, highlights } = extractHighlights(rawLine);
+
     const speakerMatch = line.match(speakerLineRe);
     if (speakerMatch) {
       const [, name, rest] = speakerMatch;
@@ -113,6 +167,7 @@ function parseTranscript(text, speakerColumn, speakerDisplay, numColumns) {
         speaker: speakerDisplay[name],
         col: speakerColumn[name],
         paragraphs: [rest],
+        highlights: highlights.slice(),
       });
       continue;
     }
@@ -136,12 +191,28 @@ function parseTranscript(text, speakerColumn, speakerDisplay, numColumns) {
     // Fortsetzung ohne neuen Sprecher-Präfix → weiterer Absatz im letzten Turn
     if (turns.length > 0) {
       turns[turns.length - 1].paragraphs.push(line);
+      if (highlights.length) turns[turns.length - 1].highlights.push(...highlights);
     } else {
       console.warn('Warnung: Zeile ohne vorherigen Turn übersprungen: ' + line);
     }
   }
 
-  return turns;
+  // Highlight-Turns direkt nach ihrem Quell-Turn einfügen, in der äußeren
+  // Spalte neben dem jeweiligen Sprecher (siehe highlightColFor oben).
+  const withHighlights = [];
+  turns.forEach(turn => {
+    withHighlights.push(turn);
+    const targetCol = highlightColFor[turn.col];
+    if (turn.highlights && turn.highlights.length && targetCol) {
+      turn.highlights.forEach(phrase => {
+        withHighlights.push({ type: 'highlight', col: targetCol, paragraphs: [phrase] });
+      });
+    } else if (turn.highlights && turn.highlights.length) {
+      console.warn('Warnung: Highlight(s) in Spalte ' + turn.col + ' gefunden, aber kein 4-Spalten-Notes-Layout mit Rand-Spalten — Highlights werden verworfen: ' + turn.highlights.join(' / '));
+    }
+  });
+
+  return withHighlights;
 }
 
 function renderTurn(turn, index) {
@@ -156,6 +227,18 @@ function renderTurn(turn, index) {
       '    <div class="text-wrap">',
       '      <div class="turn-text">',
       paragraphsHtml.replace(/<p>(.*)<\/p>/, '<p><em>$1</em></p>'),
+      '      </div>',
+      '    </div>',
+      '  </div>',
+    ].join('\n');
+  }
+
+  if (turn.type === 'highlight') {
+    return [
+      '  <div class="interview-turn interview-highlight" id="' + id + '" data-col="' + turn.col + '">',
+      '    <div class="text-wrap">',
+      '      <div class="turn-text">',
+      paragraphsHtml,
       '      </div>',
       '    </div>',
       '  </div>',
@@ -208,6 +291,7 @@ function main() {
 
   const dialogueCount = turns.filter(t => t.type === 'dialogue').length;
   const noteCount = turns.filter(t => t.type === 'note').length;
+  const highlightCount = turns.filter(t => t.type === 'highlight').length;
   const perSpeaker = {};
   turns.forEach(t => {
     if (t.type === 'dialogue') perSpeaker[t.speaker] = (perSpeaker[t.speaker] || 0) + 1;
@@ -217,6 +301,7 @@ function main() {
   console.log('Fertig: ' + turns.length + ' Turns in ' + targetPath + ' geschrieben.');
   console.log('  Dialog-Turns: ' + dialogueCount + ' (' + Object.entries(perSpeaker).map(([k, v]) => k + ': ' + v).join(', ') + ')');
   console.log('  Randnotizen: ' + noteCount);
+  if (highlightCount) console.log('  Highlights: ' + highlightCount);
   console.log('Hinweis: data-img/data-title/data-caption sowie die Sprungleiste (.interview-toc) müssen weiterhin von Hand gepflegt werden.');
 }
 

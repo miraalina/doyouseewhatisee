@@ -1,4 +1,19 @@
 
+  // Fehlt eine Bilddatei (z.B. noch nicht hochgeladenes Portrait), zeigt
+  // der Browser sonst ein Kaputt-Icon + Alt-Text. Statt das mit CSS zu
+  // kaschieren (das Icon selbst lässt sich damit nicht zuverlässig
+  // ausblenden), wird die src bei Ladefehler auf ein einfarbig graues
+  // SVG umgeschaltet — ein "erfolgreich geladenes" Bild zeigt nie das
+  // Kaputt-Icon, und alle bestehenden width/height/object-fit-Regeln für
+  // <img> greifen unverändert weiter. 'error' bubble nicht, daher capture.
+  var IMG_FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3Crect width='1' height='1' fill='%23ccc'/%3E%3C/svg%3E";
+  document.addEventListener('error', function(e){
+    var el = e.target;
+    if(el.tagName === 'IMG' && el.src !== IMG_FALLBACK){
+      el.src = IMG_FALLBACK;
+    }
+  }, true);
+
   let currentMode = null;
   let currentSession = null;
   let currentInterview = null;
@@ -218,10 +233,18 @@ function initInterview(){
   // CSS-Grid Aussagen verschiedener Personen in dieselbe Zeile packen,
   // sobald deren Spalte gerade frei ist (sieht dann nach "gleichzeitig
   // sprechen" aus).
+  // .interview-highlight (Notes/Feedback-Seiten) ist keine eigene Aussage,
+  // sondern nur ein Zitat NEBEN dem vorherigen Redebeitrag — bekommt daher
+  // dessen Zeile statt einer eigenen, sonst entstünde in der mittleren
+  // Spalte an der Stelle eine leere Lücke.
   headers.forEach(function(h, i){ h.style.gridColumn = i + 1; });
-  turns.forEach(function(turn, i){
+  var row = 1;
+  turns.forEach(function(turn){
     turn.style.gridColumn = turn.getAttribute('data-col');
-    turn.style.gridRow = i + 2;
+    if(!turn.classList.contains('interview-highlight')){
+      row++;
+    }
+    turn.style.gridRow = row;
   });
 
   // Trennlinien-Elemente (.col-divider) über Kopfzeile + alle
@@ -276,7 +299,17 @@ function initInterview(){
     var imgId = turn.getAttribute('data-img');
     if(!imgId) return;
     if(imgId !== currentImg){ cloneInto(cursorFrame, imgId); currentImg = imgId; }
-    cursorCap.innerHTML = '<b>' + (turn.getAttribute('data-title') || '') + '</b>' + (turn.getAttribute('data-caption') || '');
+    var title = turn.getAttribute('data-title') || '';
+    var caption = turn.getAttribute('data-caption') || '';
+    // Ohne Titel/Caption keine leere weiße Box unter dem Bild stehen
+    // lassen — .cap komplett ausblenden statt nur leeren.
+    if(title || caption){
+      cursorCap.innerHTML = '<b>' + title + '</b>' + caption;
+      cursorCap.style.display = '';
+    } else {
+      cursorCap.innerHTML = '';
+      cursorCap.style.display = 'none';
+    }
     cursorFig.classList.add('visible');
     positionCursorFigure(x, y);
   }
@@ -317,7 +350,14 @@ function initInterview(){
     link.addEventListener('click', function(e){
       e.preventDefault();
       var target = document.getElementById(link.getAttribute('href').slice(1));
-      if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+      if(target){
+        // Einen Redebeitrag früher anspringen als das eigentliche Sprungziel,
+        // damit dessen Anfang nicht direkt an der oberen Kante klebt, sondern
+        // mit ein bisschen Vorlauf sichtbar bleibt.
+        var prev = target.previousElementSibling;
+        while(prev && !prev.classList.contains('interview-turn')) prev = prev.previousElementSibling;
+        (prev || target).scrollIntoView({behavior:'smooth', block:'start'});
+      }
       if(interviewNav) interviewNav.classList.remove('open');
     });
   });
