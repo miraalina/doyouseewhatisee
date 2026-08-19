@@ -80,7 +80,16 @@ body{
   gap:var(--menu-gap);
 }
 
+/* Grid statt Flex: 5 exakt gleich breite Spalten (Titel + 4 Modi),
+   unabhängig davon, wie viel Platz der Titeltext eigentlich bräuchte —
+   mit Flex (flex-grow-Verhältnis) blieb die Titelzelle immer etwas
+   breiter als 1/5, weil Flex-Items nie unter ihre Inhalts-Mindestbreite
+   schrumpfen (white-space:nowrap). minmax(0,1fr) hebt diese Mindestbreite
+   auf, wodurch die Spalte wirklich exakt 1/5 wird; überschüssiger Text
+   wird stattdessen abgeschnitten (siehe text-overflow:ellipsis unten). */
 .menu-level-1{
+  display:grid;
+  grid-template-columns:repeat(5, minmax(0, 1fr));
   align-items:stretch;
 }
 
@@ -89,14 +98,11 @@ body{
   display:none;
 }
 
+/* .nav-items bleibt als Wrapper im DOM (für main.js), trägt aber selbst
+   keine eigene Box mehr — seine 4 .nav-item-Kinder werden dadurch direkt
+   zu Grid-Items von .menu-level-1 und bekommen je 1 der 5 Spalten. */
 .menu-level-1 .nav-items{
-  /* 4 Modi zusammen = 4/5 der Zeile, also 4x so viel flex-grow wie
-     .title-cell (1/5) — jeder der 4 .nav-item-Kinder darin bekommt
-     durch sein eigenes flex:1 0 0 automatisch ein gleich großes Viertel
-     davon, macht in Summe 1/5 pro Spalte. */
-  flex:4 1 0;
-  display:flex;
-  gap:var(--menu-gap);
+  display:contents;
 }
 
 .nav-item{
@@ -115,6 +121,17 @@ body{
   text-align:left;
   font-size:var(--menu-font-size);
   cursor:pointer;
+}
+
+/* Level-1-Zellen (Titel + 4 Modi) dürfen unter ihre Inhalts-Mindestbreite
+   schrumpfen (siehe .menu-level-1 grid oben) — passt der Text nicht in
+   die exakt 1/5 breite Spalte, wird er abgeschnitten statt die Spalte
+   zu verbreitern. */
+.menu-level-1 .nav-item,
+.title-cell{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 .nav-item.active{
@@ -139,11 +156,6 @@ body{
 
 /* Home / title cell */
 .title-cell{
-  /* 1 von 5 gleich breiten Level-1-Spalten (Titel + 4 Modi) — die
-     restlichen 4 stecken in .nav-items, die deshalb 4x so viel
-     flex-grow bekommt (siehe dort), damit am Ende jede der 5 Spalten
-     exakt 1/5 der Zeile einnimmt. */
-  flex:1 1 0;
   height:var(--menu-item-height);
   display:flex;
   align-items:center;
@@ -183,8 +195,10 @@ body{
 
 @media (max-width:760px){
   /* Kopfzeile (Titel + Mode-Trigger) bleibt eine Zeile, das Dropdown mit
-     den vier Modi rutscht per order + flex-basis:100% direkt darunter. */
+     den vier Modi rutscht per order + flex-basis:100% direkt darunter —
+     dafür zurück auf Flex statt des 5-Spalten-Grids vom Desktop. */
   .menu-level-1{
+    display:flex;
     flex-wrap:wrap;
   }
 
