@@ -944,6 +944,7 @@ body{
 }
 .method-text p{ margin:0 0 .8em; }
 .method-text p:last-child{ margin-bottom:0; }
+.method-text .method-text-heading{ font-size:var(--menu-font-size); }
 
 /* Intro-Spalte: große Leitfrage über dem Fließtext */
 .method-intro-headline{
