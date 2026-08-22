@@ -37,14 +37,17 @@
    Laptop mit weniger CSS-Pixeln Höhe (z.B. Windows mit Anzeige-Skalierung)
    als einem MacBook wirkte die Seite dadurch unverhältnismäßig groß und
    erzwang mehr Scrollen als auf einem größeren Bildschirm nötig wäre.
-   900px als Referenzhöhe (typisches Laptop-Fenster) ergibt scale 1;
-   clamp verhindert, dass es auf sehr kleinen/großen Displays zu winzig
-   oder unnötig riesig wird. Nur Desktop — Mobil hat ein eigenes,
-   bereits separat abgestimmtes Layout (ganze Seite scrollt normal, kein
-   calc(100vh…)-Fixed-Height-Panel wie bei Interview/Exercise/Type). */
+   800px als Referenzhöhe ergibt scale 1 — typische Browser-Fensterhöhe
+   eines 15" MacBook Pro (1440×900 Retina-Standardauflösung, abzüglich
+   macOS-Menüleiste + Browser-Toolbar), da vorrangig auf Apple-Geräten
+   angeschaut wird. clamp verhindert, dass es auf sehr kleinen/großen
+   Displays zu winzig oder unnötig riesig wird. Nur Desktop — Mobil hat
+   ein eigenes, bereits separat abgestimmtes Layout (ganze Seite scrollt
+   normal, kein calc(100vh…)-Fixed-Height-Panel wie bei
+   Interview/Exercise/Type). */
 @media (min-width:761px){
   :root{
-    --ui-scale: clamp(0.75, calc(1vh / 9px), 1.15);
+    --ui-scale: clamp(0.75, calc(1vh / 8px), 1.15);
     --menu-item-height: calc(40px * var(--ui-scale));
     --menu-font-size: calc(20px * var(--ui-scale));
     --content-font-size: calc(16px * var(--ui-scale));
