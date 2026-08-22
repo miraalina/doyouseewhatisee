@@ -1150,14 +1150,14 @@ body{
 .type-tool-controls{
   flex:0 0 auto;
   display:flex;
-  flex-direction:column;
   border-top:var(--border-w) solid var(--black);
 }
-/* Eine Reglerzeile (Size/Spacing) — schwarzer Hintergrund/weiße Schrift
-   wie .interview-nav-trigger, gleiche Höhe (--menu-item-height). */
+/* Ein Regler (Size/Spacing) — schwarzer Hintergrund/weiße Schrift wie
+   .interview-nav-trigger, gleiche Höhe (--menu-item-height), beide
+   nebeneinander statt untereinander. */
 .type-tool-control-row{
   height:var(--menu-item-height);
-  flex:0 0 auto;
+  flex:1;
   display:flex;
   align-items:center;
   gap:15px;
@@ -1166,9 +1166,10 @@ body{
   color:var(--white);
   font-size:var(--content-font-size);
 }
-/* Trennlinie zwischen den beiden Reglerzeilen. */
+/* Trennlinie zwischen den beiden Reglern — jetzt vertikal, da sie
+   nebeneinander stehen. */
 .type-tool-control-row + .type-tool-control-row{
-  border-top:var(--border-w) solid var(--white);
+  border-left:var(--border-w) solid var(--white);
 }
 .type-tool-control-row span{
   flex:0 0 auto;
@@ -1176,6 +1177,14 @@ body{
 .type-tool-control-row input[type="range"]{
   flex:1;
   accent-color:var(--white);
+}
+/* accent-color deckt nur Thumb + gefüllten Teil der Spur ab — der
+   ungefüllte Rest der Spur bliebe je nach Browser grau statt weiß. */
+.type-tool-control-row input[type="range"]::-webkit-slider-runnable-track{
+  background:var(--white);
+}
+.type-tool-control-row input[type="range"]::-moz-range-track{
+  background:var(--white);
 }
 
 @media (max-width: 760px){
