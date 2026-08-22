@@ -38,11 +38,9 @@
   font-weight: normal;
   font-style: normal;
 }
-/* Session 3: noch keine Schriftdatei hochgeladen — Platzhalter, Name/Pfad
-   ggf. anpassen sobald die echte Datei feststeht. */
 @font-face {
-  font-family: "Session3";
-  src: url("../content/fonts/Session3.ttf") format("truetype");
+  font-family: "session3";
+  src: url("../content/fonts/session3.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }
@@ -1182,9 +1180,7 @@ body{
 .type-tool-text.font-session2{ font-family:"Session2", sans-serif; }
 .type-tool-text.font-session4{ font-family:"Session4", sans-serif; }
 .type-tool-text.font-session5{ font-family:"session5", sans-serif; }
-/* Session 3: noch keine Schriftdatei hochgeladen — Platzhalter-Dateiname
-   "Session3.ttf", muss angepasst werden sobald die echte Datei feststeht. */
-.type-tool-text.font-session3{ font-family:"Session3", sans-serif; }
+.type-tool-text.font-session3{ font-family:"session3", sans-serif; }
 /* Platzhalter im leeren contenteditable-Feld — main.js hält den Inhalt
    bei komplett gelöschtem Text auf innerHTML='' zurück (Browser lassen
    sonst oft ein leeres <br> zurück, das :empty verhindern würde). */
