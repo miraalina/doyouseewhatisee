@@ -855,9 +855,6 @@ body{
 .intro-meta th{
   border-top:var(--border-w) solid var(--black);
 }
-.intro-meta .intro-meta-right{
-  text-align:right;
-}
 
 @media (max-width: 760px){
   .intro-layout{ grid-template-columns:1fr; }
