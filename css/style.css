@@ -1186,6 +1186,8 @@ body{
    dargestellt (wirkt nur auf die Anzeige, nicht auf den gespeicherten
    Text — reicht hier aber aus). */
 .type-tool-text.caps-only{ text-transform:uppercase; }
+/* Sessions 1-2: umgekehrt — nur Kleinbuchstaben. */
+.type-tool-text.lowercase-only{ text-transform:lowercase; }
 /* Platzhalter im leeren contenteditable-Feld — main.js hält den Inhalt
    bei komplett gelöschtem Text auf innerHTML='' zurück (Browser lassen
    sonst oft ein leeres <br> zurück, das :empty verhindern würde). */
