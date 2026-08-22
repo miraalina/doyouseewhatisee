@@ -217,6 +217,9 @@ function selectInterview(n){
    macht bei Seiten ohne Interview-Grid nichts (harmlos aufrufbar).
    ========================================================= */
 function initInterview(){
+  var typeLayout = document.querySelector('.type-layout');
+  if(typeLayout){ initTypeTool(typeLayout); }
+
   var grid = document.querySelector('.interview-grid');
   if(!grid) return;
 
@@ -418,5 +421,35 @@ function initInterview(){
     } else {
       window.addEventListener('resize', syncManifestoNavWidth);
     }
+  }
+}
+
+/* =========================================================
+   Type-Seiten: Live-Schriftprobe links (.type-tool-text) mit
+   Größen-/Spacing-Reglern. Wird von initInterview() aufgerufen, sobald
+   ein .type-layout im geladenen Fragment gefunden wird.
+   ========================================================= */
+function initTypeTool(layout){
+  var text = layout.querySelector('.type-tool-text');
+  var sizeSlider = layout.querySelector('.type-size-slider');
+  var spacingSlider = layout.querySelector('.type-spacing-slider');
+  if(!text) return;
+
+  // Browser lassen beim Löschen des gesamten Inhalts oft ein leeres <br>
+  // im contenteditable-Feld zurück — das würde :empty (Platzhalter-CSS)
+  // verhindern, obwohl für die Nutzer:in das Feld leer aussieht.
+  text.addEventListener('input', function(){
+    if(text.textContent.trim() === ''){ text.innerHTML = ''; }
+  });
+
+  if(sizeSlider){
+    sizeSlider.addEventListener('input', function(){
+      text.style.fontSize = sizeSlider.value + 'px';
+    });
+  }
+  if(spacingSlider){
+    spacingSlider.addEventListener('input', function(){
+      text.style.letterSpacing = spacingSlider.value + 'px';
+    });
   }
 }

@@ -5,6 +5,17 @@
   font-style: normal;
 }
 
+/* Sessions-Schriften für die Type-Seiten (content/fonts/, von Mira selbst
+   hochgeladen) — je Session eine eigene @font-face, Name entspricht der
+   hochgeladenen Datei. Noch kein echtes Dateiformat bekannt, daher aktuell
+   von einer .ttf ausgegangen; Pfad ggf. anpassen sobald die Datei feststeht. */
+@font-face {
+  font-family: "session1_filled";
+  src: url("../content/fonts/session1_filled.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
   :root{
     --black:#000;
     --white:#fff;
@@ -1027,6 +1038,128 @@ body{
   .method-col{ height:auto; overflow:visible; }
   .method-col-visuals{ overflow-y:visible; }
   .method-layout .content-header{ position:static; }
+}
+
+/* =========================================================
+   TYPE-MODUL — 3 Spalten (2fr/1fr/1fr = 50%/25%/25%):
+     "Tool"      — Live-Schriftprobe in der Session-Schrift, mit Download,
+                   Eingabefeld und Reglern für Größe/Spacing (Interaktion
+                   siehe main.js: initTypeTool, da <script>-Tags in per
+                   innerHTML geladenen Fragmenten nicht ausgeführt werden)
+     "Info"      — Fließtext, wiederverwendet .method-text/-heading
+     "Specimen"  — Bilder, wiederverwendet .method-image/-images
+   ========================================================= */
+
+.type-layout{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:var(--menu-gap);
+  align-items:start;
+  height:calc(100vh - var(--menu-height, 40px));
+  overflow:hidden;
+}
+
+.type-col{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  overflow:hidden;
+}
+
+.type-layout .content-header{
+  z-index:10;
+  margin-bottom:var(--menu-gap);
+  flex:0 0 auto;
+  font-size:var(--menu-font-size);
+}
+
+/* Trennlinien zwischen den Spalten über die volle Spaltenhöhe, wie bei
+   .method-col — Tool ist die linke Außenspalte (kein eigener Header,
+   daher kein border-Sonderfall nötig), Specimen die rechte Außenspalte. */
+.type-col-tool{
+  border-right:var(--border-w) solid var(--black);
+}
+.type-col-info{
+  border-right:var(--border-w) solid var(--black);
+  overflow-y:auto;
+}
+.type-col-specimen{
+  overflow-y:auto;
+}
+.type-col-specimen .content-header{
+  position:sticky;
+  top:0;
+  border-left:none;
+  border-right:none;
+}
+
+/* Kopfzeile: Versionsnummer oben links, Download-Link oben rechts. */
+.type-tool-topbar{
+  flex:0 0 auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px;
+  font-size:var(--content-font-size);
+}
+.type-tool-topbar a{
+  text-decoration:underline;
+  cursor:pointer;
+}
+
+/* Bühne: Eingabefeld vertikal/horizontal zentriert, wächst mit der
+   verbleibenden Höhe zwischen Kopf- und Reglerzeile. */
+.type-tool-stage{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+  overflow:auto;
+  text-align:center;
+}
+
+.type-tool-text{
+  font-family:"session1_filled", sans-serif;
+  font-size:60px;
+  line-height:1.2;
+  outline:none;
+  max-width:100%;
+  word-break:break-word;
+  cursor:text;
+}
+/* Platzhalter im leeren contenteditable-Feld — main.js hält den Inhalt
+   bei komplett gelöschtem Text auf innerHTML='' zurück (Browser lassen
+   sonst oft ein leeres <br> zurück, das :empty verhindern würde). */
+.type-tool-text:empty:before{
+  content:attr(data-placeholder);
+  color:#999;
+}
+
+.type-tool-controls{
+  flex:0 0 auto;
+  display:flex;
+  gap:20px;
+  padding:15px;
+  border-top:var(--border-w) solid var(--black);
+}
+.type-tool-controls label{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  font-size:var(--content-font-size);
+}
+.type-tool-controls input[type="range"]{
+  width:100%;
+}
+
+@media (max-width: 760px){
+  .type-layout{ grid-template-columns:1fr; height:auto; overflow:visible; }
+  .type-col{ height:auto; overflow:visible; }
+  .type-col-info,
+  .type-col-specimen{ overflow-y:visible; }
+  .type-layout .content-header{ position:static; }
 }
 
 /* =========================================================
