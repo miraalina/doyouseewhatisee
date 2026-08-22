@@ -929,8 +929,11 @@ body{
 .method-col-intro .content-header{ border-right:none; border-left:none; }
 .method-col-instructions{
   border-right:var(--border-w) solid var(--black);
+  overflow-y:auto;
 }
 .method-col-instructions .content-header{
+  position:sticky;
+  top:0;
   border-left:none;
   border-right:none;
 }
@@ -945,6 +948,11 @@ body{
 .method-text p{ margin:0 0 .8em; }
 .method-text p:last-child{ margin-bottom:0; }
 .method-text .method-text-heading{ font-size:var(--menu-font-size); }
+.method-text hr{
+  border:none;
+  border-top:var(--border-w) solid var(--black);
+  margin:0 0 .8em;
+}
 
 /* Intro-Spalte: große Leitfrage über dem Fließtext */
 .method-intro-headline{
