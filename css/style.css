@@ -7,11 +7,16 @@
 
 /* Sessions-Schriften für die Type-Seiten (content/fonts/, von Mira selbst
    hochgeladen) — je Session eine eigene @font-face, Name entspricht der
-   hochgeladenen Datei. Noch kein echtes Dateiformat bekannt, daher aktuell
-   von einer .ttf ausgegangen; Pfad ggf. anpassen sobald die Datei feststeht. */
+   hochgeladenen Datei (Dateinamen sind case-sensitive). */
 @font-face {
-  font-family: "session1_filled";
-  src: url("../content/fonts/session1_filled.ttf") format("truetype");
+  font-family: "session1-Filled";
+  src: url("../content/fonts/session1-Filled.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "session1-outlined";
+  src: url("../content/fonts/session1-outlined.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }
@@ -1083,6 +1088,11 @@ body{
   border-right:var(--border-w) solid var(--black);
   overflow-y:auto;
 }
+/* Info hat (anders als Tool/Specimen) keine eigene Kopfzeile, die die
+   obere Randlinie mitbringen würde — hier direkt auf den Textblock. */
+.type-col-info .method-text{
+  border-top:var(--border-w) solid var(--black);
+}
 .type-col-specimen{
   overflow-y:auto;
 }
@@ -1101,6 +1111,7 @@ body{
   align-items:center;
   padding:15px;
   font-size:var(--content-font-size);
+  border-top:var(--border-w) solid var(--black);
 }
 .type-tool-topbar a{
   text-decoration:underline;
@@ -1120,8 +1131,8 @@ body{
 }
 
 .type-tool-text{
-  font-family:"session1_filled", sans-serif;
-  font-size:60px;
+  font-family:"session1-Filled", sans-serif;
+  font-size:140px;
   line-height:1.2;
   outline:none;
   max-width:100%;
@@ -1139,19 +1150,32 @@ body{
 .type-tool-controls{
   flex:0 0 auto;
   display:flex;
-  gap:20px;
-  padding:15px;
+  flex-direction:column;
   border-top:var(--border-w) solid var(--black);
 }
-.type-tool-controls label{
-  flex:1;
+/* Eine Reglerzeile (Size/Spacing) — schwarzer Hintergrund/weiße Schrift
+   wie .interview-nav-trigger, gleiche Höhe (--menu-item-height). */
+.type-tool-control-row{
+  height:var(--menu-item-height);
+  flex:0 0 auto;
   display:flex;
-  flex-direction:column;
-  gap:6px;
+  align-items:center;
+  gap:15px;
+  padding:0 15px;
+  background:var(--black);
+  color:var(--white);
   font-size:var(--content-font-size);
 }
-.type-tool-controls input[type="range"]{
-  width:100%;
+/* Trennlinie zwischen den beiden Reglerzeilen. */
+.type-tool-control-row + .type-tool-control-row{
+  border-top:var(--border-w) solid var(--white);
+}
+.type-tool-control-row span{
+  flex:0 0 auto;
+}
+.type-tool-control-row input[type="range"]{
+  flex:1;
+  accent-color:var(--white);
 }
 
 @media (max-width: 760px){
