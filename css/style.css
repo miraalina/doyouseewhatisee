@@ -758,7 +758,15 @@ body{
     padding-bottom:calc(var(--menu-item-height) + 20px);
   }
   .interview-grid .content-header{ display:none !important; }
-  .interview-turn{ grid-column:1 !important; }
+  /* main.js schreibt für Desktop ein festes grid-row je Redebeitrag
+     inline (z.B. row:157) — bleibt das auf Mobil stehen, während nur
+     Highlights (weiter unten) auf grid-row:auto zurückgesetzt werden,
+     schiebt das CSS-Grid-Autoplacement die Highlights hinter ALLE
+     explizit platzierten Redebeiträge (sichtbar als "alle Highlights
+     ganz unten gebündelt"). Reset hier für ALLE .interview-turn, damit
+     wieder die normale DOM-Reihenfolge gilt (Highlights stehen im HTML
+     schon direkt hinter ihrem Quell-Turn). */
+  .interview-turn{ grid-column:1 !important; grid-row:auto !important; }
   .turn-name{ display:block; }
   .cursor-figure{ display:none; }
 
