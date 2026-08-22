@@ -20,6 +20,32 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: "Session2";
+  src: url("../content/fonts/Session2.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Session4";
+  src: url("../content/fonts/Session4.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "session5";
+  src: url("../content/fonts/session5.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+/* Session 3: noch keine Schriftdatei hochgeladen — Platzhalter, Name/Pfad
+   ggf. anpassen sobald die echte Datei feststeht. */
+@font-face {
+  font-family: "Session3";
+  src: url("../content/fonts/Session3.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
   :root{
     --black:#000;
@@ -1142,7 +1168,6 @@ body{
 }
 
 .type-tool-text{
-  font-family:"session1-Filled", sans-serif;
   font-size:140px;
   line-height:1.2;
   outline:none;
@@ -1150,6 +1175,16 @@ body{
   word-break:break-word;
   cursor:text;
 }
+/* Jede Session-Type-Seite bekommt ihre eigene Schrift über eine
+   Modifier-Klasse statt eines global fixen font-family, da jede Session
+   eine eigene @font-face hat (siehe oben). */
+.type-tool-text.font-session1{ font-family:"session1-Filled", sans-serif; }
+.type-tool-text.font-session2{ font-family:"Session2", sans-serif; }
+.type-tool-text.font-session4{ font-family:"Session4", sans-serif; }
+.type-tool-text.font-session5{ font-family:"session5", sans-serif; }
+/* Session 3: noch keine Schriftdatei hochgeladen — Platzhalter-Dateiname
+   "Session3.ttf", muss angepasst werden sobald die echte Datei feststeht. */
+.type-tool-text.font-session3{ font-family:"Session3", sans-serif; }
 /* Platzhalter im leeren contenteditable-Feld — main.js hält den Inhalt
    bei komplett gelöschtem Text auf innerHTML='' zurück (Browser lassen
    sonst oft ein leeres <br> zurück, das :empty verhindern würde). */
