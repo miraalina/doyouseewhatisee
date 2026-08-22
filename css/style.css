@@ -1181,6 +1181,11 @@ body{
 .type-tool-text.font-session4{ font-family:"Session4", sans-serif; }
 .type-tool-text.font-session5{ font-family:"session5", sans-serif; }
 .type-tool-text.font-session3{ font-family:"session3", sans-serif; }
+/* Sessions 3–5: reine Großbuchstaben-Schriften — getippter Text wird
+   unabhängig von Groß-/Kleinschreibung beim Tippen immer in Versalien
+   dargestellt (wirkt nur auf die Anzeige, nicht auf den gespeicherten
+   Text — reicht hier aber aus). */
+.type-tool-text.caps-only{ text-transform:uppercase; }
 /* Platzhalter im leeren contenteditable-Feld — main.js hält den Inhalt
    bei komplett gelöschtem Text auf innerHTML='' zurück (Browser lassen
    sonst oft ein leeres <br> zurück, das :empty verhindern würde). */
