@@ -1174,17 +1174,41 @@ body{
 .type-tool-control-row span{
   flex:0 0 auto;
 }
+/* Nativer Regler-Look (Betriebssystem-abhängig, dicke Spur + große
+   Kapsel) ersetzt durch eine schmale weiße Linie + einen runden Punkt,
+   passend zum reduzierten Look der restlichen Seite. */
 .type-tool-control-row input[type="range"]{
   flex:1;
+  -webkit-appearance:none;
+  appearance:none;
+  background:transparent;
   accent-color:var(--white);
+  cursor:pointer;
 }
-/* accent-color deckt nur Thumb + gefüllten Teil der Spur ab — der
-   ungefüllte Rest der Spur bliebe je nach Browser grau statt weiß. */
 .type-tool-control-row input[type="range"]::-webkit-slider-runnable-track{
+  height:1px;
   background:var(--white);
+}
+.type-tool-control-row input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  appearance:none;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:var(--white);
+  margin-top:-4.5px;
 }
 .type-tool-control-row input[type="range"]::-moz-range-track{
+  height:1px;
   background:var(--white);
+  border:none;
+}
+.type-tool-control-row input[type="range"]::-moz-range-thumb{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:var(--white);
+  border:none;
 }
 
 @media (max-width: 760px){
