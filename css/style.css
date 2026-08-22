@@ -879,6 +879,17 @@ body{
 .intro-meta th{
   border-top:var(--border-w) solid var(--black);
 }
+/* Zusammengehörige Zeilen (Time/Warm-up Task/Main Exercise) ohne Linie
+   und Abstand dazwischen, wie fortlaufende Zeilen statt einzelner
+   Parameter — join-next entfernt die eigene Trennlinie/Abstand nach
+   unten, join-prev den Abstand nach oben zur vorherigen Zeile. */
+.intro-meta .intro-meta-join-next{
+  border-bottom:none;
+  padding-bottom:0;
+}
+.intro-meta .intro-meta-join-prev{
+  padding-top:0;
+}
 
 @media (max-width: 760px){
   .intro-layout{ grid-template-columns:1fr; }
@@ -1212,11 +1223,20 @@ body{
 }
 
 @media (max-width: 760px){
-  .type-layout{ grid-template-columns:1fr; height:auto; overflow:visible; }
+  /* minmax(0,1fr) statt 1fr: eine einzelne 1fr-Spalte darf trotzdem nicht
+     unter ihre Inhalts-Mindestbreite schrumpfen (Grid-Autoplacement-Regel,
+     dieselbe Ursache wie beim Level-1-Menü) — die Regler nebeneinander in
+     .type-tool-controls brauchten mehr als die Bildschirmbreite, wodurch
+     die ganze Spalte (und mobile Browser dadurch die komplette Seite)
+     über die Bildschirmbreite hinauswuchs. minmax(0,…) hebt die
+     Mindestbreite auf, die Regler-Zeilen dürfen jetzt echt schrumpfen. */
+  .type-layout{ grid-template-columns:minmax(0,1fr); height:auto; overflow:visible; }
   .type-col{ height:auto; overflow:visible; }
   .type-col-info,
   .type-col-specimen{ overflow-y:visible; }
   .type-layout .content-header{ position:static; }
+  .type-tool-control-row{ min-width:0; }
+  .type-tool-control-row input[type="range"]{ min-width:0; }
 }
 
 /* =========================================================
