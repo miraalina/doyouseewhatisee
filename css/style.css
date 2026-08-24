@@ -44,6 +44,16 @@
   font-weight: normal;
   font-style: normal;
 }
+/* Font-family bewusst "session1-parallel" statt "session1" — Position 1
+   (Parallel Strokes) und die schon bestehende "session1-Filled" (jetzt
+   Position 2, Blind Strokes) haben rein zufällig beide "session1" im
+   hochgeladenen Dateinamen, meinen aber unterschiedliche Schriften. */
+@font-face {
+  font-family: "session1-parallel";
+  src: url("../content/fonts/session1.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
 
   :root{
     --black:#000;
@@ -1181,6 +1191,7 @@ body{
 .type-tool-text.font-session4{ font-family:"Session4", sans-serif; }
 .type-tool-text.font-session5{ font-family:"session5", sans-serif; }
 .type-tool-text.font-session3{ font-family:"session3", sans-serif; }
+.type-tool-text.font-parallel{ font-family:"session1-parallel", sans-serif; }
 /* Sessions 3–5: reine Großbuchstaben-Schriften — getippter Text wird
    unabhängig von Groß-/Kleinschreibung beim Tippen immer in Versalien
    dargestellt (wirkt nur auf die Anzeige, nicht auf den gespeicherten

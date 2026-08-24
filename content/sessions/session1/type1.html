@@ -1,0 +1,68 @@
+<!--
+  content/sessions/session1/type1.html
+  Wird per fetch() in #page-content geladen, wenn innerhalb von Session 1
+  der Reiter "Type" angeklickt wird. Enthält NUR den Inhalt —
+  Header/Menü kommen weiterhin aus index.html.
+
+  3 Spalten im Verhältnis 2:1:1 (siehe .type-layout in style.css):
+    "Tool"      — Live-Schriftprobe in der Session-Schrift (Eingabefeld,
+                  Download-Link, Regler für Größe/Spacing)
+    "Info"      — Fließtext mit 3 Zwischenüberschriften
+    "Specimen"  — Bilder (aktuell Platzhalter, siehe .method-image)
+
+  Die Interaktion der Tool-Spalte (Eingabefeld + Regler) wird von
+  main.js (initTypeTool, aufgerufen aus initInterview) angestoßen, da
+  <script>-Tags in per innerHTML geladenen Fragmenten nicht ausgeführt
+  werden.
+-->
+
+<div class="type-layout">
+
+  <!-- Spalte 1: Tool -->
+  <div class="type-col type-col-tool">
+    <div class="type-tool-topbar">
+      <span>2.26.1</span>
+      <a href="content/fonts/session1.otf" download>Download</a>
+    </div>
+    <div class="type-tool-stage">
+      <div class="type-tool-text font-parallel" contenteditable="true" data-placeholder="do you see what i see"></div>
+    </div>
+    <div class="type-tool-controls">
+      <div class="type-tool-control-row">
+        <span>Size</span>
+        <input type="range" class="type-size-slider" min="16" max="400" value="140">
+      </div>
+      <div class="type-tool-control-row">
+        <span>Spacing</span>
+        <input type="range" class="type-spacing-slider" min="-10" max="40" value="0">
+      </div>
+    </div>
+  </div>
+
+  <!-- Spalte 2: Info -->
+  <div class="type-col type-col-info">
+    <div class="method-text">
+
+      <p class="method-text-heading">Information</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel nisi placerat, interdum leo vel, imperdiet odio. Morbi at cursus risus. Sed sodales elit eros, in ultrices dolor vehicula sit amet. Donec condimentum libero nisl, at posuere felis laoreet at.</p>
+
+      <p class="method-text-heading">Form-finding</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel nisi placerat, interdum leo vel, imperdiet odio. Morbi at cursus risus. Sed sodales elit eros, in ultrices dolor vehicula sit amet. Donec condimentum libero nisl, at posuere felis laoreet at. Ut felis lacus, volutpat sed consectetur quis, finibus eu nisi. Nam luctus consectetur justo, eget bibendum dui consequat at. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel nisi placerat, interdum leo vel, imperdiet odio. Morbi at cursus risus. Sed sodales elit eros, in ultrices dolor vehicula sit amet.</p>
+
+      <p class="method-text-heading">Digitization</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel nisi placerat, interdum leo vel, imperdiet odio. Morbi at cursus risus. Sed sodales elit eros, in ultrices dolor vehicula sit amet. Donec condimentum libero nisl, at posuere felis laoreet at.</p>
+
+    </div>
+  </div>
+
+  <!-- Spalte 3: Specimen -->
+  <div class="type-col type-col-specimen">
+    <div class="content-header">Specimen</div>
+    <div class="method-images">
+      <figure class="method-image"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3Crect width='1' height='1' fill='%23ccc'/%3E%3C/svg%3E" alt=""></figure>
+      <figure class="method-image"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3Crect width='1' height='1' fill='%23ccc'/%3E%3C/svg%3E" alt=""></figure>
+      <figure class="method-image"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3Crect width='1' height='1' fill='%23ccc'/%3E%3C/svg%3E" alt=""></figure>
+    </div>
+  </div>
+
+</div>
