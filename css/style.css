@@ -1511,3 +1511,59 @@ body{
   .manifesto-left .interview-turn{ grid-column:1 !important; }
 }
 
+/* =========================================================
+   About-Seite: About-Text links (75%, normaler Textfluss),
+   daneben rechts (25%, fixed wie .interview-sidebar) zwei
+   Platzhalter-Bild+Text-Blöcke untereinander, getrennt durch
+   eine Trennlinie. Gleiches Grundmuster wie .manifesto-layout,
+   nur nicht invertiert (rechte Spalte bleibt weiß/schwarz wie
+   der Rest der Seite, keine Vertauschung der Farben).
+   ========================================================= */
+
+.about-layout{
+  position:relative;
+}
+
+.about-left{
+  width:calc(75% - var(--menu-gap) * 0.75);
+  padding-bottom:calc(var(--menu-item-height) + 20px);
+  border-right:var(--border-w) solid var(--black);
+}
+
+.about-left > .content-header{
+  font-size:var(--menu-font-size);
+  border-left:none;
+}
+
+.about-right{
+  position:fixed;
+  top:calc(var(--menu-height, 40px) + var(--menu-gap));
+  right:0;
+  bottom:0;
+  width:calc(25% - var(--menu-gap) * 0.25);
+  overflow-y:auto;
+}
+
+.about-block + .about-block{
+  border-top:var(--border-w) solid var(--black);
+}
+
+.about-text{
+  padding:25px 15px 40px;
+  font-size:var(--content-font-size);
+  line-height:1.5;
+}
+.about-text p{ margin:0 0 1.2em; }
+.about-text p:last-child{ margin-bottom:0; }
+
+@media (max-width: 760px){
+  .about-layout{ display:flex; flex-direction:column; }
+  .about-left{ width:100%; border-right:none; }
+  .about-right{
+    position:static;
+    width:100%;
+    height:auto;
+    overflow-y:visible;
+  }
+}
+

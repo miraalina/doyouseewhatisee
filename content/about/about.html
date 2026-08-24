@@ -1,0 +1,72 @@
+<!--
+  content/about/about.html
+  Wird per fetch() in #page-content geladen, wenn "About" angeklickt wird.
+  Enthält NUR den Inhalt — Header/Menü kommen weiterhin aus index.html.
+
+  Aufbau:
+    .about-left   = About-Text, 75% Breite, normaler Textfluss.
+    .about-right  = 2 Platzhalter-Block (Bild + Text darunter, wie die
+                    Portrait+Bio-Kombination in der Interview-Sidebar),
+                    25% Breite, fixed, durch eine Trennlinie voneinander
+                    getrennt (siehe .about-block + .about-block in style.css).
+
+  Noch zu ergänzen, sobald Material vorliegt:
+    - Echte Bilder statt der beiden Platzhalter (aktuell zeigen die <img>
+      auf noch nicht vorhandene Dateien und fallen automatisch auf den
+      grauen Platzhalter zurück, siehe main.js IMG_FALLBACK)
+    - Platzhaltertext durch echten Bildunterschrift-Text ersetzen
+-->
+
+<div class="about-layout">
+
+  <div class="about-left">
+
+    <div class="content-header">About</div>
+
+    <div class="about-text">
+      <p>In practice, design is fundamentally collaborative. It requires ongoing communication, organization, and negotiation. Yet, design education often overlooks this aspect and trains students to view design as a highly individual practice. This contradiction led to our question: How can we, as design students, build our own collaborative framework within academia?</p>
+
+      <p>"Do you see what I see?" is the result of a 3-month-long period of research and experimentation into the possibilities of collaborating and facilitating collaboration, using type as a common denominator.</p>
+
+      <p>The project consists of 2 phases: First, a series of six workshops that experiment with different variables of collaboration and form-finding in letter creation. Each weekly workshop was organized individually on a rotational basis and followed by a joint reflection. In the second phase, we interviewed seven designers who are working with type in partnerships, collectives, communities, and studios, to find out what forms of collaboration exist in practice.</p>
+
+      <p>What initiated as a naive idea developed into a research project on collaboration and the role of typography as a medium for it. Through experimentation, self-reflection, and conversations with other designers, we created the "Manifesto of Collaboration" to describe what we see as collaboration, and under which conditions we want to collaborate with one another.</p>
+
+      <p>A complete documentation of the project is published open-source on this website. Visitors are also invited to try out the exercises for themselves.</p>
+
+      <p>"Do you see what I see?" was initiated, executed, and documented by Mira Alina Langer and Duong Hoang Phuong Nguyen, with the supervision from Prof. Katharina Nejdl during the Master Program Integrated Design at Hochschule für Künste Bremen in Summer 2026.</p>
+
+      <p>We are grateful for the meaningful exchanges with Ivo Brouwer, Céline Hurka, Lucas Liccini, Elias Hanzer, Fabian Harb, Patrick Thomas, and Flavia Zimbardi – and Katharina for supporting and encouraging us to always think bigger.</p>
+
+      <p>Thank you to all of our friends and colleagues who have supported us one way or another!</p>
+
+      <p>This website is using: DinDong by Clara Sambot, available in the Bye Bye Binary library.</p>
+
+      <p>If you experience any bug while using the website or have more thoughts about the project, please contact us!</p>
+    </div>
+
+  </div>
+
+  <div class="about-right">
+
+    <div class="interview-intro about-block">
+      <div class="interview-portrait">
+        <img src="content/images/about/placeholder1.jpg" alt="">
+      </div>
+      <div class="interview-intro-text">
+        <p>[ Platzhaltertext ]</p>
+      </div>
+    </div>
+
+    <div class="interview-intro about-block">
+      <div class="interview-portrait">
+        <img src="content/images/about/placeholder2.jpg" alt="">
+      </div>
+      <div class="interview-intro-text">
+        <p>[ Platzhaltertext ]</p>
+      </div>
+    </div>
+
+  </div>
+
+</div>

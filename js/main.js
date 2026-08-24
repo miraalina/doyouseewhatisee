@@ -93,7 +93,7 @@
     } else if(mode === 'manifesto'){
       loadContent('content/Manifesto/manifesto.html', initInterview);
     } else if(mode === 'about'){
-      showPage('page-about');
+      loadContent('content/about/about.html');
     }
   }
 
