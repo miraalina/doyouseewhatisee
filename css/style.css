@@ -803,6 +803,7 @@ body{
   overflow:hidden;
 }
 .cursor-figure .frame svg{ display:block; width:100%; height:100%; }
+.cursor-figure .frame img{ display:block; width:100%; height:100%; object-fit:cover; }
 .cursor-figure .cap{
   font-size:13px; line-height:1.35;
   background:var(--white); border:var(--border-w) solid var(--black); border-top:none;
