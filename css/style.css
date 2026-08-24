@@ -1392,20 +1392,6 @@ body{
   background:var(--black);
   color:var(--white);
   border-right:var(--border-w) solid var(--white);
-  /* Ohne das rendert der Browser hier seine Standard-Scrollbar (auf
-     Systemen ohne Overlay-Scrollbars meist hellgrau) — sieht auf dem
-     schwarzen Hintergrund wie eine helle Lücke am rechten Rand aus. */
-  scrollbar-width:thin;
-  scrollbar-color:var(--white) var(--black);
-}
-.manifesto-right::-webkit-scrollbar{
-  width:8px;
-}
-.manifesto-right::-webkit-scrollbar-track{
-  background:var(--black);
-}
-.manifesto-right::-webkit-scrollbar-thumb{
-  background:var(--white);
 }
 
 /* Beide Top-Level-Reiter in gleicher Schriftgröße wie Mira/Phuong
