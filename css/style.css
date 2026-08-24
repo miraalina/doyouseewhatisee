@@ -552,7 +552,11 @@ body{
   grid-row:1;
   border-left:none;
   position:sticky;
-  top:var(--menu-height, 40px);
+  /* + var(--menu-gap): ohne das klebt die Kopfzeile beim Scrollen direkt
+     ohne Lücke am Menü, statt wie im ungescrollten Zustand einen 2px-Gap
+     dazwischen zu behalten (siehe .interview-sidebar/.manifesto-left, wo
+     das aus demselben Grund schon berücksichtigt wird). */
+  top:calc(var(--menu-height, 40px) + var(--menu-gap));
   z-index:10;
   font-size:var(--menu-font-size);
 }
