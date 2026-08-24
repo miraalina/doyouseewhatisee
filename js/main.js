@@ -321,7 +321,17 @@ function initInterview(){
   function showCursorImage(turn, x, y){
     var imgId = turn.getAttribute('data-img');
     if(!imgId) return;
-    if(imgId !== currentImg){ cloneInto(cursorFrame, imgId); currentImg = imgId; }
+    if(imgId !== currentImg){
+      cloneInto(cursorFrame, imgId);
+      currentImg = imgId;
+      // Rahmen ist standardmäßig fest 4:3.1 (passt zu den Vektor-Diagrammen).
+      // Ein Foto mit eigenem Seitenverhältnis (data-aspect am def-Element)
+      // bekommt stattdessen genau dessen Verhältnis, statt object-fit:cover
+      // es hineinzuquetschen/-schneiden.
+      var def = document.getElementById('def-' + imgId);
+      var aspect = def && def.getAttribute('data-aspect');
+      cursorFrame.style.aspectRatio = aspect || '';
+    }
     var title = turn.getAttribute('data-title') || '';
     var caption = turn.getAttribute('data-caption') || '';
     // Ohne Titel/Caption keine leere weiße Box unter dem Bild stehen
