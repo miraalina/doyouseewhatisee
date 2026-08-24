@@ -666,6 +666,23 @@ body{
   opacity:.65;
 }
 
+/* Themen-Überschrift im Transkript (z.B. bei Céline Hurka, ein sehr
+   langes Interview mit vielen Themenwechseln) — geht wie .interview-note
+   über alle Spalten, aber fett/serifenlos in Großbuchstaben statt kursiv,
+   damit sie sich klar von einer Randnotiz unterscheidet. */
+.interview-turn.interview-section{
+  text-align:center;
+  pointer-events:none;
+}
+.interview-turn.interview-section .turn-text{
+  font-weight:bold;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  padding:6px 0;
+  border-top:var(--border-w) solid var(--black);
+  border-bottom:var(--border-w) solid var(--black);
+}
+
 /* Highlight-Zitat in der äußeren Notes-Spalte, größer gesetzt neben der
    Original-Aussage (siehe scripts/build-interview-turns.js — aus
    ==...== markierten Textstellen im Transkript erzeugt). Keine

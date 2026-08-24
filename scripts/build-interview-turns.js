@@ -143,6 +143,11 @@ function parseTranscript(text, speakerColumn, speakerDisplay, numColumns) {
   const speakerLineRe = new RegExp('^(' + speakerNames.join('|') + ')\\s*:\\s*(.*)$');
   const jointSpeakerLineRe = /^([A-Za-z][A-Za-z\s]*?)\s*&\s*([A-Za-z][A-Za-z\s]*?)\s*:\s*(.*)$/;
   const parentheticalLineRe = /^\(.*\)$/;
+  // Themen-Überschrift im Transkript, explizit mit "## " markiert (nicht
+  // automatisch erkannt/geraten — sonst würde jede kurze Zeile ohne
+  // Sprecher-Präfix riskant als Überschrift statt als Fortsetzungsabsatz
+  // interpretiert). Wird als eigener, spaltenübergreifender Turn gerendert.
+  const sectionHeaderLineRe = /^##\s+(.+)$/;
   const noteSpan = '1 / ' + (numColumns + 1);
 
   const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
@@ -188,12 +193,23 @@ function parseTranscript(text, speakerColumn, speakerDisplay, numColumns) {
       continue;
     }
 
-    // Fortsetzung ohne neuen Sprecher-Präfix → weiterer Absatz im letzten Turn
-    if (turns.length > 0) {
-      turns[turns.length - 1].paragraphs.push(line);
-      if (highlights.length) turns[turns.length - 1].highlights.push(...highlights);
+    const sectionMatch = line.match(sectionHeaderLineRe);
+    if (sectionMatch) {
+      turns.push({ type: 'section', span: noteSpan, paragraphs: [sectionMatch[1].trim()] });
+      continue;
+    }
+
+    // Fortsetzung ohne neuen Sprecher-Präfix → weiterer Absatz im letzten
+    // DIALOG-Turn (nicht im zuletzt gepushten Turn allgemein) — sonst würde
+    // z.B. eine Themen-Überschrift, die eine Redner:in mitten im Sprechen
+    // ohne neuen Namens-Präfix einstreut, die nachfolgende Fortsetzung an
+    // sich reißen statt an ihrem eigentlichen Redebeitrag dranzuhängen.
+    const lastDialogueTurn = [...turns].reverse().find(t => t.type === 'dialogue');
+    if (lastDialogueTurn) {
+      lastDialogueTurn.paragraphs.push(line);
+      if (highlights.length) lastDialogueTurn.highlights.push(...highlights);
     } else {
-      console.warn('Warnung: Zeile ohne vorherigen Turn übersprungen: ' + line);
+      console.warn('Warnung: Zeile ohne vorherigen Dialog-Turn übersprungen: ' + line);
     }
   }
 
@@ -227,6 +243,18 @@ function renderTurn(turn, index) {
       '    <div class="text-wrap">',
       '      <div class="turn-text">',
       paragraphsHtml.replace(/<p>(.*)<\/p>/, '<p><em>$1</em></p>'),
+      '      </div>',
+      '    </div>',
+      '  </div>',
+    ].join('\n');
+  }
+
+  if (turn.type === 'section') {
+    return [
+      '  <div class="interview-turn interview-section" id="' + id + '" data-col="' + turn.span + '">',
+      '    <div class="text-wrap">',
+      '      <div class="turn-text">',
+      paragraphsHtml,
       '      </div>',
       '    </div>',
       '  </div>',
@@ -291,6 +319,7 @@ function main() {
 
   const dialogueCount = turns.filter(t => t.type === 'dialogue').length;
   const noteCount = turns.filter(t => t.type === 'note').length;
+  const sectionCount = turns.filter(t => t.type === 'section').length;
   const highlightCount = turns.filter(t => t.type === 'highlight').length;
   const perSpeaker = {};
   turns.forEach(t => {
@@ -301,6 +330,7 @@ function main() {
   console.log('Fertig: ' + turns.length + ' Turns in ' + targetPath + ' geschrieben.');
   console.log('  Dialog-Turns: ' + dialogueCount + ' (' + Object.entries(perSpeaker).map(([k, v]) => k + ': ' + v).join(', ') + ')');
   console.log('  Randnotizen: ' + noteCount);
+  if (sectionCount) console.log('  Themen-Überschriften: ' + sectionCount);
   if (highlightCount) console.log('  Highlights: ' + highlightCount);
   console.log('Hinweis: data-img/data-title/data-caption sowie die Sprungleiste (.interview-toc) müssen weiterhin von Hand gepflegt werden.');
 }
