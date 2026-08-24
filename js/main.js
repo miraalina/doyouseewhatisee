@@ -466,4 +466,23 @@ function initTypeTool(layout){
       text.classList.toggle(offClass, !fontToggle.checked);
     });
   }
+
+  // Download-Link mit data-download-extra lädt zusätzlich zur eigenen
+  // href noch eine zweite Datei herunter (z.B. Filled + Outlined
+  // zusammen) — ein <a download> kann selbst nur eine Datei referenzieren,
+  // daher hier zwei per Klick programmatisch nacheinander ausgelöst.
+  var downloadLink = layout.querySelector('.type-tool-topbar a[data-download-extra]');
+  if(downloadLink){
+    downloadLink.addEventListener('click', function(e){
+      e.preventDefault();
+      [downloadLink.getAttribute('href'), downloadLink.getAttribute('data-download-extra')].forEach(function(url){
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = '';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      });
+    });
+  }
 }
