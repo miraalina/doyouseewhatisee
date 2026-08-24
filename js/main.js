@@ -134,25 +134,6 @@
 
     showPage('page-interview');
   }
- /* content aus seiten laden */
-function loadContent(path){
-  fetch(path)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error("Content konnte nicht geladen werden: " + path);
-      }
-      return response.text();
-    })
-    .then(html => {
-      document.getElementById("page-content").innerHTML = html;
-    })
-    .catch(error => {
-      console.error(error);
-      document.getElementById("page-content").innerHTML =
-        "<p>Inhalt konnte nicht geladen werden.</p>";
-    });
-}
-
   /* Hält --menu-height synchron mit der tatsächlich gerenderten Höhe des
      sticky Menüs (variiert je nach Seite: 1, 2 oder 3 sichtbare Ebenen).
      Sticky Elemente weiter unten (.interview-sidebar, .method-text) lesen
@@ -178,7 +159,16 @@ function loadContent(path){
    muss die Interview-Logik von hier aus (main.js) angestoßen werden.
    Ersetzt eure bestehende loadContent()-Funktion.
    ========================================================= */
+// Zählt jeden loadContent()-Aufruf hoch — schnelles Klicken zwischen
+// Menüpunkten kann dazu führen, dass ein ÄLTERER fetch() erst NACH einem
+// neueren zurückkommt (Netzwerk-Timing ist nicht garantiert in Aufruf-
+// Reihenfolge). Ohne diese Prüfung würde die verspätete alte Antwort den
+// bereits geladenen neuen Inhalt wieder überschreiben ("es wird trotzdem
+// noch der alte Inhalt angezeigt"). Nur die zum Zeitpunkt der ANTWORT
+// jeweils aktuellste Anfrage darf #page-content noch schreiben.
+var loadContentRequestId = 0;
 function loadContent(path, callback){
+  var requestId = ++loadContentRequestId;
   fetch(path)
     .then(response => {
       if (!response.ok) {
@@ -187,10 +177,16 @@ function loadContent(path, callback){
       return response.text();
     })
     .then(html => {
+      if (requestId !== loadContentRequestId) return; // inzwischen überholt
       document.getElementById("page-content").innerHTML = html;
+      // Neue Seite soll immer oben beginnen, statt die Scroll-Position der
+      // vorherigen Seite (z.B. weit unten in einem langen Transkript) zu
+      // übernehmen.
+      window.scrollTo(0, 0);
       if (typeof callback === "function") callback();
     })
     .catch(error => {
+      if (requestId !== loadContentRequestId) return;
       console.error(error);
       document.getElementById("page-content").innerHTML =
         "<p>Inhalt konnte nicht geladen werden.</p>";
