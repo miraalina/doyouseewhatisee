@@ -152,6 +152,7 @@ function parseTranscript(text, speakerColumn, speakerDisplay, numColumns) {
 
   const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
   const turns = [];
+  const sectionMarkers = [];
 
   // Nur bei genau 4 Spalten im leer/Phuong/Mira/leer-Muster gibt es
   // überhaupt Rand-Spalten für Highlights (siehe Datei-Kommentar oben).
@@ -193,9 +194,14 @@ function parseTranscript(text, speakerColumn, speakerDisplay, numColumns) {
       continue;
     }
 
+    // "## Titel"-Zeilen werden erkannt (damit sie u.a. nicht fälschlich an
+    // den letzten Dialog-Turn drangehängt werden), aber NICHT als eigener
+    // sichtbarer Turn gerendert — nur als Sprungmarke für main() protokolliert,
+    // damit die Sprungleiste trotzdem auf den jeweils nächsten echten Turn
+    // zeigen kann (siehe sectionMarkers/console.log unten in main()).
     const sectionMatch = line.match(sectionHeaderLineRe);
     if (sectionMatch) {
-      turns.push({ type: 'section', span: noteSpan, paragraphs: [sectionMatch[1].trim()] });
+      sectionMarkers.push({ label: sectionMatch[1].trim(), turnIndex: turns.length });
       continue;
     }
 
@@ -228,7 +234,7 @@ function parseTranscript(text, speakerColumn, speakerDisplay, numColumns) {
     }
   });
 
-  return withHighlights;
+  return { turns: withHighlights, sectionMarkers };
 }
 
 function renderTurn(turn, index) {
@@ -243,18 +249,6 @@ function renderTurn(turn, index) {
       '    <div class="text-wrap">',
       '      <div class="turn-text">',
       paragraphsHtml.replace(/<p>(.*)<\/p>/, '<p><em>$1</em></p>'),
-      '      </div>',
-      '    </div>',
-      '  </div>',
-    ].join('\n');
-  }
-
-  if (turn.type === 'section') {
-    return [
-      '  <div class="interview-turn interview-section" id="' + id + '" data-col="' + turn.span + '">',
-      '    <div class="text-wrap">',
-      '      <div class="turn-text">',
-      paragraphsHtml,
       '      </div>',
       '    </div>',
       '  </div>',
@@ -305,7 +299,7 @@ function main() {
   const { column: speakerColumn, display: speakerDisplay } = buildSpeakerMaps(columnNames);
 
   const transcriptText = fs.readFileSync(transcriptPath, 'utf8');
-  const turns = parseTranscript(transcriptText, speakerColumn, speakerDisplay, columnNames.length);
+  const { turns, sectionMarkers } = parseTranscript(transcriptText, speakerColumn, speakerDisplay, columnNames.length);
 
   const turnsHtml = turns.map(renderTurn).join('\n\n');
 
@@ -319,7 +313,6 @@ function main() {
 
   const dialogueCount = turns.filter(t => t.type === 'dialogue').length;
   const noteCount = turns.filter(t => t.type === 'note').length;
-  const sectionCount = turns.filter(t => t.type === 'section').length;
   const highlightCount = turns.filter(t => t.type === 'highlight').length;
   const perSpeaker = {};
   turns.forEach(t => {
@@ -330,7 +323,13 @@ function main() {
   console.log('Fertig: ' + turns.length + ' Turns in ' + targetPath + ' geschrieben.');
   console.log('  Dialog-Turns: ' + dialogueCount + ' (' + Object.entries(perSpeaker).map(([k, v]) => k + ': ' + v).join(', ') + ')');
   console.log('  Randnotizen: ' + noteCount);
-  if (sectionCount) console.log('  Themen-Überschriften: ' + sectionCount);
+  if (sectionMarkers.length) {
+    console.log('  Themen-Überschriften (nicht gerendert, nur als Sprungziel-Hinweis):');
+    sectionMarkers.forEach(m => {
+      const targetId = m.turnIndex < turns.length ? 'turn-' + (m.turnIndex + 1) : '(kein nachfolgender Turn)';
+      console.log('    "' + m.label + '" -> #' + targetId);
+    });
+  }
   if (highlightCount) console.log('  Highlights: ' + highlightCount);
   console.log('Hinweis: data-img/data-title/data-caption sowie die Sprungleiste (.interview-toc) müssen weiterhin von Hand gepflegt werden.');
 }
