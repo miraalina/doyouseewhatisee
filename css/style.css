@@ -1192,6 +1192,50 @@ body{
 .type-tool-text.font-session5{ font-family:"session5", sans-serif; }
 .type-tool-text.font-session3{ font-family:"session3", sans-serif; }
 .type-tool-text.font-parallel{ font-family:"session1-parallel", sans-serif; }
+.type-tool-text.font-session1-outlined{ font-family:"session1-outlined", sans-serif; }
+
+/* Filled/Outlined-Umschalter (Blind Strokes): reiner weiß/schwarz-Switch
+   ohne Beschriftung — main.js (initTypeTool) tauscht bei jedem Umschalten
+   die font-family-Klasse am Eingabefeld aus (siehe data-font-off/-on am
+   Checkbox-Input). */
+.type-tool-font-toggle{
+  display:inline-flex;
+  align-items:center;
+  cursor:pointer;
+}
+.type-tool-font-toggle input{
+  position:absolute;
+  opacity:0;
+  width:0;
+  height:0;
+}
+.type-tool-font-toggle-track{
+  display:inline-block;
+  position:relative;
+  width:36px;
+  height:18px;
+  border-radius:9px;
+  border:var(--border-w) solid var(--white);
+  background:var(--white);
+  transition:background .2s ease;
+}
+.type-tool-font-toggle-thumb{
+  position:absolute;
+  top:1px;
+  left:1px;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:var(--black);
+  transition:transform .2s ease, background .2s ease;
+}
+.type-tool-font-toggle input:checked + .type-tool-font-toggle-track{
+  background:var(--black);
+}
+.type-tool-font-toggle input:checked + .type-tool-font-toggle-track .type-tool-font-toggle-thumb{
+  transform:translateX(18px);
+  background:var(--white);
+}
 /* Sessions 3–5: reine Großbuchstaben-Schriften — getippter Text wird
    unabhängig von Groß-/Kleinschreibung beim Tippen immer in Versalien
    dargestellt (wirkt nur auf die Anzeige, nicht auf den gespeicherten
@@ -1226,10 +1270,17 @@ body{
   color:var(--white);
   font-size:var(--content-font-size);
 }
-/* Trennlinie zwischen den beiden Reglern — jetzt vertikal, da sie
-   nebeneinander stehen. */
+/* Trennlinie zwischen den Reglern/dem Schrift-Umschalter — vertikal, da
+   sie nebeneinander stehen. Gilt automatisch für jede weitere Zelle in
+   der Leiste (z.B. den Filled/Outlined-Umschalter vor Size). */
 .type-tool-control-row + .type-tool-control-row{
   border-left:var(--border-w) solid var(--white);
+}
+/* Umschalter-Zelle (z.B. Filled/Outlined) — schmaler als Size/Spacing,
+   da kein Label danebensteht, nur der Switch selbst, mittig zentriert. */
+.type-tool-control-row.type-tool-control-row-toggle{
+  flex:0 0 auto;
+  justify-content:center;
 }
 .type-tool-control-row span{
   flex:0 0 auto;

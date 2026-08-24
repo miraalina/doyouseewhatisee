@@ -452,4 +452,18 @@ function initTypeTool(layout){
       text.style.letterSpacing = spacingSlider.value + 'px';
     });
   }
+
+  // Filled/Outlined-Umschalter (aktuell nur Blind Strokes): welche Klasse
+  // im aus-/eingeschalteten Zustand gilt, steht am Input selbst
+  // (data-font-off/-on), damit main.js generisch bleibt und nicht die
+  // Font-Namen hartcodieren muss.
+  var fontToggle = layout.querySelector('.type-font-toggle-input');
+  if(fontToggle){
+    var offClass = fontToggle.getAttribute('data-font-off');
+    var onClass = fontToggle.getAttribute('data-font-on');
+    fontToggle.addEventListener('change', function(){
+      text.classList.toggle(onClass, fontToggle.checked);
+      text.classList.toggle(offClass, !fontToggle.checked);
+    });
+  }
 }
