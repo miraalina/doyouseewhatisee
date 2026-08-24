@@ -1526,8 +1526,14 @@ body{
 
 .about-left{
   width:calc(75% - var(--menu-gap) * 0.75);
+  /* min-height sorgt dafür, dass die Trennlinie (border-right) immer
+     mindestens so weit reicht wie die rechte Spalte (.about-right, fixed
+     über die volle Resthöhe) — sonst hört die Linie bei kurzem About-Text
+     vorzeitig auf, während rechts noch Inhalt/Fläche folgt. */
+  min-height:calc(100vh - var(--menu-height, 40px) - var(--menu-gap));
   padding-bottom:calc(var(--menu-item-height) + 20px);
   border-right:var(--border-w) solid var(--black);
+  box-sizing:border-box;
 }
 
 .about-left > .content-header{
@@ -1555,6 +1561,7 @@ body{
 }
 .about-text p{ margin:0 0 1.2em; }
 .about-text p:last-child{ margin-bottom:0; }
+.about-text-small{ font-size:0.7em; }
 
 @media (max-width: 760px){
   .about-layout{ display:flex; flex-direction:column; }
