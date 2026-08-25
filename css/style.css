@@ -1546,12 +1546,8 @@ body{
   overflow-y:auto;
 }
 
-.about-block + .about-block{
-  border-top:var(--border-w) solid var(--black);
-}
-
 .about-text{
-  padding:25px 15px 40px;
+  padding:25px 40px 40px 15px;
   font-size:20px;
   line-height:1.5;
   /* Ersetzt die entfernte "About"-Kopfzeile als obere Abgrenzung zum Menü. */

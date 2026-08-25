@@ -4,17 +4,19 @@
   Enthält NUR den Inhalt — Header/Menü kommen weiterhin aus index.html.
 
   Aufbau:
-    .about-left   = About-Text, 75% Breite, normaler Textfluss.
-    .about-right  = 2 Platzhalter-Block (Bild + Text darunter, wie die
-                    Portrait+Bio-Kombination in der Interview-Sidebar),
-                    25% Breite, fixed, durch eine Trennlinie voneinander
-                    getrennt (siehe .about-block + .about-block in style.css).
+    .about-left   = About-Text, 2/3 Breite, normaler Textfluss.
+    .about-right  = 1 Platzhalter-Bild oben, darunter 2 Platzhaltertexte
+                    (wie die Portrait+Bio-Kombination in der Interview-
+                    Sidebar, nur mit zwei Text-Blöcken statt einem) — 1/3
+                    Breite, fixed. Jeder .interview-intro-text bringt seine
+                    eigene border-top mit, das trennt Bild/Text1/Text2
+                    automatisch ohne zusätzliches CSS.
 
   Noch zu ergänzen, sobald Material vorliegt:
-    - Echte Bilder statt der beiden Platzhalter (aktuell zeigen die <img>
-      auf noch nicht vorhandene Dateien und fallen automatisch auf den
-      grauen Platzhalter zurück, siehe main.js IMG_FALLBACK)
-    - Platzhaltertext durch echten Bildunterschrift-Text ersetzen
+    - Echtes Bild statt des Platzhalters (aktuell zeigt das <img> auf eine
+      noch nicht vorhandene Datei und fällt automatisch auf den grauen
+      Platzhalter zurück, siehe main.js IMG_FALLBACK)
+    - Platzhaltertexte durch echten Text ersetzen
 -->
 
 <div class="about-layout">
@@ -24,13 +26,9 @@
     <div class="about-text">
       <p>In practice, design is fundamentally collaborative. It requires ongoing communication, organization, and negotiation. Yet, design education often overlooks this aspect and trains students to view design as a highly individual practice. This contradiction led to our question: How can we, as design students, build our own collaborative framework within academia?</p>
 
-      <p>"Do you see what I see?" is the result of a 3-month-long period of research and experimentation into the possibilities of collaborating and facilitating collaboration, using type as a common denominator.</p>
+      <p>"Do you see what I see?" is the result of a 3-month-long period of research and experimentation into the possibilities of collaborating and facilitating collaboration, using type as a common denominator. The project consists of 2 phases: First, a series of six workshops that experiment with different variables of collaboration and form-finding in letter creation. Each weekly workshop was organized individually on a rotational basis and followed by a joint reflection. In the second phase, we interviewed seven designers who are working with type in partnerships, collectives, communities, and studios, to find out what forms of collaboration exist in practice.</p>
 
-      <p>The project consists of 2 phases: First, a series of six workshops that experiment with different variables of collaboration and form-finding in letter creation. Each weekly workshop was organized individually on a rotational basis and followed by a joint reflection. In the second phase, we interviewed seven designers who are working with type in partnerships, collectives, communities, and studios, to find out what forms of collaboration exist in practice.</p>
-
-      <p>What initiated as a naive idea developed into a research project on collaboration and the role of typography as a medium for it. Through experimentation, self-reflection, and conversations with other designers, we created the "Manifesto of Collaboration" to describe what we see as collaboration, and under which conditions we want to collaborate with one another.</p>
-
-      <p>A complete documentation of the project is published open-source on this website. Visitors are also invited to try out the exercises for themselves.</p>
+      <p>What initiated as a naive idea developed into a research project on collaboration and the role of typography as a medium for it. Through experimentation, self-reflection, and conversations with other designers, we created the "Manifesto of Collaboration" to describe what we see as collaboration, and under which conditions we want to collaborate with one another. A complete documentation of the project is published open-source on this website. Visitors are also invited to try out the exercises for themselves.</p>
 
       <p>"Do you see what I see?" was initiated, executed, and documented by Mira Alina Langer and Duong Hoang Phuong Nguyen, with the supervision from Prof. Katharina Nejdl during the Master Program Integrated Design at Hochschule für Künste Bremen in Summer 2026.</p>
 
@@ -47,18 +45,12 @@
 
   <div class="about-right">
 
-    <div class="interview-intro about-block">
+    <div class="interview-intro">
       <div class="interview-portrait">
         <img src="content/images/about/placeholder1.jpg" alt="">
       </div>
       <div class="interview-intro-text">
         <p>[ Platzhaltertext ]</p>
-      </div>
-    </div>
-
-    <div class="interview-intro about-block">
-      <div class="interview-portrait">
-        <img src="content/images/about/placeholder2.jpg" alt="">
       </div>
       <div class="interview-intro-text">
         <p>[ Platzhaltertext ]</p>
