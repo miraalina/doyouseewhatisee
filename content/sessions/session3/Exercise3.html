@@ -62,12 +62,15 @@
     </div>
   </div>
 
-  <!-- Spalte 3: Visuals — Bilder folgen noch, Platzhalter fällt automatisch
-       auf das graue SVG zurück (siehe main.js IMG_FALLBACK) -->
+  <!-- Spalte 3: Visuals -->
   <div class="method-col method-col-visuals">
     <div class="content-header">Behind the Scenes</div>
     <div class="method-images">
-      <figure class="method-image"><img src="content/images/Sessions/Session3/placeholder.jpg" alt=""></figure>
+      <figure class="method-image"><img src="content/images/Sessions/Session3/3.1.jpg" alt=""></figure>
+      <figure class="method-image"><img src="content/images/Sessions/Session3/3.2.jpg" alt=""></figure>
+      <!-- Videos spielen nur beim Hover (siehe onmouseenter/-leave) statt automatisch beim Laden der Seite. -->
+      <figure class="method-image"><video src="content/images/Sessions/Session3/3.3.mp4" poster="content/images/Sessions/Session3/3.3_poster.jpg" muted loop playsinline preload="metadata" onmouseenter="this.play()" onmouseleave="this.pause(); this.currentTime=0;"></video></figure>
+      <figure class="method-image"><img src="content/images/Sessions/Session3/3.4.jpeg" alt=""></figure>
     </div>
   </div>
 
