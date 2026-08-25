@@ -1536,15 +1536,6 @@ body{
   box-sizing:border-box;
 }
 
-.about-left > .content-header{
-  font-size:var(--menu-font-size);
-  border-left:none;
-  /* Sonst doppelte Linie: .about-left trägt die Trennlinie zur rechten
-     Spalte bereits selbst (volle Höhe), die eigene border-right der
-     Kopfzeile läge direkt daneben und wäre nur für deren Höhe sichtbar. */
-  border-right:none;
-}
-
 .about-right{
   position:fixed;
   top:calc(var(--menu-height, 40px) + var(--menu-gap));
@@ -1562,6 +1553,8 @@ body{
   padding:25px 15px 40px;
   font-size:var(--content-font-size);
   line-height:1.5;
+  /* Ersetzt die entfernte "About"-Kopfzeile als obere Abgrenzung zum Menü. */
+  border-top:var(--border-w) solid var(--black);
 }
 .about-text p{ margin:0 0 1.2em; }
 .about-text p:last-child{ margin-bottom:0; }
