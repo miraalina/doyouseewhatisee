@@ -370,6 +370,29 @@ function initInterview(){
     }
   });
 
+  // Einzelne Links im Fließtext (z.B. "Zine", "Diatype") können genau wie
+  // ein ganzer Redebeitrag ein eigenes Bild-Popup bekommen — data-img/
+  // -title/-caption direkt am <a> statt am .interview-turn, showCursorImage()
+  // liest die Attribute generisch vom übergebenen Element. Nur Desktop
+  // (hasHover): auf Touch würde ein Tap den Link direkt öffnen, ein
+  // zusätzliches Popup davor ergibt dort keinen Sinn.
+  if(hasHover){
+    // document-weit statt auf grid beschränkt, damit auch Links im
+    // Bio-Text (.interview-intro-text, außerhalb von .interview-grid)
+    // ein Popup bekommen können.
+    var linkPreviews = Array.prototype.slice.call(document.querySelectorAll('a[data-img]'));
+    linkPreviews.forEach(function(link){
+      link.addEventListener('mouseenter', function(e){
+        showCursorImage(link, e.clientX, e.clientY);
+      });
+      link.addEventListener('mousemove', function(e){ positionCursorFigure(e.clientX, e.clientY); });
+      link.addEventListener('mouseleave', function(){
+        cursorFig.classList.remove('visible');
+        currentImg = null;
+      });
+    });
+  }
+
   // .interview-nav liegt außerhalb von .interview-grid (fixiert unten
   // links), darum hier bewusst document-weit statt auf grid beschränkt
   // suchen.
