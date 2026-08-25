@@ -1547,7 +1547,10 @@ body{
 }
 
 .about-text{
-  padding:25px 40px 40px 15px;
+  /* padding-bottom reserviert Platz für .about-footer, der fixed über dem
+     Ende des Textflusses steht — sonst würde der letzte Absatz darunter
+     verdeckt. */
+  padding:25px 40px 130px 15px;
   font-size:20px;
   line-height:1.5;
   /* Ersetzt die entfernte "About"-Kopfzeile als obere Abgrenzung zum Menü. */
@@ -1555,16 +1558,38 @@ body{
 }
 .about-text p{ margin:0 0 1.2em; }
 .about-text p:last-child{ margin-bottom:0; }
-.about-text-small{ font-size:0.7em; }
+
+/* Letzte 2 Absätze (DinDong-Credit, Bug-Hinweis) unten bündig an die Seite
+   — fixed statt Teil des scrollenden .about-text, bleiben also beim
+   Scrollen des About-Texts darüber immer sichtbar/unbewegt stehen. */
+.about-footer{
+  position:fixed;
+  left:0;
+  bottom:0;
+  width:calc(66.6667% - var(--menu-gap) * 0.6667);
+  box-sizing:border-box;
+  padding:15px 40px 15px 15px;
+  font-size:20px;
+  line-height:1.5;
+  background:var(--white);
+  border-top:var(--border-w) solid var(--black);
+}
+.about-footer p{ margin:0 0 .3em; }
+.about-footer p:last-child{ margin-bottom:0; }
 
 @media (max-width: 760px){
   .about-layout{ display:flex; flex-direction:column; }
-  .about-left{ width:100%; border-right:none; }
+  .about-left{ width:100%; border-right:none; padding-bottom:0; }
   .about-right{
     position:static;
     width:100%;
     height:auto;
     overflow-y:visible;
   }
+  /* Fixed würde auf mobil (About-Text und gestapelte rechte Spalte
+     untereinander) den nachfolgenden Inhalt verdecken — hier also
+     normaler Textfluss statt am Bildschirmrand fixiert. */
+  .about-text{ padding-bottom:25px; }
+  .about-footer{ position:static; width:100%; }
 }
 
