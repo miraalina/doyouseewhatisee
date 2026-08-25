@@ -1572,7 +1572,13 @@ body{
   font-size:20px;
   line-height:1.5;
   background:var(--white);
-  border-top:var(--border-w) solid var(--black);
+  /* Kein eigener border-top (kein Abtrenner zum Text darüber). Die
+     Trennlinie zur rechten Spalte läuft über .about-left's border-right
+     die volle Höhe durch — die fixed .about-footer läge sonst mit ihrem
+     weißen Hintergrund über diesem unteren Teil der Linie, deshalb hier
+     dieselbe border-right, damit die Linie ununterbrochen bis nach unten
+     weiterläuft. */
+  border-right:var(--border-w) solid var(--black);
 }
 .about-footer p{ margin:0 0 .3em; }
 .about-footer p:last-child{ margin-bottom:0; }
@@ -1590,6 +1596,6 @@ body{
      untereinander) den nachfolgenden Inhalt verdecken — hier also
      normaler Textfluss statt am Bildschirmrand fixiert. */
   .about-text{ padding-bottom:25px; }
-  .about-footer{ position:static; width:100%; }
+  .about-footer{ position:static; width:100%; border-right:none; }
 }
 
