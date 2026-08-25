@@ -370,28 +370,6 @@ function initInterview(){
     }
   });
 
-  // Einzelne Links im Fließtext (z.B. "Zine", "Diatype") können genau wie
-  // ein ganzer Redebeitrag ein eigenes Bild-Popup bekommen — data-img/
-  // -title/-caption direkt am <a> statt am .interview-turn, showCursorImage()
-  // liest die Attribute generisch vom übergebenen Element. Nur Desktop
-  // (hasHover): auf Touch würde ein Tap den Link direkt öffnen, ein
-  // zusätzliches Popup davor ergibt dort keinen Sinn.
-  if(hasHover){
-    // document-weit statt auf grid beschränkt, damit auch Links im
-    // Bio-Text (.interview-intro-text, außerhalb von .interview-grid)
-    // ein Popup bekommen können.
-    var linkPreviews = Array.prototype.slice.call(document.querySelectorAll('a[data-img]'));
-    linkPreviews.forEach(function(link){
-      link.addEventListener('mouseenter', function(e){
-        showCursorImage(link, e.clientX, e.clientY);
-      });
-      link.addEventListener('mousemove', function(e){ positionCursorFigure(e.clientX, e.clientY); });
-      link.addEventListener('mouseleave', function(){
-        cursorFig.classList.remove('visible');
-        currentImg = null;
-      });
-    });
-  }
 
   // .interview-nav liegt außerhalb von .interview-grid (fixiert unten
   // links), darum hier bewusst document-weit statt auf grid beschränkt
@@ -452,6 +430,84 @@ function initInterview(){
     }
   }
 }
+
+// Einzelne Links im Fließtext (z.B. "Diatype") bekommen wie ein ganzer
+// Redebeitrag ein eigenes Bild-Popup beim Hovern — data-img/-title/-caption
+// direkt am <a> statt am .interview-turn. Per event delegation auf
+// document statt Listener direkt an jedem <a>: initInterview()s 5-Zeilen-
+// Kürzung klont lange Redebeiträge (inkl. ihrer <a>-Tags) per innerHTML in
+// einen .turn-expand-Ausschnitt — dieser Klon entsteht dabei als komplett
+// neues DOM-Element ohne die zuvor angehängten Listener, ein Hover über
+// den (sichtbaren) Klon hätte also nie ausgelöst. Delegation prüft
+// stattdessen bei jedem Hover live per closest(), trifft also auch
+// spätere Klone. Einmalig beim Skript-Start aufgesetzt (nicht in
+// initInterview, das bei jedem Seitenwechsel erneut läuft) — sonst würden
+// sich die Listener bei jedem Interview-Wechsel aufsummieren.
+(function(){
+  if(!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+  var currentLinkImg = null;
+
+  function cloneImgInto(container, imgId){
+    var def = document.getElementById('def-' + imgId);
+    if(!def) return;
+    container.innerHTML = '';
+    var clone = def.cloneNode(true);
+    clone.removeAttribute('id');
+    container.appendChild(clone);
+  }
+
+  function positionFigure(x, y){
+    var fig = document.getElementById('cursorFigure');
+    var margin = 20, w = fig.offsetWidth || 220, h = fig.offsetHeight || 180;
+    var left = x + 26, top = y - h - 22;
+    if(left + w > window.innerWidth - margin) left = x - w - 26;
+    if(top < margin) top = y + 22;
+    fig.style.transform = 'translate(' + left + 'px,' + top + 'px)';
+  }
+
+  function showLinkImage(link, x, y){
+    var imgId = link.getAttribute('data-img');
+    if(!imgId) return;
+    var fig = document.getElementById('cursorFigure');
+    var frame = document.getElementById('cursorFrame');
+    var cap = document.getElementById('cursorCap');
+    if(imgId !== currentLinkImg){
+      cloneImgInto(frame, imgId);
+      currentLinkImg = imgId;
+      var def = document.getElementById('def-' + imgId);
+      var aspect = def && def.getAttribute('data-aspect');
+      frame.style.aspectRatio = aspect || '';
+    }
+    var title = link.getAttribute('data-title') || '';
+    var caption = link.getAttribute('data-caption') || '';
+    if(title || caption){
+      cap.innerHTML = '<b>' + title + '</b>' + caption;
+      cap.style.display = '';
+    } else {
+      cap.innerHTML = '';
+      cap.style.display = 'none';
+    }
+    fig.classList.add('visible');
+    positionFigure(x, y);
+  }
+
+  document.addEventListener('mouseover', function(e){
+    var link = e.target.closest('a[data-img]');
+    if(link) showLinkImage(link, e.clientX, e.clientY);
+  });
+  document.addEventListener('mousemove', function(e){
+    if(currentLinkImg && e.target.closest('a[data-img]')) positionFigure(e.clientX, e.clientY);
+  });
+  document.addEventListener('mouseout', function(e){
+    var link = e.target.closest('a[data-img]');
+    // relatedTarget = wohin die Maus wandert; bleibt sie innerhalb
+    // desselben Links (z.B. durch ein verschachteltes <b>), nicht ausblenden.
+    if(!link || link.contains(e.relatedTarget)) return;
+    document.getElementById('cursorFigure').classList.remove('visible');
+    currentLinkImg = null;
+  });
+})();
 
 /* =========================================================
    Type-Seiten: Live-Schriftprobe links (.type-tool-text) mit
