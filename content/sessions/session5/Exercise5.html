@@ -1,0 +1,84 @@
+<!--
+  content/sessions/session5/Exercise5.html
+  Wird per fetch() in #page-content geladen, wenn innerhalb von Session 5
+  der Reiter "Exercise" angeklickt wird. Enthält NUR den Inhalt —
+  Header/Menü kommen weiterhin aus index.html.
+
+  3 Spalten im Verhältnis 2:1:1 (siehe .method-layout in style.css):
+    "Intro"              — Fließtext
+    "Instructions"       — Aufzählung (ol/ul)
+    "Behind the Scenes"  — Bilder (aktuell Platzhalter, siehe .method-image)
+
+  Jede Spalte hat oben einen Reiter (.content-header) im Stil der
+  Interview-Seite, der beim Scrollen stehen bleibt.
+
+  Bilder: zum Verlängern/Verkürzen einfach weitere .method-image Blöcke
+  in der Behind-the-Scenes-Spalte ergänzen oder entfernen.
+
+  TODO: Intro-Fließtext + Variable/Tools in der Meta-Tabelle folgen noch.
+-->
+
+<div class="method-layout">
+
+  <!-- Spalte 1: Intro -->
+  <div class="method-col method-col-intro">
+    <div class="content-header">Intro</div>
+    <div class="method-text method-intro-text">
+
+      <table class="intro-meta">
+      <tr><th>Variable: </th></tr>
+      <tr><td>Tools: </td></tr>
+      <tr><td class="intro-meta-join-next">Time: 2 hours</td></tr>
+      <tr><td class="intro-meta-join-next intro-meta-join-prev">Warm-up Task: 30 min</td></tr>
+      <tr><td class="intro-meta-join-prev">Main Exercise: 1.5 hours</td></tr>
+      <tr><td>Fun parameter: </td></tr>
+    </table>
+
+    </div>
+  </div>
+
+  <!-- Spalte 2: Instructions -->
+  <div class="method-col method-col-instructions">
+    <div class="content-header">Instructions</div>
+    <div class="method-text">
+
+        <p class="method-text-heading">Warm-up Task: The Dice decides</p>
+        <p>30 min</p>
+        <p>Step 1: Flip a coin to decide who starts.</p>
+        <p>Step 2: Create a wheel with all letters from A–Z or a–z.</p>
+        <p>Step 3: Spin the wheel to randomly select a letter.</p>
+        <p>Step 4: Roll the dice to determine how many strokes, from 1–6, the letter should consist of.</p>
+        <p>Step 5: Draw the selected letter using the number of strokes determined by the dice. You decide what counts as one stroke.</p>
+        <p>Step 6: Repeat the process, alternating between participants.</p>
+
+        <hr>
+
+        <p class="method-text-heading">Main Exercise: No Decisions</p>
+        <p>1.5 hours</p>
+        <p>Together, define the basic rules of the letter system. Use the decision wheel for decisions with more than 6 possible options, the dice for decisions with 1–6 options, and the coin for decisions with 2 options. Neither participant can make a decision themselves.</p>
+        <p>Step 1: Set up the following decisions:</p>
+        <p class="method-text-indent">Use the coin to decide whether</p>
+        <p class="method-text-indent">you work with uppercase or lowercase letters.</p>
+        <p class="method-text-indent">the shapes making up the letters should touch or not touch.</p>
+        <p class="method-text-indent">all shapes should have the same size or random sizes. (If the shapes have the same size, roll the dice to determine their size on the grid. For example, a roll of 3 means that each shape occupies a 3 × 3 square area)</p>
+        <p class="method-text-indent">If you want to introduce additional parameters, make the decision using the appropriate tool.</p>
+        <p>Step 2: Set up two wheels: one with the letters from A–Z and one with the geometric shapes you want to work with (e.g. square, rectangle, circle, triangle).</p>
+        <p>Step 3: Start building the letters. Flip a coin to decide who starts.</p>
+        <p>Step 4: Spin the wheels to randomly select a letter and determine which geometric shape will be used.</p>
+        <p>Step 5: Roll the dice to determine how many shapes the letter should consist of.</p>
+        <p>Step 6: Construct the selected letter using exactly the number and type of shapes determined by the rules. For example: D – Circle – 4 shapes.</p>
+        <p>Step 7: Repeat the process, alternating between participants, until the alphabet is complete.</p>
+
+    </div>
+  </div>
+
+  <!-- Spalte 3: Visuals — Bilder folgen noch, Platzhalter fällt automatisch
+       auf das graue SVG zurück (siehe main.js IMG_FALLBACK) -->
+  <div class="method-col method-col-visuals">
+    <div class="content-header">Behind the Scenes</div>
+    <div class="method-images">
+      <figure class="method-image"><img src="content/images/Sessions/Session5/placeholder.jpg" alt=""></figure>
+    </div>
+  </div>
+
+</div>
