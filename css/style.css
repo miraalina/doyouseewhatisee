@@ -929,6 +929,15 @@ body{
 .intro-meta .intro-meta-join-prev{
   padding-top:0;
 }
+/* Manueller Zeilenumbruch innerhalb einer Zelle (z.B. lange Tools-Liste):
+   die umgebrochene Zeile soll nicht am Zellenrand, sondern auf Höhe des
+   Werts nach dem Label ("Tools: ") weiterlaufen. padding-left auf dem
+   Label-<span> statt direkt auf dem <td> — <br> selbst hat keine Breite,
+   daher muss der Einzug am Text NACH dem Umbruch ansetzen. */
+.intro-meta-hang{
+  display:block;
+  padding-left:42px;
+}
 
 @media (max-width: 760px){
   .intro-layout{ grid-template-columns:1fr; }
