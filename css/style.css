@@ -1539,6 +1539,10 @@ body{
 .about-left > .content-header{
   font-size:var(--menu-font-size);
   border-left:none;
+  /* Sonst doppelte Linie: .about-left trägt die Trennlinie zur rechten
+     Spalte bereits selbst (volle Höhe), die eigene border-right der
+     Kopfzeile läge direkt daneben und wäre nur für deren Höhe sichtbar. */
+  border-right:none;
 }
 
 .about-right{
