@@ -17,6 +17,7 @@
   let currentMode = null;
   let currentSession = null;
   let currentInterview = null;
+  let currentSub = null;
 
   function clearActive(container){
     container.querySelectorAll('.nav-item, .title-cell').forEach(el => el.classList.remove('active'));
@@ -34,16 +35,119 @@
     document.getElementById('level3-sub').classList.add('hidden');
   }
 
+  /* =========================================================
+     URL-Routing: aktuelle Auswahl (Mode/Session/Sub bzw. Mode/
+     Interview) landet als Hash in der Adresszeile, z.B.
+     #Workmode/Handschrift/Exercise oder #Interviewmode/Ivobrouwer —
+     so lässt sich ein Link zu einer bestimmten Unterseite kopieren
+     und verschicken. Segmente sind die echten Menü-Beschriftungen
+     (Leerzeichen entfernt, nur der erste Buchstabe groß), damit sie
+     immer automatisch mit dem Menü übereinstimmen, auch nach künftigen
+     Umbenennungen — keine zweite, separat zu pflegende Namensliste.
+     replaceState statt pushState/location.hash: jeder Klick soll nur
+     die aktuelle URL aktualisieren, nicht die Browser-History mit
+     einem Eintrag pro Menüklick vollstopfen.
+     ========================================================= */
+  function slugifyLabel(label){
+    var noSpaces = (label || '').replace(/\s+/g, '');
+    if(!noSpaces) return '';
+    return noSpaces.charAt(0).toUpperCase() + noSpaces.slice(1).toLowerCase();
+  }
+
+  function navLabel(selector){
+    var el = document.querySelector(selector);
+    return el ? el.textContent.replace(/\s+/g, ' ').trim() : '';
+  }
+
+  function updateHash(){
+    var parts = [];
+    if(currentMode === 'work'){
+      parts.push(slugifyLabel(navLabel('#level1-items .nav-item[data-mode="work"]')));
+      if(currentSession){
+        parts.push(slugifyLabel(navLabel('.nav-item[data-session="' + currentSession + '"]')));
+        if(currentSub){
+          parts.push(slugifyLabel(navLabel('.nav-item[data-sub="' + currentSub + '"]')));
+        }
+      }
+    } else if(currentMode === 'interview'){
+      parts.push(slugifyLabel(navLabel('#level1-items .nav-item[data-mode="interview"]')));
+      if(currentInterview){
+        parts.push(slugifyLabel(navLabel('.nav-item[data-interview="' + currentInterview + '"]')));
+      }
+    } else if(currentMode){
+      parts.push(slugifyLabel(navLabel('#level1-items .nav-item[data-mode="' + currentMode + '"]')));
+    }
+    var hash = parts.length ? '#' + parts.join('/') : '';
+    if(location.hash !== hash){
+      history.replaceState(null, '', hash || (location.pathname + location.search));
+    }
+  }
+
+  // Findet zu einem Hash-Segment den passenden Menüpunkt (Vergleich
+  // case-insensitiv, damit auch von Hand getippte/veränderte Links
+  // funktionieren) und liefert dessen data-*-Wert zurück.
+  function findByLabelSlug(items, slug){
+    var target = slug.toLowerCase();
+    for(var i = 0; i < items.length; i++){
+      if(slugifyLabel(items[i].textContent.replace(/\s+/g, ' ').trim()).toLowerCase() === target){
+        return items[i];
+      }
+    }
+    return null;
+  }
+
+  function restoreFromHash(){
+    var raw = location.hash.replace(/^#/, '');
+    // Nicht-ASCII-Zeichen (z.B. "é") landen in location.hash percent-
+    // encodiert (auch wenn man die URL mit Umlaut/Akzent direkt eintippt)
+    // — decodeURIComponent macht daraus wieder den reinen Text zum
+    // Abgleich mit den (unencodierten) Menü-Beschriftungen.
+    var segments = raw.split('/').filter(Boolean).map(function(seg){
+      try { return decodeURIComponent(seg); } catch(e) { return seg; }
+    });
+    if(segments.length === 0){
+      goHome();
+      return;
+    }
+    var modeItems = Array.prototype.slice.call(document.querySelectorAll('#level1-items .nav-item[data-mode]'));
+    var modeItem = findByLabelSlug(modeItems, segments[0]);
+    if(!modeItem){
+      goHome();
+      return;
+    }
+    var mode = modeItem.getAttribute('data-mode');
+    selectMode(mode);
+
+    if(mode === 'work' && segments[1]){
+      var sessionItems = Array.prototype.slice.call(document.querySelectorAll('#level2-sessions .nav-item[data-session]'));
+      var sessionItem = findByLabelSlug(sessionItems, segments[1]);
+      if(sessionItem){
+        selectSession(sessionItem.getAttribute('data-session'));
+        if(segments[2]){
+          var subItems = Array.prototype.slice.call(document.querySelectorAll('#level3-sub .nav-item[data-sub]'));
+          var subItem = findByLabelSlug(subItems, segments[2]);
+          if(subItem) selectSub(subItem.getAttribute('data-sub'));
+        }
+      }
+    } else if(mode === 'interview' && segments[1]){
+      var interviewItems = Array.prototype.slice.call(document.querySelectorAll('#level2-interviews .nav-item[data-interview]'));
+      var interviewItem = findByLabelSlug(interviewItems, segments[1]);
+      if(interviewItem) selectInterview(interviewItem.getAttribute('data-interview'));
+    }
+  }
+
   function goHome(){
     currentMode = null;
     currentSession = null;
     currentInterview = null;
+    currentSub = null;
     clearActive(document.getElementById('level1-items'));
     document.getElementById('home-link').classList.add('active');
     hideLevels23();
     document.getElementById('page-content').innerHTML = '';
     updateModeToggle(null);
     closeMobileMenu();
+    updateHash();
   }
 
   /* Mobiles Level-1-Dropdown (siehe CSS .site-menu.mobile-open). Auf Desktop
@@ -73,6 +177,7 @@
     currentMode = mode;
     currentSession = null;
     currentInterview = null;
+    currentSub = null;
 
     clearActive(document.getElementById('level1-items'));
     document.getElementById('home-link').classList.remove('active');
@@ -95,6 +200,7 @@
     } else if(mode === 'about'){
       loadContent('content/about/about.html');
     }
+    updateHash();
   }
 
   function selectSession(n){
@@ -113,6 +219,7 @@
   var subFileMap = { exercise: 'Exercise', type: 'type', notes: 'notes' };
 
   function selectSub(sub){
+    currentSub = sub;
     clearActive(document.getElementById('level3-sub'));
     document.querySelector('.nav-item[data-sub="' + sub + '"]').classList.add('active');
 
@@ -120,20 +227,9 @@
     if (currentSession && fileBase) {
       loadContent('content/sessions/session' + currentSession + '/' + fileBase + currentSession + '.html', initInterview);
     }
+    updateHash();
   }
 
-
-  function selectInterview(n){
-    currentInterview = n;
-    clearActive(document.getElementById('level2-interviews'));
-    document.querySelector('.nav-item[data-interview="' + n + '"]').classList.add('active');
-
-    document.getElementById('interview-title').textContent = 'Interview ' + n;
-    document.getElementById('interview-text').textContent =
-      '[ Platzhalter: Inhalt für Interview ' + n + ' ]';
-
-    showPage('page-interview');
-  }
   /* Hält --menu-height synchron mit der tatsächlich gerenderten Höhe des
      sticky Menüs (variiert je nach Seite: 1, 2 oder 3 sichtbare Ebenen).
      Sticky Elemente weiter unten (.interview-sidebar, .method-text) lesen
@@ -148,8 +244,10 @@
     menuObserver.observe(siteMenu);
   }
 
-  // init
-  goHome();
+  // init — Hash aus der URL (falls vorhanden, z.B. per geteiltem Link)
+  // stellt die passende Unterseite wieder her, sonst normale Startseite.
+  restoreFromHash();
+  window.addEventListener('popstate', restoreFromHash);
 
   /* =========================================================
    ÄNDERUNG 1: loadContent bekommt einen optionalen Callback,
@@ -205,6 +303,7 @@ function selectInterview(n){
   clearActive(document.getElementById('level2-interviews'));
   document.querySelector('.nav-item[data-interview="' + n + '"]').classList.add('active');
   loadContent('content/interviews/interview' + n + '.html', initInterview);
+  updateHash();
 }
 
 /* =========================================================
