@@ -1551,7 +1551,7 @@ body{
      Ende des Textflusses steht — sonst würde der letzte Absatz darunter
      verdeckt. */
   padding:25px 40px 130px 15px;
-  font-size:16px;
+  font-size:20px;
   line-height:1.5;
   /* Ersetzt die entfernte "About"-Kopfzeile als obere Abgrenzung zum Menü. */
   border-top:var(--border-w) solid var(--black);
