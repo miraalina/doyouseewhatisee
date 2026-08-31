@@ -1147,10 +1147,21 @@ body{
   border-right:var(--border-w) solid var(--black);
   overflow-y:auto;
 }
-/* Info hat (anders als Tool/Specimen) keine eigene Kopfzeile, die die
-   obere Randlinie mitbringen würde — hier direkt auf den Textblock. */
-.type-col-info .method-text{
+/* Info hat (anders als Tool/Specimen) keine eigene Kopfzeile mit Text,
+   aber die obere Randlinie braucht trotzdem etwas Sticky-Eigenes, das
+   beim Scrollen oben stehen bleibt — sonst gehörte die Linie bisher zum
+   normal mitscrollenden .method-text und verschwand mit dem Text nach
+   oben aus dem Bild, sobald der Inhalt länger als die Spalte war. Ein
+   randloses, 0px hohes ::before übernimmt genau diese Linie sticky,
+   ganz ohne zusätzliches Markup in jeder Type-Seite. */
+.type-col-info::before{
+  content:"";
+  display:block;
+  position:sticky;
+  top:0;
+  height:0;
   border-top:var(--border-w) solid var(--black);
+  z-index:10;
 }
 .type-col-specimen{
   overflow-y:auto;
