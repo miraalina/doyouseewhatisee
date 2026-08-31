@@ -55,57 +55,54 @@
   font-style: normal;
 }
 
-  :root{
-    --black:#000;
-    --white:#fff;
-    --border-w:1px;
-    --menu-gap:2px;
-    --menu-item-height:40px;
-    --menu-font-size:20px;
-    --content-font-size:16px;
-    --font-main:"DINdong", sans-serif;
+:root{
+  --black:#000;
+  --white:#fff;
+  --border-w:1px;
+  --menu-gap:2px;
+  --menu-item-height:40px;
+  --menu-font-size:20px;
+  --content-font-size:16px;
+  --font-main:"DINdong", sans-serif;
 }
 
-  *{box-sizing:border-box;}
+*{ box-sizing:border-box; }
 
 html,
 body{
-    margin:0;
-    padding:0;
-    background:var(--white);
-    color:var(--black);
-    font-family:var(--font-main);
-    font-size:var(--content-font-size);
+  margin:0;
+  padding:0;
+  background:var(--white);
+  color:var(--black);
+  font-family:var(--font-main);
+  font-size:var(--content-font-size);
 }
 
-  /* All text on the page uses the same font as the body */
-  .title{
-    font-family:var(--font-main);
-  }
+.title{
+  font-family:var(--font-main);
+}
 
-  a{
-    color:inherit;
-    text-decoration:none;
-  }
+a{
+  color:inherit;
+  text-decoration:none;
+}
 
-  /* Inline-Links innerhalb von Fließtext (Interview-Redebeiträge, Bio,
-     Manifesto-Text) — Text bleibt schwarz (color:inherit von oben), nur
-     unterstrichen, damit er sich vom umgebenden Text abhebt. Bewusst nicht
-     global auf alle <a>, sonst würden auch Menü/Navigations-Links
-     mitbetroffen. */
-  .turn-text a,
-  .turn-expand a,
-  .interview-intro-text a,
-  .manifesto-text a,
-  .intro-meta a{
-    text-decoration:underline;
-  }
+/* Inline-Links im Fließtext (Redebeiträge, Bio, Manifesto-Text) bleiben
+   schwarz, nur unterstrichen. Bewusst nicht global auf alle <a>, sonst
+   wären auch Menü/Navigations-Links betroffen. */
+.turn-text a,
+.turn-expand a,
+.interview-intro-text a,
+.manifesto-text a,
+.intro-meta a{
+  text-decoration:underline;
+}
 
-  button{
-    font-family:inherit;
-    font-size:inherit;
-    cursor:pointer;
-  }
+button{
+  font-family:inherit;
+  font-size:inherit;
+  cursor:pointer;
+}
 
   /* =========================================================
    MENU — GLOBAL
@@ -191,13 +188,10 @@ body{
   height:calc(var(--menu-item-height) - var(--border-w));
 }
 
-/* Erster/letzter Tab jeder Menüzeile sitzt an der äußeren Seitenkante —
-   dort keine Randlinie, genau wie bei "10 Questions to Reflect the
-   Project" auf der Manifesto-Seite. Level 1 ausgenommen: "Work Mode" (erstes
-   Kind von .nav-items) sitzt NICHT an der äußeren Seitenkante, sondern
-   direkt neben der Titelzelle — die braucht also weiterhin ihre linke
-   Randlinie. "About" (letztes Kind) sitzt dagegen wirklich am rechten
-   Seitenrand, wie gehabt. */
+/* Erster/letzter Tab jeder Menüzeile sitzt an der äußeren Seitenkante,
+   daher dort keine Randlinie. Level 1 ausgenommen: "Work Mode" (erstes
+   Kind) sitzt neben der Titelzelle, nicht am Seitenrand — behält also
+   seine linke Linie. "About" (letztes Kind) sitzt echt am rechten Rand. */
 .menu-level-2 .nav-item:first-child,
 .menu-level-3 .nav-item:first-child{
   border-left:none;
@@ -383,24 +377,10 @@ body{
 
 
 /* =========================================================
-   CONTENT LAYOUT
+   CONTENT LAYOUT — .content-header ist die Basis-Kopfzeile, von jedem
+   Seiten-Modul weiter unten wiederverwendet (Interview, Method, Type,
+   Manifesto, About).
    ========================================================= */
-
-#page-content{
-  padding-top:calc(--menu-item-height);
-}
-
-.content-layout{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:var(--menu-gap);
-  margin-top:0;
-}
-
-.content-column{
-  display:flex;
-  flex-direction:column;
-}
 
 .content-header{
   height:var(--menu-item-height);
@@ -412,12 +392,6 @@ body{
   border-right:var(--border-w) solid var(--black);
   border-left:var(--border-w) solid var(--black);
   font-size:var(--content-font-size);
-}
-
-.content-block{
-  padding:25px 15px;
-  font-size:var(--content-font-size);
-  line-height:1.4;
 }
 
 /* =========================================================
@@ -672,22 +646,14 @@ body{
 }
 
 /* Highlight-Zitat in der äußeren Notes-Spalte, größer gesetzt neben der
-   Original-Aussage (siehe scripts/build-interview-turns.js — aus
-   ==...== markierten Textstellen im Transkript erzeugt). Keine
-   Interaktion nötig, deshalb wie .interview-note pointer-events:none.
-
-   position:absolute statt des von .interview-turn geerbten relative:
-   dadurch trägt das Highlight nicht mehr zur Höhe seiner Grid-Zeile bei
-   (Phuong/Mira in derselben Zeile bleiben exakt so hoch wie ihr eigener
-   Text) und darf trotzdem beliebig länger sein — es läuft dann einfach
-   über die Zeile hinaus, statt sie aufzublähen. top:0 verankert korrekt
-   an der eigenen Grid-Zeile (Containing Block für Grid-Items), aber
-   Chromium bezieht left/right/width dabei auf das ganze Grid statt nur
-   die eigene Spalte — UND zwar je nach Spalte inkonsistent (bei Spalte 4
-   löste sich %-basiertes width:calc() auf einen viel zu kleinen Wert
-   auf, bei Spalte 1 zufällig richtig). Deshalb keine %-Berechnung mehr:
-   main.js misst die tatsächliche Spaltenbreite und setzt sie als feste
-   Pixelbreite über --highlight-col-width. */
+   Original-Aussage (aus ==...== markierten Textstellen erzeugt, siehe
+   scripts/build-interview-turns.js). Keine Interaktion, daher wie
+   .interview-note pointer-events:none.
+   position:absolute (statt relative von .interview-turn geerbt): trägt
+   so nicht zur Höhe seiner Grid-Zeile bei und darf beliebig lang sein,
+   ohne sie aufzublähen. width als feste Pixelbreite (--highlight-col-
+   width, von main.js gemessen) statt %-Wert: Chromium löst %-width bei
+   position:absolute-Grid-Items spaltenabhängig inkonsistent auf. */
 .interview-turn.interview-highlight{
   pointer-events:none;
   position:absolute;
@@ -1450,18 +1416,14 @@ body{
   top:calc(var(--menu-height, 40px) + var(--menu-gap));
 }
 
-/* Genau EINE Trennlinie an den äußeren Kanten (links/rechts der ganzen
-   Spalte) statt doppelt gemalter Ränder: .manifesto-left/-right tragen
-   ihre volle-Höhe-Border selbst, ihre eigenen Top-Level-.content-header
-   verzichten daher auf eine eigene rechte Kante — exakt wie
-   .method-col-intro/.method-col-instructions das auf der Exercise-Seite
-   machen. Mira behält ihre normale border-right von der Basis-
-   .content-header-Regel: das ist die einzige Quelle für die kurze Linie
-   zwischen Mira und Phuong (reicht bewusst nur so weit wie die
-   Kopfzeile). Phuong sitzt dagegen an der äußeren Kante der ganzen
-   linken Spalte — dort würde ihre eigene border-right sich mit der
-   volle-Höhe-Border von .manifesto-left überlagern, deshalb verzichtet
-   nur sie zusätzlich darauf. */
+/* Genau EINE Trennlinie an den äußeren Spaltenkanten statt doppelt
+   gemalter Ränder: .manifesto-left/-right tragen ihre volle-Höhe-Border
+   selbst, ihre Top-Level-.content-header verzichten daher auf eine
+   eigene rechte Kante (wie .method-col-intro auf der Exercise-Seite).
+   Mira behält ihre normale border-right (Basis-Regel) — einzige Quelle
+   der kurzen Linie zwischen Mira/Phuong. Phuong sitzt an der äußeren
+   Kante der linken Spalte, wo ihre eigene border-right sich mit
+   .manifesto-lefts Border überlagern würde, daher hier ausgenommen. */
 .manifesto-left > .content-header,
 .manifesto-right > .content-header,
 .manifesto-left .interview-grid > .content-header:nth-child(2){
