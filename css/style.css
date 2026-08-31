@@ -96,7 +96,8 @@ body{
   .turn-text a,
   .turn-expand a,
   .interview-intro-text a,
-  .manifesto-text a{
+  .manifesto-text a,
+  .intro-meta a{
     text-decoration:underline;
   }
 
