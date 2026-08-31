@@ -1603,8 +1603,17 @@ body{
   }
   /* Fixed würde auf mobil (About-Text und gestapelte rechte Spalte
      untereinander) den nachfolgenden Inhalt verdecken — hier also
-     normaler Textfluss statt am Bildschirmrand fixiert. */
+     normaler Textfluss statt am Bildschirmrand fixiert. Kein eigenes
+     Aussehen mehr (Schriftgröße/Padding wie .about-text) — auf mobil
+     reiht sich der Footer einfach als weiterer Absatz ein, statt als
+     eigener Abschnitt aufzufallen. */
   .about-text{ padding-bottom:25px; }
-  .about-footer{ position:static; width:100%; border-right:none; }
+  .about-footer{
+    position:static;
+    width:100%;
+    border-right:none;
+    padding:0 40px 0 15px;
+    font-size:20px;
+  }
 }
 
