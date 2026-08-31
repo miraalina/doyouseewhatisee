@@ -626,6 +626,88 @@ function initTypeTool(layout){
     if(text.textContent.trim() === ''){ text.innerHTML = ''; }
   });
 
+  // Stylistic-Set-Alternates (aktuell nur Handschrift/2.113.1, siehe
+  // data-alt-feature/-chars): die Schrift hat für viele Buchstaben eine
+  // zweite Glyphen-Variante über ein OpenType-Feature (z.B. "ss01") —
+  // CSS kann das nur komplett ein-/ausschalten, nicht "jedes zweite
+  // Vorkommen". main.js zählt daher beim Tippen, wie oft jeder
+  // alternierende Buchstabe im Text bisher vorkam, und umhüllt jedes
+  // GERADE Vorkommen mit einem <span>, das das Feature gezielt nur für
+  // dieses eine Zeichen aktiviert — ungerade Vorkommen bleiben die
+  // Standard-Glyphe. Bei jedem Tastendruck komplett neu durchgezählt
+  // (nicht nur angehängt), damit Löschen mittendrin die Abwechslung der
+  // nachfolgenden Zeichen automatisch richtig verschiebt.
+  var altFeature = text.getAttribute('data-alt-feature');
+  var altChars = text.getAttribute('data-alt-chars');
+  if(altFeature && altChars){
+    var getCaretOffset = function(){
+      var sel = window.getSelection();
+      if(!sel.rangeCount) return null;
+      var range = sel.getRangeAt(0);
+      if(!text.contains(range.startContainer)) return null;
+      var pre = range.cloneRange();
+      pre.selectNodeContents(text);
+      pre.setEnd(range.endContainer, range.endOffset);
+      return pre.toString().length;
+    };
+    var setCaretOffset = function(offset){
+      var sel = window.getSelection();
+      var range = document.createRange();
+      var count = 0, found = false;
+      (function walk(node){
+        if(found) return;
+        if(node.nodeType === 3){
+          var next = count + node.textContent.length;
+          if(offset <= next){
+            range.setStart(node, offset - count);
+            range.collapse(true);
+            found = true;
+            return;
+          }
+          count = next;
+        } else {
+          for(var i = 0; i < node.childNodes.length; i++) walk(node.childNodes[i]);
+        }
+      })(text);
+      if(!found){
+        range.selectNodeContents(text);
+        range.collapse(false);
+      }
+      sel.removeAllRanges();
+      sel.addRange(range);
+    };
+    var applyAlternates = function(){
+      var str = text.textContent;
+      var caret = getCaretOffset();
+      var counts = {};
+      var frag = document.createDocumentFragment();
+      var plain = '';
+      var flushPlain = function(){
+        if(plain){ frag.appendChild(document.createTextNode(plain)); plain = ''; }
+      };
+      for(var i = 0; i < str.length; i++){
+        var ch = str[i];
+        if(altChars.indexOf(ch) !== -1){
+          counts[ch] = (counts[ch] || 0) + 1;
+          if(counts[ch] % 2 === 0){
+            flushPlain();
+            var span = document.createElement('span');
+            span.style.fontFeatureSettings = '"' + altFeature + '" 1';
+            span.textContent = ch;
+            frag.appendChild(span);
+            continue;
+          }
+        }
+        plain += ch;
+      }
+      flushPlain();
+      text.innerHTML = '';
+      text.appendChild(frag);
+      if(caret !== null) setCaretOffset(caret);
+    };
+    text.addEventListener('input', applyAlternates);
+  }
+
   if(sizeSlider){
     sizeSlider.addEventListener('input', function(){
       text.style.fontSize = sizeSlider.value + 'px';
