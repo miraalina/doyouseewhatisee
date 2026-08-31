@@ -640,14 +640,22 @@ function initTypeTool(layout){
   // Filled/Outlined-Umschalter (aktuell nur Blind Strokes): welche Klasse
   // im aus-/eingeschalteten Zustand gilt, steht am Input selbst
   // (data-font-off/-on), damit main.js generisch bleibt und nicht die
-  // Font-Namen hartcodieren muss.
+  // Font-Namen hartcodieren muss. data-label-off/-on (optional) macht
+  // dasselbe für die Versionsbezeichnung oben links (.type-tool-version),
+  // damit die Anzeige immer zur aktuell gewählten Schriftdatei passt.
   var fontToggle = layout.querySelector('.type-font-toggle-input');
   if(fontToggle){
     var offClass = fontToggle.getAttribute('data-font-off');
     var onClass = fontToggle.getAttribute('data-font-on');
+    var offLabel = fontToggle.getAttribute('data-label-off');
+    var onLabel = fontToggle.getAttribute('data-label-on');
+    var versionLabel = layout.querySelector('.type-tool-version');
     fontToggle.addEventListener('change', function(){
       text.classList.toggle(onClass, fontToggle.checked);
       text.classList.toggle(offClass, !fontToggle.checked);
+      if(versionLabel && offLabel && onLabel){
+        versionLabel.textContent = fontToggle.checked ? onLabel : offLabel;
+      }
     });
   }
 

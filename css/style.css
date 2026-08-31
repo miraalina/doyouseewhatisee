@@ -10,37 +10,37 @@
    hochgeladenen Datei (Dateinamen sind case-sensitive). */
 @font-face {
   font-family: "session1-Filled";
-  src: url("../content/fonts/session1-Filled.otf") format("opentype");
+  src: url("../content/fonts/2.52.2.1.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "session1-outlined";
-  src: url("../content/fonts/session1-outlined.otf") format("opentype");
+  src: url("../content/fonts/2.52.2.2.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "Session2";
-  src: url("../content/fonts/Session2.ttf") format("truetype");
+  src: url("../content/fonts/2.26.3.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "Session4";
-  src: url("../content/fonts/Session4.ttf") format("truetype");
+  src: url("../content/fonts/2.26.5.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "session5";
-  src: url("../content/fonts/session5.otf") format("opentype");
+  src: url("../content/fonts/2.26.6.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "session3";
-  src: url("../content/fonts/session3.otf") format("opentype");
+  src: url("../content/fonts/2.26.4.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -50,7 +50,7 @@
    hochgeladenen Dateinamen, meinen aber unterschiedliche Schriften. */
 @font-face {
   font-family: "session1-parallel";
-  src: url("../content/fonts/session1.otf") format("opentype");
+  src: url("../content/fonts/2.113.1.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
