@@ -1,269 +1,260 @@
-
-  // Fehlt eine Bilddatei (z.B. noch nicht hochgeladenes Portrait), zeigt
-  // der Browser sonst ein Kaputt-Icon + Alt-Text. Statt das mit CSS zu
-  // kaschieren (das Icon selbst lässt sich damit nicht zuverlässig
-  // ausblenden), wird die src bei Ladefehler auf ein einfarbig graues
-  // SVG umgeschaltet — ein "erfolgreich geladenes" Bild zeigt nie das
-  // Kaputt-Icon, und alle bestehenden width/height/object-fit-Regeln für
-  // <img> greifen unverändert weiter. 'error' bubble nicht, daher capture.
-  var IMG_FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3Crect width='1' height='1' fill='%23ccc'/%3E%3C/svg%3E";
-  document.addEventListener('error', function(e){
-    var el = e.target;
-    if(el.tagName === 'IMG' && el.src !== IMG_FALLBACK){
-      el.src = IMG_FALLBACK;
-    }
-  }, true);
-
-  let currentMode = null;
-  let currentSession = null;
-  let currentInterview = null;
-  let currentSub = null;
-
-  function clearActive(container){
-    container.querySelectorAll('.nav-item, .title-cell').forEach(el => el.classList.remove('active'));
-  }
-
-  function showPage(id){
-    document.querySelectorAll('.content .page').forEach(p => p.classList.remove('active'));
-    var el = document.getElementById(id);
-    if (el) el.classList.add('active');
-  }
-
-  function hideLevels23(){
-    document.getElementById('level2-sessions').classList.add('hidden');
-    document.getElementById('level2-interviews').classList.add('hidden');
-    document.getElementById('level3-sub').classList.add('hidden');
-  }
-
-  /* =========================================================
-     URL-Routing: aktuelle Auswahl (Mode/Session/Sub bzw. Mode/
-     Interview) landet als Hash in der Adresszeile, z.B.
-     #Workmode/Handschrift/Exercise oder #Interviewmode/Ivobrouwer —
-     so lässt sich ein Link zu einer bestimmten Unterseite kopieren
-     und verschicken. Segmente sind die echten Menü-Beschriftungen
-     (Leerzeichen entfernt, nur der erste Buchstabe groß), damit sie
-     immer automatisch mit dem Menü übereinstimmen, auch nach künftigen
-     Umbenennungen — keine zweite, separat zu pflegende Namensliste.
-     replaceState statt pushState/location.hash: jeder Klick soll nur
-     die aktuelle URL aktualisieren, nicht die Browser-History mit
-     einem Eintrag pro Menüklick vollstopfen.
-     ========================================================= */
-  function slugifyLabel(label){
-    var noSpaces = (label || '').replace(/\s+/g, '');
-    if(!noSpaces) return '';
-    return noSpaces.charAt(0).toUpperCase() + noSpaces.slice(1).toLowerCase();
-  }
-
-  function navLabel(selector){
-    var el = document.querySelector(selector);
-    return el ? el.textContent.replace(/\s+/g, ' ').trim() : '';
-  }
-
-  function updateHash(){
-    var parts = [];
-    if(currentMode === 'work'){
-      parts.push(slugifyLabel(navLabel('#level1-items .nav-item[data-mode="work"]')));
-      if(currentSession){
-        parts.push(slugifyLabel(navLabel('.nav-item[data-session="' + currentSession + '"]')));
-        if(currentSub){
-          parts.push(slugifyLabel(navLabel('.nav-item[data-sub="' + currentSub + '"]')));
-        }
-      }
-    } else if(currentMode === 'interview'){
-      parts.push(slugifyLabel(navLabel('#level1-items .nav-item[data-mode="interview"]')));
-      if(currentInterview){
-        parts.push(slugifyLabel(navLabel('.nav-item[data-interview="' + currentInterview + '"]')));
-      }
-    } else if(currentMode){
-      parts.push(slugifyLabel(navLabel('#level1-items .nav-item[data-mode="' + currentMode + '"]')));
-    }
-    var hash = parts.length ? '#' + parts.join('/') : '';
-    if(location.hash !== hash){
-      history.replaceState(null, '', hash || (location.pathname + location.search));
-    }
-  }
-
-  // Findet zu einem Hash-Segment den passenden Menüpunkt (Vergleich
-  // case-insensitiv, damit auch von Hand getippte/veränderte Links
-  // funktionieren) und liefert dessen data-*-Wert zurück.
-  function findByLabelSlug(items, slug){
-    var target = slug.toLowerCase();
-    for(var i = 0; i < items.length; i++){
-      if(slugifyLabel(items[i].textContent.replace(/\s+/g, ' ').trim()).toLowerCase() === target){
-        return items[i];
-      }
-    }
-    return null;
-  }
-
-  function restoreFromHash(){
-    var raw = location.hash.replace(/^#/, '');
-    // Nicht-ASCII-Zeichen (z.B. "é") landen in location.hash percent-
-    // encodiert (auch wenn man die URL mit Umlaut/Akzent direkt eintippt)
-    // — decodeURIComponent macht daraus wieder den reinen Text zum
-    // Abgleich mit den (unencodierten) Menü-Beschriftungen.
-    var segments = raw.split('/').filter(Boolean).map(function(seg){
-      try { return decodeURIComponent(seg); } catch(e) { return seg; }
-    });
-    if(segments.length === 0){
-      goHome();
-      return;
-    }
-    var modeItems = Array.prototype.slice.call(document.querySelectorAll('#level1-items .nav-item[data-mode]'));
-    var modeItem = findByLabelSlug(modeItems, segments[0]);
-    if(!modeItem){
-      goHome();
-      return;
-    }
-    var mode = modeItem.getAttribute('data-mode');
-    selectMode(mode);
-
-    if(mode === 'work' && segments[1]){
-      var sessionItems = Array.prototype.slice.call(document.querySelectorAll('#level2-sessions .nav-item[data-session]'));
-      var sessionItem = findByLabelSlug(sessionItems, segments[1]);
-      if(sessionItem){
-        selectSession(sessionItem.getAttribute('data-session'));
-        if(segments[2]){
-          var subItems = Array.prototype.slice.call(document.querySelectorAll('#level3-sub .nav-item[data-sub]'));
-          var subItem = findByLabelSlug(subItems, segments[2]);
-          if(subItem) selectSub(subItem.getAttribute('data-sub'));
-        }
-      }
-    } else if(mode === 'interview' && segments[1]){
-      var interviewItems = Array.prototype.slice.call(document.querySelectorAll('#level2-interviews .nav-item[data-interview]'));
-      var interviewItem = findByLabelSlug(interviewItems, segments[1]);
-      if(interviewItem) selectInterview(interviewItem.getAttribute('data-interview'));
-    }
-  }
-
-  function goHome(){
-    currentMode = null;
-    currentSession = null;
-    currentInterview = null;
-    currentSub = null;
-    clearActive(document.getElementById('level1-items'));
-    document.getElementById('home-link').classList.add('active');
-    hideLevels23();
-    document.getElementById('page-content').innerHTML = '';
-    updateModeToggle(null);
-    closeMobileMenu();
-    updateHash();
-  }
-
-  /* Mobiles Level-1-Dropdown (siehe CSS .site-menu.mobile-open). Auf Desktop
-     ist #mode-toggle per CSS ausgeblendet, die Funktionen bleiben dort also
-     folgenlos. */
-  function toggleMobileMenu(){
-    document.getElementById('site-menu').classList.toggle('mobile-open');
-  }
-
-  function closeMobileMenu(){
-    document.getElementById('site-menu').classList.remove('mobile-open');
-  }
-
-  function updateModeToggle(mode){
-    var label = document.getElementById('mode-toggle-label');
-    var toggle = document.getElementById('mode-toggle');
-    if(mode){
-      label.textContent = mode.charAt(0).toUpperCase() + mode.slice(1);
-      toggle.classList.add('mode-active');
-    } else {
-      label.textContent = 'Mode';
-      toggle.classList.remove('mode-active');
-    }
-  }
-
-  function selectMode(mode){
-    currentMode = mode;
-    currentSession = null;
-    currentInterview = null;
-    currentSub = null;
-
-    clearActive(document.getElementById('level1-items'));
-    document.getElementById('home-link').classList.remove('active');
-    document.querySelector('.nav-item[data-mode="' + mode + '"]').classList.add('active');
-    updateModeToggle(mode);
-    closeMobileMenu();
-
-    hideLevels23();
-
-    if(mode === 'work'){
-      document.getElementById('level2-sessions').classList.remove('hidden');
-      clearActive(document.getElementById('level2-sessions'));
-      document.getElementById('page-content').innerHTML = ''; // nothing selected yet within sessions
-    } else if(mode === 'interview'){
-      document.getElementById('level2-interviews').classList.remove('hidden');
-      clearActive(document.getElementById('level2-interviews'));
-      document.getElementById('page-content').innerHTML = '';
-    } else if(mode === 'manifesto'){
-      loadContent('content/Manifesto/manifesto.html', initInterview);
-    } else if(mode === 'about'){
-      loadContent('content/about/about.html');
-    }
-    updateHash();
-  }
-
-  function selectSession(n){
-    currentSession = n;
-    clearActive(document.getElementById('level2-sessions'));
-    document.querySelector('.nav-item[data-session="' + n + '"]').classList.add('active');
-
-    document.getElementById('level3-sub').classList.remove('hidden');
-    clearActive(document.getElementById('level3-sub'));
-    // default to Exercise sub-page
-    selectSub('exercise');
-  }
-
-  // Dateiname-Präfix je Reiter — "Exercise" mit großem E, weil die Datei
-  // (z.B. Exercise1.html) auch so heißt und Dateinamen case-sensitive sind.
-  var subFileMap = { exercise: 'Exercise', type: 'type', notes: 'notes' };
-
-  function selectSub(sub){
-    currentSub = sub;
-    clearActive(document.getElementById('level3-sub'));
-    document.querySelector('.nav-item[data-sub="' + sub + '"]').classList.add('active');
-
-    var fileBase = subFileMap[sub];
-    if (currentSession && fileBase) {
-      loadContent('content/sessions/session' + currentSession + '/' + fileBase + currentSession + '.html', initInterview);
-    }
-    updateHash();
-  }
-
-  /* Hält --menu-height synchron mit der tatsächlich gerenderten Höhe des
-     sticky Menüs (variiert je nach Seite: 1, 2 oder 3 sichtbare Ebenen).
-     Sticky Elemente weiter unten (.interview-sidebar, .method-text) lesen
-     diese Variable als top-Offset, damit sie direkt unter dem Menü andocken
-     statt darunter zu verschwinden. */
-  var siteMenu = document.getElementById('site-menu');
-  if(siteMenu && 'ResizeObserver' in window){
-    var menuObserver = new ResizeObserver(function(entries){
-      var height = entries[0].contentRect.height;
-      document.documentElement.style.setProperty('--menu-height', height + 'px');
-    });
-    menuObserver.observe(siteMenu);
-  }
-
-  // init — Hash aus der URL (falls vorhanden, z.B. per geteiltem Link)
-  // stellt die passende Unterseite wieder her, sonst normale Startseite.
-  restoreFromHash();
-  window.addEventListener('popstate', restoreFromHash);
-
-  /* =========================================================
-   ÄNDERUNG 1: loadContent bekommt einen optionalen Callback,
-   der ausgeführt wird, NACHDEM der HTML-Fragment-Inhalt eingefügt
-   wurde. Wichtig: <script>-Tags in einem via innerHTML eingefügten
-   Fragment werden vom Browser NICHT automatisch ausgeführt — daher
-   muss die Interview-Logik von hier aus (main.js) angestoßen werden.
-   Ersetzt eure bestehende loadContent()-Funktion.
+/* =========================================================
+   Bild-Fallback: fehlt eine Datei (z.B. noch nicht hochgeladenes
+   Portrait), zeigt der Browser sonst ein Kaputt-Icon. Ersetzt die src
+   bei Ladefehler durch ein graues 1x1-SVG. 'error' bubbelt nicht,
+   daher capture-Phase (true).
    ========================================================= */
-// Zählt jeden loadContent()-Aufruf hoch — schnelles Klicken zwischen
-// Menüpunkten kann dazu führen, dass ein ÄLTERER fetch() erst NACH einem
-// neueren zurückkommt (Netzwerk-Timing ist nicht garantiert in Aufruf-
-// Reihenfolge). Ohne diese Prüfung würde die verspätete alte Antwort den
-// bereits geladenen neuen Inhalt wieder überschreiben ("es wird trotzdem
-// noch der alte Inhalt angezeigt"). Nur die zum Zeitpunkt der ANTWORT
-// jeweils aktuellste Anfrage darf #page-content noch schreiben.
+var IMG_FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3Crect width='1' height='1' fill='%23ccc'/%3E%3C/svg%3E";
+document.addEventListener('error', function(e){
+  var el = e.target;
+  if(el.tagName === 'IMG' && el.src !== IMG_FALLBACK){
+    el.src = IMG_FALLBACK;
+  }
+}, true);
+
+/* =========================================================
+   Navigations-Zustand + Menü-Helfer
+   ========================================================= */
+let currentMode = null;
+let currentSession = null;
+let currentInterview = null;
+let currentSub = null;
+
+function clearActive(container){
+  container.querySelectorAll('.nav-item, .title-cell').forEach(el => el.classList.remove('active'));
+}
+
+function showPage(id){
+  document.querySelectorAll('.content .page').forEach(p => p.classList.remove('active'));
+  var el = document.getElementById(id);
+  if (el) el.classList.add('active');
+}
+
+function hideLevels23(){
+  document.getElementById('level2-sessions').classList.add('hidden');
+  document.getElementById('level2-interviews').classList.add('hidden');
+  document.getElementById('level3-sub').classList.add('hidden');
+}
+
+/* =========================================================
+   URL-Routing: aktuelle Auswahl landet als Hash in der Adresszeile,
+   z.B. #Workmode/Handschrift/Exercise oder #Interviewmode/Ivobrouwer,
+   damit sich ein Link zu einer Unterseite kopieren/verschicken lässt.
+   Segmente sind die echten Menü-Beschriftungen (Leerzeichen entfernt,
+   erster Buchstabe groß) statt einer separat gepflegten Namensliste,
+   bleiben so automatisch bei Umbenennungen aktuell. replaceState statt
+   pushState: jeder Klick aktualisiert nur die URL, ohne die Browser-
+   History mit einem Eintrag pro Menüklick vollzustopfen.
+   ========================================================= */
+function slugifyLabel(label){
+  var noSpaces = (label || '').replace(/\s+/g, '');
+  if(!noSpaces) return '';
+  return noSpaces.charAt(0).toUpperCase() + noSpaces.slice(1).toLowerCase();
+}
+
+function navLabel(selector){
+  var el = document.querySelector(selector);
+  return el ? el.textContent.replace(/\s+/g, ' ').trim() : '';
+}
+
+function updateHash(){
+  var parts = [];
+  if(currentMode === 'work'){
+    parts.push(slugifyLabel(navLabel('#level1-items .nav-item[data-mode="work"]')));
+    if(currentSession){
+      parts.push(slugifyLabel(navLabel('.nav-item[data-session="' + currentSession + '"]')));
+      if(currentSub){
+        parts.push(slugifyLabel(navLabel('.nav-item[data-sub="' + currentSub + '"]')));
+      }
+    }
+  } else if(currentMode === 'interview'){
+    parts.push(slugifyLabel(navLabel('#level1-items .nav-item[data-mode="interview"]')));
+    if(currentInterview){
+      parts.push(slugifyLabel(navLabel('.nav-item[data-interview="' + currentInterview + '"]')));
+    }
+  } else if(currentMode){
+    parts.push(slugifyLabel(navLabel('#level1-items .nav-item[data-mode="' + currentMode + '"]')));
+  }
+  var hash = parts.length ? '#' + parts.join('/') : '';
+  if(location.hash !== hash){
+    history.replaceState(null, '', hash || (location.pathname + location.search));
+  }
+}
+
+// Findet zu einem Hash-Segment den passenden Menüpunkt (case-insensitiv,
+// funktioniert auch bei von Hand getippten/veränderten Links) und
+// liefert dessen data-*-Wert zurück.
+function findByLabelSlug(items, slug){
+  var target = slug.toLowerCase();
+  for(var i = 0; i < items.length; i++){
+    if(slugifyLabel(items[i].textContent.replace(/\s+/g, ' ').trim()).toLowerCase() === target){
+      return items[i];
+    }
+  }
+  return null;
+}
+
+function restoreFromHash(){
+  var raw = location.hash.replace(/^#/, '');
+  // Umlaute/Akzente landen in location.hash percent-encodiert, auch bei
+  // direkt eingetippter URL — decodeURIComponent für den Abgleich mit
+  // den unencodierten Menü-Beschriftungen.
+  var segments = raw.split('/').filter(Boolean).map(function(seg){
+    try { return decodeURIComponent(seg); } catch(e) { return seg; }
+  });
+  if(segments.length === 0){
+    goHome();
+    return;
+  }
+  var modeItems = Array.prototype.slice.call(document.querySelectorAll('#level1-items .nav-item[data-mode]'));
+  var modeItem = findByLabelSlug(modeItems, segments[0]);
+  if(!modeItem){
+    goHome();
+    return;
+  }
+  var mode = modeItem.getAttribute('data-mode');
+  selectMode(mode);
+
+  if(mode === 'work' && segments[1]){
+    var sessionItems = Array.prototype.slice.call(document.querySelectorAll('#level2-sessions .nav-item[data-session]'));
+    var sessionItem = findByLabelSlug(sessionItems, segments[1]);
+    if(sessionItem){
+      selectSession(sessionItem.getAttribute('data-session'));
+      if(segments[2]){
+        var subItems = Array.prototype.slice.call(document.querySelectorAll('#level3-sub .nav-item[data-sub]'));
+        var subItem = findByLabelSlug(subItems, segments[2]);
+        if(subItem) selectSub(subItem.getAttribute('data-sub'));
+      }
+    }
+  } else if(mode === 'interview' && segments[1]){
+    var interviewItems = Array.prototype.slice.call(document.querySelectorAll('#level2-interviews .nav-item[data-interview]'));
+    var interviewItem = findByLabelSlug(interviewItems, segments[1]);
+    if(interviewItem) selectInterview(interviewItem.getAttribute('data-interview'));
+  }
+}
+
+/* =========================================================
+   Mode/Session/Sub-Navigation
+   ========================================================= */
+function goHome(){
+  currentMode = null;
+  currentSession = null;
+  currentInterview = null;
+  currentSub = null;
+  clearActive(document.getElementById('level1-items'));
+  document.getElementById('home-link').classList.add('active');
+  hideLevels23();
+  document.getElementById('page-content').innerHTML = '';
+  updateModeToggle(null);
+  closeMobileMenu();
+  updateHash();
+}
+
+// Mobiles Level-1-Dropdown (siehe CSS .site-menu.mobile-open). Auf
+// Desktop ist #mode-toggle per CSS ausgeblendet, bleibt dort folgenlos.
+function toggleMobileMenu(){
+  document.getElementById('site-menu').classList.toggle('mobile-open');
+}
+
+function closeMobileMenu(){
+  document.getElementById('site-menu').classList.remove('mobile-open');
+}
+
+function updateModeToggle(mode){
+  var label = document.getElementById('mode-toggle-label');
+  var toggle = document.getElementById('mode-toggle');
+  if(mode){
+    label.textContent = mode.charAt(0).toUpperCase() + mode.slice(1);
+    toggle.classList.add('mode-active');
+  } else {
+    label.textContent = 'Mode';
+    toggle.classList.remove('mode-active');
+  }
+}
+
+function selectMode(mode){
+  currentMode = mode;
+  currentSession = null;
+  currentInterview = null;
+  currentSub = null;
+
+  clearActive(document.getElementById('level1-items'));
+  document.getElementById('home-link').classList.remove('active');
+  document.querySelector('.nav-item[data-mode="' + mode + '"]').classList.add('active');
+  updateModeToggle(mode);
+  closeMobileMenu();
+
+  hideLevels23();
+
+  if(mode === 'work'){
+    document.getElementById('level2-sessions').classList.remove('hidden');
+    clearActive(document.getElementById('level2-sessions'));
+    document.getElementById('page-content').innerHTML = ''; // nothing selected yet within sessions
+  } else if(mode === 'interview'){
+    document.getElementById('level2-interviews').classList.remove('hidden');
+    clearActive(document.getElementById('level2-interviews'));
+    document.getElementById('page-content').innerHTML = '';
+  } else if(mode === 'manifesto'){
+    loadContent('content/Manifesto/manifesto.html', initInterview);
+  } else if(mode === 'about'){
+    loadContent('content/about/about.html');
+  }
+  updateHash();
+}
+
+function selectSession(n){
+  currentSession = n;
+  clearActive(document.getElementById('level2-sessions'));
+  document.querySelector('.nav-item[data-session="' + n + '"]').classList.add('active');
+
+  document.getElementById('level3-sub').classList.remove('hidden');
+  clearActive(document.getElementById('level3-sub'));
+  selectSub('exercise'); // default sub-page
+}
+
+// Dateiname-Präfix je Reiter — "Exercise" groß, weil die Datei (z.B.
+// Exercise1.html) auch so heißt und Dateinamen case-sensitiv sind.
+var subFileMap = { exercise: 'Exercise', type: 'type', notes: 'notes' };
+
+function selectSub(sub){
+  currentSub = sub;
+  clearActive(document.getElementById('level3-sub'));
+  document.querySelector('.nav-item[data-sub="' + sub + '"]').classList.add('active');
+
+  var fileBase = subFileMap[sub];
+  if (currentSession && fileBase) {
+    loadContent('content/sessions/session' + currentSession + '/' + fileBase + currentSession + '.html', initInterview);
+  }
+  updateHash();
+}
+
+// Hält --menu-height synchron mit der tatsächlichen Höhe des sticky
+// Menüs (variiert je nach Seite: 1-3 sichtbare Ebenen). Sticky Elemente
+// weiter unten lesen diese Variable als top-Offset.
+var siteMenu = document.getElementById('site-menu');
+if(siteMenu && 'ResizeObserver' in window){
+  var menuObserver = new ResizeObserver(function(entries){
+    var height = entries[0].contentRect.height;
+    document.documentElement.style.setProperty('--menu-height', height + 'px');
+  });
+  menuObserver.observe(siteMenu);
+}
+
+// init — stellt bei vorhandenem Hash (z.B. per geteiltem Link) die
+// passende Unterseite wieder her, sonst normale Startseite.
+restoreFromHash();
+window.addEventListener('popstate', restoreFromHash);
+
+/* =========================================================
+   Content laden: fetch()t ein HTML-Fragment in #page-content, mit
+   optionalem Callback für Nachbereitung (z.B. initInterview) — <script>-
+   Tags in per innerHTML eingefügten Fragmenten laufen nicht automatisch.
+
+   loadContentRequestId schützt gegen Race Conditions: schnelles Klicken
+   zwischen Menüpunkten kann dazu führen, dass ein älterer fetch() erst
+   NACH einem neueren zurückkommt. Nur die zum Antwortzeitpunkt aktuellste
+   Anfrage darf #page-content noch schreiben.
+   ========================================================= */
 var loadContentRequestId = 0;
 function loadContent(path, callback){
   var requestId = ++loadContentRequestId;
@@ -277,9 +268,8 @@ function loadContent(path, callback){
     .then(html => {
       if (requestId !== loadContentRequestId) return; // inzwischen überholt
       document.getElementById("page-content").innerHTML = html;
-      // Neue Seite soll immer oben beginnen, statt die Scroll-Position der
-      // vorherigen Seite (z.B. weit unten in einem langen Transkript) zu
-      // übernehmen.
+      // Neue Seite beginnt immer oben, statt die Scroll-Position der
+      // vorherigen Seite zu übernehmen.
       window.scrollTo(0, 0);
       if (typeof callback === "function") callback();
     })
@@ -291,13 +281,6 @@ function loadContent(path, callback){
     });
 }
 
-/* =========================================================
-   ÄNDERUNG 2: selectInterview lädt jetzt die eigene HTML-Datei
-   des jeweiligen Interviews (statt Platzhaltertext zu setzen) und
-   initialisiert danach das Grid. Ersetzt eure bestehende
-   selectInterview()-Funktion. Passt den Pfad an eure echte
-   Ordnerstruktur an, falls nötig.
-   ========================================================= */
 function selectInterview(n){
   currentInterview = n;
   clearActive(document.getElementById('level2-interviews'));
@@ -307,9 +290,9 @@ function selectInterview(n){
 }
 
 /* =========================================================
-   NEU: initInterview() — wird nach jedem Laden eines Interview-
-   Fragments aufgerufen. Sucht sich sein .interview-grid selbst,
-   macht bei Seiten ohne Interview-Grid nichts (harmlos aufrufbar).
+   initInterview() — nach jedem Laden eines Interview-/Manifesto-/Notes-
+   Fragments aufgerufen. Sucht sich sein .interview-grid selbst, macht
+   bei Seiten ohne Grid nichts (harmlos aufrufbar).
    ========================================================= */
 function initInterview(){
   var typeLayout = document.querySelector('.type-layout');
@@ -327,14 +310,11 @@ function initInterview(){
   var currentImg = null;
 
   // Kopfzeile fix in Zeile 1, jede Aussage bekommt ihre eigene Zeile
-  // darunter (2, 3, 4 …) und ihre Spalte aus data-col — ohne das würde
-  // CSS-Grid Aussagen verschiedener Personen in dieselbe Zeile packen,
-  // sobald deren Spalte gerade frei ist (sieht dann nach "gleichzeitig
-  // sprechen" aus).
-  // .interview-highlight (Notes/Feedback-Seiten) ist keine eigene Aussage,
-  // sondern nur ein Zitat NEBEN dem vorherigen Redebeitrag — bekommt daher
-  // dessen Zeile statt einer eigenen, sonst entstünde in der mittleren
-  // Spalte an der Stelle eine leere Lücke.
+  // darunter + ihre Spalte aus data-col — ohne das packt CSS-Grid
+  // Aussagen verschiedener Personen in dieselbe Zeile, sobald deren
+  // Spalte frei ist ("gleichzeitig sprechen"-Optik).
+  // .interview-highlight (Notes-Seiten) ist kein eigener Redebeitrag,
+  // sondern ein Zitat NEBEN dem vorherigen — bekommt daher dessen Zeile.
   headers.forEach(function(h, i){ h.style.gridColumn = i + 1; });
   var row = 1;
   turns.forEach(function(turn){
@@ -345,12 +325,9 @@ function initInterview(){
     turn.style.gridRow = row;
   });
 
-  // .interview-highlight (Notes/Feedback-Seiten) braucht eine feste
-  // Pixelbreite statt %-basiertem CSS calc(): width:calc(100% - …) löst
-  // sich für Spalte 1 und Spalte 4 in Chromium unterschiedlich auf
-  // (Spalte 4 landete auf einem winzigen Bruchteil der echten Breite),
-  // deshalb hier die tatsächlich gerenderte 20%-Spaltenbreite messen und
-  // als Pixelwert setzen — funktioniert für beide Seiten gleich.
+  // .interview-highlight braucht eine feste Pixelbreite statt %-Wert:
+  // Chromium löst width:calc(100% - …) für Spalte 1 und 4 unterschiedlich
+  // auf. Hier die gerenderte 20%-Spaltenbreite messen und als px setzen.
   if(grid.classList.contains('cols-4-notes')){
     var syncHighlightWidth = function(){
       var gapPx = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--menu-gap')) || 2;
@@ -365,11 +342,9 @@ function initInterview(){
     }
   }
 
-  // Trennlinien-Elemente (.col-divider) über Kopfzeile + alle
-  // Redebeiträge spannen. "grid-row:1/-1" in CSS würde hier nicht
-  // funktionieren, weil die Zeilen implizit entstehen (kein
-  // grid-template-rows) — -1 bezieht sich nur auf explizit definierte
-  // Zeilen.
+  // .col-divider über Kopfzeile + alle Redebeiträge spannen. CSS
+  // "grid-row:1/-1" funktioniert hier nicht, da die Zeilen implizit
+  // entstehen (kein grid-template-rows).
   Array.prototype.slice.call(grid.querySelectorAll('.col-divider')).forEach(function(div){
     div.style.gridRow = '1 / ' + (turns.length + 2);
   });
@@ -383,7 +358,7 @@ function initInterview(){
     container.appendChild(clone);
   }
 
-  // Erst ab ca. 5 Zeilen wird gekürzt; kurze Antworten bleiben immer voll sichtbar
+  // Erst ab ca. 5 Zeilen wird gekürzt; kurze Antworten bleiben immer voll sichtbar.
   turns.forEach(function(turn){
     var text = turn.querySelector('.turn-text');
     var wrap = turn.querySelector('.text-wrap');
@@ -396,8 +371,8 @@ function initInterview(){
         expand.className = 'turn-expand';
         expand.innerHTML = text.innerHTML;
         wrap.appendChild(expand);
-        // Echte Höhe messen, damit die max-height-Transition beim Aufklappen
-        // exakt bis zum Textende läuft statt einen groben Schätzwert zu nutzen.
+        // Echte Höhe messen, damit die max-height-Transition exakt bis
+        // zum Textende läuft statt einen groben Schätzwert zu nutzen.
         expand.style.setProperty('--expand-height', expand.scrollHeight + 'px');
       } else {
         text.classList.add('fits');
@@ -419,18 +394,16 @@ function initInterview(){
     if(imgId !== currentImg){
       cloneInto(cursorFrame, imgId);
       currentImg = imgId;
-      // Rahmen ist standardmäßig fest 4:3.1 (passt zu den Vektor-Diagrammen).
-      // Ein Foto mit eigenem Seitenverhältnis (data-aspect am def-Element)
-      // bekommt stattdessen genau dessen Verhältnis, statt object-fit:cover
-      // es hineinzuquetschen/-schneiden.
+      // Rahmen ist standardmäßig 4:3.1 (passt zu den Vektor-Diagrammen).
+      // Ein Foto mit eigenem Seitenverhältnis (data-aspect am def-
+      // Element) bekommt stattdessen genau dessen Verhältnis.
       var def = document.getElementById('def-' + imgId);
       var aspect = def && def.getAttribute('data-aspect');
       cursorFrame.style.aspectRatio = aspect || '';
     }
     var title = turn.getAttribute('data-title') || '';
     var caption = turn.getAttribute('data-caption') || '';
-    // Ohne Titel/Caption keine leere weiße Box unter dem Bild stehen
-    // lassen — .cap komplett ausblenden statt nur leeren.
+    // Ohne Titel/Caption keine leere weiße Box unter dem Bild stehen lassen.
     if(title || caption){
       cursorCap.innerHTML = '<b>' + title + '</b>' + caption;
       cursorCap.style.display = '';
@@ -469,10 +442,8 @@ function initInterview(){
     }
   });
 
-
   // .interview-nav liegt außerhalb von .interview-grid (fixiert unten
-  // links), darum hier bewusst document-weit statt auf grid beschränkt
-  // suchen.
+  // links), daher bewusst document-weit statt auf grid beschränkt.
   var interviewNav = document.getElementById('interview-nav');
   var navLinks = Array.prototype.slice.call(document.querySelectorAll('.interview-nav-panel a'));
   navLinks.forEach(function(link){
@@ -480,9 +451,8 @@ function initInterview(){
       e.preventDefault();
       var target = document.getElementById(link.getAttribute('href').slice(1));
       if(target){
-        // Einen Redebeitrag früher anspringen als das eigentliche Sprungziel,
-        // damit dessen Anfang nicht direkt an der oberen Kante klebt, sondern
-        // mit ein bisschen Vorlauf sichtbar bleibt.
+        // Einen Redebeitrag früher anspringen, damit der Anfang des
+        // Sprungziels nicht direkt an der oberen Kante klebt.
         var prev = target.previousElementSibling;
         while(prev && !prev.classList.contains('interview-turn')) prev = prev.previousElementSibling;
         (prev || target).scrollIntoView({behavior:'smooth', block:'start'});
@@ -491,8 +461,7 @@ function initInterview(){
     });
   });
 
-  // Ohne Hover (Touch) öffnet ein Klick auf den Trigger das Panel, statt
-  // sich auf :hover zu verlassen.
+  // Ohne Hover (Touch) öffnet ein Klick auf den Trigger das Panel.
   if(interviewNav && !hasHover){
     var navTrigger = interviewNav.querySelector('.interview-nav-trigger');
     if(navTrigger){
@@ -511,11 +480,9 @@ function initInterview(){
     turns.forEach(function(t){ t.classList.add('visible'); });
   }
 
-  // Manifesto-Seite: .interview-nav bekommt dort zusätzlich die Klasse
-  // .manifesto-nav und muss die Breite der linken Spalte (.manifesto-left)
-  // treffen statt der festen 342px-Sidebar-Breite der Interview-Seiten —
-  // per ResizeObserver immer aktuell, auch beim Umschalten auf den
-  // einspaltigen Mobile-Layout.
+  // Manifesto-Seite: .interview-nav bekommt zusätzlich .manifesto-nav
+  // und muss die Breite von .manifesto-left treffen statt der festen
+  // Sidebar-Breite — per ResizeObserver immer aktuell.
   var manifestoLeft = document.querySelector('.manifesto-left');
   if(manifestoLeft){
     var syncManifestoNavWidth = function(){
@@ -530,18 +497,18 @@ function initInterview(){
   }
 }
 
-// Einzelne Links im Fließtext (z.B. "Diatype") bekommen wie ein ganzer
-// Redebeitrag ein eigenes Bild-Popup beim Hovern — data-img/-title/-caption
-// direkt am <a> statt am .interview-turn. Per event delegation auf
-// document statt Listener direkt an jedem <a>: initInterview()s 5-Zeilen-
-// Kürzung klont lange Redebeiträge (inkl. ihrer <a>-Tags) per innerHTML in
-// einen .turn-expand-Ausschnitt — dieser Klon entsteht dabei als komplett
-// neues DOM-Element ohne die zuvor angehängten Listener, ein Hover über
-// den (sichtbaren) Klon hätte also nie ausgelöst. Delegation prüft
-// stattdessen bei jedem Hover live per closest(), trifft also auch
-// spätere Klone. Einmalig beim Skript-Start aufgesetzt (nicht in
-// initInterview, das bei jedem Seitenwechsel erneut läuft) — sonst würden
-// sich die Listener bei jedem Interview-Wechsel aufsummieren.
+/* =========================================================
+   Link-Bild-Popup: einzelne Links im Fließtext (z.B. "Diatype") können
+   wie ein ganzer Redebeitrag ein Bild-Popup bekommen (data-img/-title/
+   -caption am <a>). Per event delegation auf document statt Listener
+   direkt am <a>: initInterview()s 5-Zeilen-Kürzung klont lange
+   Redebeiträge (inkl. <a>-Tags) per innerHTML in einen .turn-expand-
+   Ausschnitt — dieser Klon ist ein neues DOM-Element ohne die zuvor
+   angehängten Listener. Delegation prüft stattdessen bei jedem Hover
+   live per closest(), trifft also auch Klone. Einmalig beim Skript-
+   Start aufgesetzt (nicht in initInterview, das bei jedem Seitenwechsel
+   erneut läuft) — sonst würden sich die Listener aufsummieren.
+   ========================================================= */
 (function(){
   if(!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
 
@@ -601,7 +568,7 @@ function initInterview(){
   document.addEventListener('mouseout', function(e){
     var link = e.target.closest('a[data-img]');
     // relatedTarget = wohin die Maus wandert; bleibt sie innerhalb
-    // desselben Links (z.B. durch ein verschachteltes <b>), nicht ausblenden.
+    // desselben Links (z.B. verschachteltes <b>), nicht ausblenden.
     if(!link || link.contains(e.relatedTarget)) return;
     document.getElementById('cursorFigure').classList.remove('visible');
     currentLinkImg = null;
@@ -609,9 +576,9 @@ function initInterview(){
 })();
 
 /* =========================================================
-   Type-Seiten: Live-Schriftprobe links (.type-tool-text) mit
-   Größen-/Spacing-Reglern. Wird von initInterview() aufgerufen, sobald
-   ein .type-layout im geladenen Fragment gefunden wird.
+   Type-Seiten: Live-Schriftprobe links (.type-tool-text) mit Größen-/
+   Spacing-Reglern. Wird von initInterview() aufgerufen, sobald ein
+   .type-layout im geladenen Fragment gefunden wird.
    ========================================================= */
 function initTypeTool(layout){
   var text = layout.querySelector('.type-tool-text');
@@ -621,22 +588,19 @@ function initTypeTool(layout){
 
   // Browser lassen beim Löschen des gesamten Inhalts oft ein leeres <br>
   // im contenteditable-Feld zurück — das würde :empty (Platzhalter-CSS)
-  // verhindern, obwohl für die Nutzer:in das Feld leer aussieht.
+  // verhindern, obwohl das Feld für die Nutzer:in leer aussieht.
   text.addEventListener('input', function(){
     if(text.textContent.trim() === ''){ text.innerHTML = ''; }
   });
 
-  // Stylistic-Set-Alternates (aktuell nur Handschrift/2.113.1, siehe
-  // data-alt-feature/-chars): die Schrift hat für viele Buchstaben eine
-  // zweite Glyphen-Variante über ein OpenType-Feature (z.B. "ss01") —
-  // CSS kann das nur komplett ein-/ausschalten, nicht "jedes zweite
-  // Vorkommen". main.js zählt daher beim Tippen, wie oft jeder
-  // alternierende Buchstabe im Text bisher vorkam, und umhüllt jedes
-  // GERADE Vorkommen mit einem <span>, das das Feature gezielt nur für
-  // dieses eine Zeichen aktiviert — ungerade Vorkommen bleiben die
-  // Standard-Glyphe. Bei jedem Tastendruck komplett neu durchgezählt
-  // (nicht nur angehängt), damit Löschen mittendrin die Abwechslung der
-  // nachfolgenden Zeichen automatisch richtig verschiebt.
+  // Stylistic-Set-Alternates (aktuell nur Handschrift/2.113.1): die
+  // Schrift hat für viele Buchstaben eine zweite Glyphen-Variante über
+  // ein OpenType-Feature (z.B. "ss01") — CSS kann das nur komplett ein-/
+  // ausschalten, nicht "jedes zweite Vorkommen". Beim Tippen wird daher
+  // pro Zeichen mitgezählt und jedes GERADE Vorkommen in einen Span
+  // gepackt, der das Feature nur dafür aktiviert. Zählung läuft bei
+  // jedem Tastendruck komplett neu, damit Löschen mittendrin die
+  // Abwechslung der nachfolgenden Zeichen automatisch korrigiert.
   var altFeature = text.getAttribute('data-alt-feature');
   var altChars = text.getAttribute('data-alt-chars');
   if(altFeature && altChars){
@@ -719,12 +683,11 @@ function initTypeTool(layout){
     });
   }
 
-  // Filled/Outlined-Umschalter (aktuell nur Blind Strokes): welche Klasse
-  // im aus-/eingeschalteten Zustand gilt, steht am Input selbst
-  // (data-font-off/-on), damit main.js generisch bleibt und nicht die
-  // Font-Namen hartcodieren muss. data-label-off/-on (optional) macht
-  // dasselbe für die Versionsbezeichnung oben links (.type-tool-version),
-  // damit die Anzeige immer zur aktuell gewählten Schriftdatei passt.
+  // Filled/Outlined-Umschalter (aktuell nur Blind Strokes): welche
+  // Klasse im aus-/eingeschalteten Zustand gilt, steht am Input selbst
+  // (data-font-off/-on), damit main.js keine Font-Namen hartcodiert.
+  // data-label-off/-on (optional) macht dasselbe für die Versions-
+  // bezeichnung oben links (.type-tool-version).
   var fontToggle = layout.querySelector('.type-font-toggle-input');
   if(fontToggle){
     var offClass = fontToggle.getAttribute('data-font-off');
@@ -741,10 +704,9 @@ function initTypeTool(layout){
     });
   }
 
-  // Download-Link mit data-download-extra lädt zusätzlich zur eigenen
-  // href noch eine zweite Datei herunter (z.B. Filled + Outlined
-  // zusammen) — ein <a download> kann selbst nur eine Datei referenzieren,
-  // daher hier zwei per Klick programmatisch nacheinander ausgelöst.
+  // Download-Link mit data-download-extra lädt zusätzlich eine zweite
+  // Datei (z.B. Filled + Outlined) — <a download> kann nur eine Datei
+  // referenzieren, daher zwei Klicks programmatisch nacheinander.
   var downloadLink = layout.querySelector('.type-tool-topbar a[data-download-extra]');
   if(downloadLink){
     downloadLink.addEventListener('click', function(e){
