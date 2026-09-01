@@ -1,0 +1,22 @@
+<!--
+  content/home/home.html
+  Wird per fetch() in #page-content geladen, wenn die Startseite (Titel
+  "Do you see what I see?" bzw. goHome()) angezeigt wird.
+
+  Wortliste unten bündig im Viewport, jedes Wort/jeder Begriff ein
+  eigener Link (.home-word) — Hover invertiert schwarz/weiß, wie
+  .interview-turn:hover. Komma + das Leerzeichen VOR dem nächsten Wort
+  gehören mit in den jeweiligen Link (nicht das Komma davor), damit beim
+  Hover genau "Wort," inkl. etwas Vorabstand hervorgehoben wird, statt
+  Komma/Lücke separat stehen zu lassen.
+
+  Nur "communicating" ist testweise verlinkt (Fabian-Interview) — die
+  übrigen Begriffe sind vorerst funktionslose Platzhalter-Links, bis die
+  passenden Ziele feststehen.
+-->
+
+<div class="home-layout">
+  <div class="home-words">
+    <a href="javascript:void(0)" class="home-word" onclick="selectMode('interview'); selectInterview(3);">communicating,</a><a href="javascript:void(0)" class="home-word"> miscommunicating,</a><a href="javascript:void(0)" class="home-word"> working the distance,</a><a href="javascript:void(0)" class="home-word"> being together,</a><a href="javascript:void(0)" class="home-word"> harmonizing,</a><a href="javascript:void(0)" class="home-word"> not harmonizing,</a><a href="javascript:void(0)" class="home-word"> taking control,</a><a href="javascript:void(0)" class="home-word"> losing control,</a><a href="javascript:void(0)" class="home-word"> taking care of yourself,</a><a href="javascript:void(0)" class="home-word"> taking care of others,</a><a href="javascript:void(0)" class="home-word"> making decisions,</a><a href="javascript:void(0)" class="home-word"> making no decisions,</a><a href="javascript:void(0)" class="home-word"> giving feedback,</a><a href="javascript:void(0)" class="home-word"> compromising,</a><a href="javascript:void(0)" class="home-word"> moving forward,</a><a href="javascript:void(0)" class="home-word"> having agency,</a><a href="javascript:void(0)" class="home-word"> sharing ownership,</a><a href="javascript:void(0)" class="home-word"> figuring things out together,</a><a href="javascript:void(0)" class="home-word"> experimenting together,</a><a href="javascript:void(0)" class="home-word"> building on each other,</a><a href="javascript:void(0)" class="home-word"> seeing each other,</a><a href="javascript:void(0)" class="home-word"> being transparent,</a><a href="javascript:void(0)" class="home-word"> forming friendships,</a><a href="javascript:void(0)" class="home-word"> forming partnerships,</a><a href="javascript:void(0)" class="home-word"> forming collectives</a>
+  </div>
+</div>

@@ -1591,3 +1591,34 @@ button{
   }
 }
 
+/* =========================================================
+   Startseite: Wortliste unten bündig im Viewport, jedes Wort ein
+   eigener Link. Hover invertiert schwarz/weiß, gleiches Prinzip wie
+   .interview-turn:hover.
+   ========================================================= */
+.home-layout{
+  min-height:calc(100vh - var(--menu-height, 40px));
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  box-sizing:border-box;
+  padding:40px;
+}
+.home-words{
+  font-size:30px;
+  line-height:1.5;
+}
+.home-word{
+  cursor:pointer;
+  transition:background .15s ease, color .15s ease;
+}
+.home-word:hover{
+  background:var(--black);
+  color:var(--white);
+}
+
+@media (max-width: 760px){
+  .home-layout{ padding:20px; }
+  .home-words{ font-size:22px; }
+}
+

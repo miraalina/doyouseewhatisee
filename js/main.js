@@ -144,7 +144,7 @@ function goHome(){
   clearActive(document.getElementById('level1-items'));
   document.getElementById('home-link').classList.add('active');
   hideLevels23();
-  document.getElementById('page-content').innerHTML = '';
+  loadContent('content/home/home.html');
   updateModeToggle(null);
   closeMobileMenu();
   updateHash();
@@ -239,11 +239,6 @@ if(siteMenu && 'ResizeObserver' in window){
   });
   menuObserver.observe(siteMenu);
 }
-
-// init — stellt bei vorhandenem Hash (z.B. per geteiltem Link) die
-// passende Unterseite wieder her, sonst normale Startseite.
-restoreFromHash();
-window.addEventListener('popstate', restoreFromHash);
 
 /* =========================================================
    Content laden: fetch()t ein HTML-Fragment in #page-content, mit
@@ -722,3 +717,10 @@ function initTypeTool(layout){
     });
   }
 }
+
+// init — ganz am Ende, nachdem alle Funktionen/Variablen oben (u.a.
+// loadContentRequestId) wirklich initialisiert sind. Stellt bei
+// vorhandenem Hash (z.B. per geteiltem Link) die passende Unterseite
+// wieder her, sonst normale Startseite.
+restoreFromHash();
+window.addEventListener('popstate', restoreFromHash);
