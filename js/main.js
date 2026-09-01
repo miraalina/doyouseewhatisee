@@ -19,6 +19,8 @@ let currentMode = null;
 let currentSession = null;
 let currentInterview = null;
 let currentSub = null;
+let currentTopic = null; // aktiver Sprungmarken-Eintrag der .interview-nav-panel (siehe URL-Routing)
+let pendingTopicSlug = null; // von restoreFromHash gesetzt, von initInterview beim nächsten Laden abgeholt
 
 function clearActive(container){
   container.querySelectorAll('.nav-item, .title-cell').forEach(el => el.classList.remove('active'));
@@ -71,6 +73,9 @@ function updateHash(){
     parts.push(slugifyLabel(navLabel('#level1-items .nav-item[data-mode="interview"]')));
     if(currentInterview){
       parts.push(slugifyLabel(navLabel('.nav-item[data-interview="' + currentInterview + '"]')));
+      if(currentTopic){
+        parts.push(slugifyLabel(currentTopic));
+      }
     }
   } else if(currentMode){
     parts.push(slugifyLabel(navLabel('#level1-items .nav-item[data-mode="' + currentMode + '"]')));
@@ -129,7 +134,13 @@ function restoreFromHash(){
   } else if(mode === 'interview' && segments[1]){
     var interviewItems = Array.prototype.slice.call(document.querySelectorAll('#level2-interviews .nav-item[data-interview]'));
     var interviewItem = findByLabelSlug(interviewItems, segments[1]);
-    if(interviewItem) selectInterview(interviewItem.getAttribute('data-interview'));
+    if(interviewItem){
+      // Themen-Segment (Sprungmarke) erst hier merken, initInterview()
+      // holt es sich ab, sobald die .interview-nav-panel-Links nach dem
+      // Laden des Fragments existieren (siehe dort).
+      pendingTopicSlug = segments[2] || null;
+      selectInterview(interviewItem.getAttribute('data-interview'));
+    }
   }
 }
 
@@ -278,6 +289,7 @@ function loadContent(path, callback){
 
 function selectInterview(n){
   currentInterview = n;
+  currentTopic = null;
   clearActive(document.getElementById('level2-interviews'));
   document.querySelector('.nav-item[data-interview="' + n + '"]').classList.add('active');
   loadContent('content/interviews/interview' + n + '.html', initInterview);
@@ -441,20 +453,49 @@ function initInterview(){
   // links), daher bewusst document-weit statt auf grid beschränkt.
   var interviewNav = document.getElementById('interview-nav');
   var navLinks = Array.prototype.slice.call(document.querySelectorAll('.interview-nav-panel a'));
+
+  function jumpToNavLink(link, behavior){
+    var target = document.getElementById(link.getAttribute('href').slice(1));
+    if(!target) return;
+    // Einen Redebeitrag früher anspringen, damit der Anfang des
+    // Sprungziels nicht direkt an der oberen Kante klebt.
+    var prev = target.previousElementSibling;
+    while(prev && !prev.classList.contains('interview-turn')) prev = prev.previousElementSibling;
+    (prev || target).scrollIntoView({behavior: behavior, block:'start'});
+  }
+
   navLinks.forEach(function(link){
     link.addEventListener('click', function(e){
       e.preventDefault();
-      var target = document.getElementById(link.getAttribute('href').slice(1));
-      if(target){
-        // Einen Redebeitrag früher anspringen, damit der Anfang des
-        // Sprungziels nicht direkt an der oberen Kante klebt.
-        var prev = target.previousElementSibling;
-        while(prev && !prev.classList.contains('interview-turn')) prev = prev.previousElementSibling;
-        (prev || target).scrollIntoView({behavior:'smooth', block:'start'});
-      }
+      jumpToNavLink(link, 'smooth');
       if(interviewNav) interviewNav.classList.remove('open');
+      // Sprungmarke landet als 3. Segment in der URL (nur im Interview-
+      // Modus relevant, siehe updateHash) — damit lässt sich direkt zu
+      // diesem Thema verlinken.
+      if(currentMode === 'interview'){
+        currentTopic = link.textContent.replace(/\s+/g, ' ').trim();
+        updateHash();
+      }
     });
   });
+
+  // Deep Link auf ein Thema (z.B. #Interviewmode/Ivobrouwer/Foundingdinamo):
+  // restoreFromHash() hinterlässt den Sprungmarken-Slug hier, sobald die
+  // .interview-nav-panel-Links (gerade oben verdrahtet) existieren.
+  if(pendingTopicSlug){
+    var topicSlug = pendingTopicSlug;
+    pendingTopicSlug = null;
+    var topicLink = navLinks.find(function(link){
+      return slugifyLabel(link.textContent.replace(/\s+/g, ' ').trim()).toLowerCase() === topicSlug.toLowerCase();
+    });
+    if(topicLink){
+      currentTopic = topicLink.textContent.replace(/\s+/g, ' ').trim();
+      // Kein smooth-Scroll beim initialen Laden über einen geteilten Link
+      // — die Seite soll direkt an der Stelle stehen, nicht erst dorthin
+      // "fahren".
+      requestAnimationFrame(function(){ jumpToNavLink(topicLink, 'auto'); });
+    }
+  }
 
   // Ohne Hover (Touch) öffnet ein Klick auf den Trigger das Panel.
   if(interviewNav && !hasHover){
