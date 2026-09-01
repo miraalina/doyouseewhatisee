@@ -1410,6 +1410,19 @@ button{
   border-left:none;
 }
 
+/* "10 Questions to Reflect on the Project" bleibt beim Scrollen genau wie
+   Mira/Phuong darunter stehen (statt wie vorher normal mit dem Text
+   wegzuscrollen) — sonst rutschte sie ausgerechnet in dem Moment unter dem
+   Menü durch, in dem Mira/Phuong schon stehen bleiben, was wie ein
+   Doppelbild/Durchscheinen von Text wirkte. z-index über Mira/Phuong
+   (z-index:10), damit sie in diesem kurzen Übergang sauber darüber liegt
+   statt dahinter durchzuscheinen. */
+.manifesto-left > .content-header{
+  position:sticky;
+  top:calc(var(--menu-height, 40px) + var(--menu-gap));
+  z-index:11;
+}
+
 /* Titel bleibt beim Scrollen innerhalb der eigenen Spalte oben stehen,
    wie .method-col-visuals .content-header. Kein border-left/-top — die
    rechte Spalte soll komplett randlos bleiben. Eigener schwarzer
@@ -1424,12 +1437,11 @@ button{
   z-index:10;
 }
 
-/* Mira/Phuong (sticky, siehe Basis-.interview-grid .content-header-Regel)
-   kleben sonst ohne Lücke direkt am Menü, sobald man dorthin scrollt —
-   anders als die beiden Top-Level-Header oben, die durch den
-   margin-bottom des Menüs automatisch 1 Gap Abstand haben. */
+/* Mira/Phuong kleben direkt unter der jetzt ebenfalls stickenden
+   "10 Questions..."-Kopfzeile (+ var(--menu-item-height), deren Höhe) statt
+   wie in der Basis-.interview-grid .content-header-Regel direkt unters Menü. */
 .manifesto-left .interview-grid .content-header{
-  top:calc(var(--menu-height, 40px) + var(--menu-gap));
+  top:calc(var(--menu-height, 40px) + var(--menu-gap) + var(--menu-item-height));
 }
 
 /* Genau EINE Trennlinie an den äußeren Spaltenkanten statt doppelt
