@@ -535,6 +535,22 @@ button{
   z-index:10;
   font-size:var(--menu-font-size);
 }
+/* Redebeiträge scrollen unter der stickenden Kopfzeile durch — bleibt
+   man mitten in einer Zeile stehen, schneidet die (opake) Kopfzeile sie
+   hart in der Mitte ab, die untere Hälfte hängt sichtbar direkt darunter
+   (auch im Stillstand, nicht nur während der Scroll-Bewegung). Ein
+   weicher Verlauf direkt unter der Kopfzeile kaschiert diesen Schnitt,
+   gleiches Prinzip wie .turn-text.truncatable::after. */
+.interview-grid .content-header::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:100%;
+  height:14px;
+  background:linear-gradient(to bottom, var(--white), transparent);
+  pointer-events:none;
+}
 .interview-grid .content-header .dot{ display:none; }
 /* Letzte Kopfzeile (z.B. "Mira") sitzt an der rechten Außenkante der
    Seite — dort keine Randlinie. :has() statt fixem nth-child, weil die
