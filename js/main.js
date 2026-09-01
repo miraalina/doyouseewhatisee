@@ -189,11 +189,11 @@ function selectMode(mode){
   if(mode === 'work'){
     document.getElementById('level2-sessions').classList.remove('hidden');
     clearActive(document.getElementById('level2-sessions'));
-    document.getElementById('page-content').innerHTML = ''; // nothing selected yet within sessions
+    selectSession(1); // öffnet direkt die erste Session (Handschrift/Exercise)
   } else if(mode === 'interview'){
     document.getElementById('level2-interviews').classList.remove('hidden');
     clearActive(document.getElementById('level2-interviews'));
-    document.getElementById('page-content').innerHTML = '';
+    selectInterview(1); // öffnet direkt das erste Interview (Ivo Brouwer)
   } else if(mode === 'manifesto'){
     loadContent('content/Manifesto/manifesto.html', initInterview);
   } else if(mode === 'about'){
