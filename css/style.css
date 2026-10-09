@@ -91,7 +91,6 @@ a{
    schwarz, nur unterstrichen. Bewusst nicht global auf alle <a>, sonst
    wären auch Menü/Navigations-Links betroffen. */
 .turn-text a,
-.turn-expand a,
 .interview-intro-text a,
 .manifesto-text a,
 .intro-meta a{
@@ -647,8 +646,6 @@ button{
 }
 .interview-turn:hover .turn-text,
 .interview-turn.active .turn-text,
-.interview-turn:hover .turn-expand,
-.interview-turn.active .turn-expand,
 .interview-turn:hover .turn-name,
 .interview-turn.active .turn-name{
   color:var(--white);
@@ -746,29 +743,13 @@ button{
 .interview-turn:hover .turn-text.truncatable::after,
 .interview-turn.active .turn-text.truncatable::after{ opacity:0; }
 
-/* Ausgeklappter Volltext als Overlay — verschiebt nichts im Fluss, kein Sprung.
-   Klappt per max-height-Transition organisch nach unten auf, statt einfach
-   einzublenden. main.js schreibt die tatsächliche Textgröße in
-   --expand-height, damit der Übergang exakt bis zur echten Höhe läuft,
-   statt zu früh fertig zu wirken oder abgeschnitten zu bleiben. */
-.turn-expand{
-  position:absolute; top:0; left:0; right:0;
-  background:var(--black);
-  padding:10px 15px; margin:-10px -15px 0;
-  max-height:7em;
-  overflow:hidden;
-  opacity:0; pointer-events:none;
-  transition:opacity .3s ease, max-height .45s cubic-bezier(.4,0,.2,1);
-  font-size:var(--content-font-size); line-height:1.4;
-  z-index:5;
-}
-.turn-expand p{ margin:0 0 .8em; }
-.turn-expand p:last-child{ margin-bottom:0; }
-.interview-turn:hover .turn-expand,
-.interview-turn.active .turn-expand{
-  opacity:1;
-  max-height:var(--expand-height, 1000px);
-  pointer-events:auto;
+/* Gekürzter Text klappt beim Hover im Seitenfluss auf und schiebt alles
+   darunter nach unten (statt als Overlay darüber zu liegen, in dem man
+   sich beim Scrollen verlor). main.js setzt max-height inline auf die
+   gemessene Texthöhe, die Transition läuft organisch dorthin und beim
+   Verlassen zurück auf 7em. */
+.turn-text.truncatable{
+  transition:max-height .45s cubic-bezier(.4,0,.2,1), color .2s ease;
 }
 
 /* Bild folgt dem Mauszeiger */
@@ -837,7 +818,6 @@ button{
      nur eben ohne Höhen-Animation, weil nichts mehr aufzuklappen ist. */
   .turn-text{ max-height:none !important; overflow:visible; }
   .turn-text.truncatable::after{ display:none; }
-  .turn-expand{ display:none !important; }
   .turn-image{ display:block; }
 
   /* Navigation: auf Desktop links unten fest positioniert (342px breit,

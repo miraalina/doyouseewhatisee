@@ -125,9 +125,10 @@ function restoreFromHash(){
 
   if(mode === 'work' && segments[1]){
     var sessionItems = Array.prototype.slice.call(document.querySelectorAll('#level2-sessions .nav-item[data-session]'));
-    // Fallback für ältere Links aus der Zeit, als Session 5 noch
-    // "Not Our Decision" hieß (#Work/Notourdecision/…).
-    var sessionSlug = segments[1].toLowerCase() === 'notourdecision' ? 'Nosay' : segments[1];
+    // Fallback für ältere Links von inzwischen umbenannten Sessions
+    // ("Not Our Decision" → "No Say", "No Compromises" → "No Compromise").
+    var renamedSessions = { notourdecision:'Nosay', nocompromises:'Nocompromise' };
+    var sessionSlug = renamedSessions[segments[1].toLowerCase()] || segments[1];
     var sessionItem = findByLabelSlug(sessionItems, sessionSlug);
     if(sessionItem){
       selectSession(sessionItem.getAttribute('data-session'));
@@ -374,24 +375,49 @@ function initInterview(){
   // Erst ab ca. 5 Zeilen wird gekürzt; kurze Antworten bleiben immer voll sichtbar.
   turns.forEach(function(turn){
     var text = turn.querySelector('.turn-text');
-    var wrap = turn.querySelector('.text-wrap');
     requestAnimationFrame(function(){
       var lh = parseFloat(getComputedStyle(text).lineHeight) || 22;
       var lines = text.scrollHeight / lh;
       if(lines > 5.3){
         text.classList.add('truncatable');
-        var expand = document.createElement('div');
-        expand.className = 'turn-expand';
-        expand.innerHTML = text.innerHTML;
-        wrap.appendChild(expand);
-        // Echte Höhe messen, damit die max-height-Transition exakt bis
-        // zum Textende läuft statt einen groben Schätzwert zu nutzen.
-        expand.style.setProperty('--expand-height', expand.scrollHeight + 'px');
       } else {
         text.classList.add('fits');
       }
     });
   });
+
+  // Gekürzte Redebeiträge klappen im Seitenfluss auf (statt als Overlay):
+  // alles darunter rutscht nach unten und beim Zuklappen wieder hoch.
+  // max-height wird auf die beim Öffnen gemessene echte Texthöhe gesetzt,
+  // damit die CSS-Transition exakt bis zum Textende läuft.
+  function expandTurn(turn){
+    var text = turn.querySelector('.turn-text.truncatable');
+    if(!text) return;
+    text.style.maxHeight = text.scrollHeight + 'px';
+  }
+  // Hat man innerhalb eines aufgeklappten Beitrags nach unten gescrollt,
+  // liegt sein Anfang oberhalb des sichtbaren Bereichs. Würde er dann
+  // animiert zuklappen, zöge alles Folgende unter dem Mauszeiger nach oben
+  // weg und man wäre irgendwo im Interview. In dem Fall sofort zuklappen
+  // und die Scrollposition um genau die verlorene Höhe korrigieren — der
+  // Text unter dem Zeiger bleibt so exakt an seiner Stelle.
+  function collapseTurn(turn){
+    var text = turn.querySelector('.turn-text.truncatable');
+    if(!text) return;
+    var stickyTop = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--menu-height')) || 0) +
+                    (headers[0] ? headers[0].offsetHeight : 0);
+    if(turn.getBoundingClientRect().top < stickyTop){
+      var before = text.offsetHeight;
+      text.style.transition = 'none';
+      text.style.maxHeight = '';
+      var lost = before - text.offsetHeight;
+      window.scrollBy(0, -lost);
+      void text.offsetHeight;
+      text.style.transition = '';
+    } else {
+      text.style.maxHeight = '';
+    }
+  }
 
   function positionCursorFigure(x, y){
     var margin = 20, w = cursorFig.offsetWidth || 220, h = cursorFig.offsetHeight || 180;
@@ -432,11 +458,13 @@ function initInterview(){
     var col = turn.getAttribute('data-col');
     if(hasHover){
       turn.addEventListener('mouseenter', function(e){
+        expandTurn(turn);
         showCursorImage(turn, e.clientX, e.clientY);
         headers.forEach(function(h, i){ h.classList.toggle('focused', String(i+1) === col); });
       });
       turn.addEventListener('mousemove', function(e){ positionCursorFigure(e.clientX, e.clientY); });
       turn.addEventListener('mouseleave', function(){
+        collapseTurn(turn);
         cursorFig.classList.remove('visible');
         currentImg = null;
         headers.forEach(function(h){ h.classList.remove('focused'); });
@@ -444,10 +472,14 @@ function initInterview(){
     } else {
       turn.addEventListener('click', function(){
         var was = turn.classList.contains('active');
-        turns.forEach(function(t){ t.classList.remove('active'); });
+        turns.forEach(function(t){
+          if(t.classList.contains('active')) collapseTurn(t);
+          t.classList.remove('active');
+        });
         headers.forEach(function(h){ h.classList.remove('focused'); });
         if(!was){
           turn.classList.add('active');
+          expandTurn(turn);
           headers.forEach(function(h, i){ h.classList.toggle('focused', String(i+1) === col); });
           showCursorImage(turn, window.innerWidth/2, 90);
         }
@@ -543,11 +575,10 @@ function initInterview(){
    Link-Bild-Popup: einzelne Links im Fließtext (z.B. "Diatype") können
    wie ein ganzer Redebeitrag ein Bild-Popup bekommen (data-img/-title/
    -caption am <a>). Per event delegation auf document statt Listener
-   direkt am <a>: initInterview()s 5-Zeilen-Kürzung klont lange
-   Redebeiträge (inkl. <a>-Tags) per innerHTML in einen .turn-expand-
-   Ausschnitt — dieser Klon ist ein neues DOM-Element ohne die zuvor
-   angehängten Listener. Delegation prüft stattdessen bei jedem Hover
-   live per closest(), trifft also auch Klone. Einmalig beim Skript-
+   direkt am <a>: die Fragmente werden bei jedem Seitenwechsel per
+   innerHTML neu eingesetzt, Listener am <a> müssten jedes Mal neu
+   angehängt werden. Delegation prüft stattdessen bei jedem Hover live
+   per closest(). Einmalig beim Skript-
    Start aufgesetzt (nicht in initInterview, das bei jedem Seitenwechsel
    erneut läuft) — sonst würden sich die Listener aufsummieren.
    ========================================================= */
