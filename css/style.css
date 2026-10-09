@@ -703,7 +703,10 @@ button{
 }
 .interview-turn.interview-highlight[data-col="1"]{ left:0; }
 .interview-turn.interview-highlight[data-col="4"]{ right:0; }
-.interview-turn.interview-highlight .turn-text{ color:var(--white); }
+/* Auf der schwarzen Spaltenfläche (.col-fill) steht jedes Zitat in einer
+   weißen Box, nur so hoch wie sein Text. Mobil (weiter unten) umgekehrt
+   schwarz auf weißer Seite. */
+.interview-turn.interview-highlight{ background:var(--white); color:var(--black); }
 .interview-turn.interview-highlight .turn-text{
   font-size:22px;
   line-height:1.3;
