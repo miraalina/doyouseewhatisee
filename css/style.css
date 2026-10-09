@@ -796,6 +796,12 @@ button{
     padding-bottom:calc(var(--menu-item-height) + 20px);
   }
   .interview-grid .content-header{ display:none !important; }
+  /* Feedback-Seiten: .col-divider bekommt von main.js grid-row "1 / N+2"
+     und belegt so in der einzigen Mobil-Spalte N+1 leere Zeilen — die
+     Redebeiträge (grid-row:auto, s.u.) rutschen dahinter, und die
+     Zeilenabstände (gap) summieren sich zu einer weißen Lücke vor dem
+     ersten Text. Einspaltig gibt es keine Spaltentrennlinie zu ziehen. */
+  .col-divider{ display:none; }
   /* main.js schreibt für Desktop ein festes grid-row je Redebeitrag
      inline (z.B. row:157) — bleibt das auf Mobil stehen, während nur
      Highlights (weiter unten) auf grid-row:auto zurückgesetzt werden,
