@@ -18,17 +18,17 @@
 <div class="menu-level-1">
   <div class="title-cell title" id="home-link" onclick="goHome()">Do you see what I see?</div>
   <div class="nav-items" id="level1-items">
-    <div class="nav-item" data-mode="work" onclick="selectMode('work')"><span class="dot"></span>Work Mode</div>
-    <div class="nav-item" data-mode="interview" onclick="selectMode('interview')"><span class="dot"></span>Interview Mode</div>
-    <div class="nav-item" data-mode="manifesto" onclick="selectMode('manifesto')"><span class="dot"></span>Reflection Mode</div>
+    <div class="nav-item" data-mode="work" onclick="selectMode('work')"><span class="dot"></span>Work</div>
+    <div class="nav-item" data-mode="interview" onclick="selectMode('interview')"><span class="dot"></span>Interview</div>
+    <div class="nav-item" data-mode="manifesto" onclick="selectMode('manifesto')"><span class="dot"></span>Reflection</div>
     <div class="nav-item" data-mode="about" onclick="selectMode('about')"><span class="dot"></span>About</div>
   </div>
   <!-- Nur mobil sichtbar (siehe CSS @media max-width:760px): öffnet/schließt
-       das Level-1-Dropdown und zeigt statt "Mode" den aktuell gewählten
+       das Level-1-Dropdown und zeigt statt "Menu" den aktuell gewählten
        Modus mit gefülltem Punkt an, sobald einer aktiv ist. -->
   <div class="mode-toggle" id="mode-toggle" onclick="toggleMobileMenu()">
     <span class="dot" id="mode-toggle-dot"></span>
-    <span id="mode-toggle-label">Mode</span>
+    <span id="mode-toggle-label">Menu</span>
   </div>
 </div>
 
@@ -49,6 +49,7 @@
   <div class="nav-item" data-interview="3" onclick="selectInterview(3)">Fabian Harb</div>
   <div class="nav-item" data-interview="4" onclick="selectInterview(4)">Patrick Thomas</div>
   <div class="nav-item" data-interview="5" onclick="selectInterview(5)">Studio HanLi</div>
+  <div class="nav-item" data-interview="6" onclick="selectInterview(6)">Flavia Zimbardi</div>
 </div>
 
 <!-- ============ LEVEL 3 (Intro/Analog/Digital/Notes) ============ -->

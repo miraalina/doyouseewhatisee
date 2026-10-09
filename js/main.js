@@ -40,7 +40,7 @@ function hideLevels23(){
 
 /* =========================================================
    URL-Routing: aktuelle Auswahl landet als Hash in der Adresszeile,
-   z.B. #Workmode/Handschrift/Exercise oder #Interviewmode/Ivobrouwer,
+   z.B. #Work/Handschrift/Exercise oder #Interview/Ivobrouwer,
    damit sich ein Link zu einer Unterseite kopieren/verschicken lässt.
    Segmente sind die echten Menü-Beschriftungen (Leerzeichen entfernt,
    erster Buchstabe groß) statt einer separat gepflegten Namensliste,
@@ -112,7 +112,10 @@ function restoreFromHash(){
     return;
   }
   var modeItems = Array.prototype.slice.call(document.querySelectorAll('#level1-items .nav-item[data-mode]'));
-  var modeItem = findByLabelSlug(modeItems, segments[0]);
+  // Fallback für ältere Links aus der Zeit, als die Menüpunkte noch
+  // "Work Mode"/"Interview Mode"/… hießen (#Workmode/…, #Interviewmode/…).
+  var modeItem = findByLabelSlug(modeItems, segments[0]) ||
+                 findByLabelSlug(modeItems, segments[0].replace(/mode$/i, ''));
   if(!modeItem){
     goHome();
     return;
@@ -175,10 +178,10 @@ function updateModeToggle(mode){
   var label = document.getElementById('mode-toggle-label');
   var toggle = document.getElementById('mode-toggle');
   if(mode){
-    label.textContent = mode.charAt(0).toUpperCase() + mode.slice(1);
+    label.textContent = navLabel('#level1-items .nav-item[data-mode="' + mode + '"]');
     toggle.classList.add('mode-active');
   } else {
-    label.textContent = 'Mode';
+    label.textContent = 'Menu';
     toggle.classList.remove('mode-active');
   }
 }
@@ -479,7 +482,7 @@ function initInterview(){
     });
   });
 
-  // Deep Link auf ein Thema (z.B. #Interviewmode/Ivobrouwer/Foundingdinamo):
+  // Deep Link auf ein Thema (z.B. #Interview/Ivobrouwer/Foundingdinamo):
   // restoreFromHash() hinterlässt den Sprungmarken-Slug hier, sobald die
   // .interview-nav-panel-Links (gerade oben verdrahtet) existieren.
   if(pendingTopicSlug){

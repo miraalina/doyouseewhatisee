@@ -189,7 +189,7 @@ button{
 }
 
 /* Erster/letzter Tab jeder Menüzeile sitzt an der äußeren Seitenkante,
-   daher dort keine Randlinie. Level 1 ausgenommen: "Work Mode" (erstes
+   daher dort keine Randlinie. Level 1 ausgenommen: "Work" (erstes
    Kind) sitzt neben der Titelzelle, nicht am Seitenrand — behält also
    seine linke Linie. "About" (letztes Kind) sitzt echt am rechten Rand. */
 .menu-level-2 .nav-item:first-child,
@@ -230,7 +230,7 @@ button{
   background:var(--black);
 }
 
-/* Mobiler Menü-Trigger ("Mode" / aktueller Modus + Punkt), ersetzt auf
+/* Mobiler Menü-Trigger ("Menu" / aktueller Modus + Punkt), ersetzt auf
    schmalen Screens die inline sichtbare Level-1-Liste (siehe Media Query
    unten). Auf Desktop bleibt er ausgeblendet. */
 .mode-toggle{
@@ -242,7 +242,7 @@ button{
    ========================================================= */
 
 @media (max-width:760px){
-  /* Kopfzeile (Titel + Mode-Trigger) bleibt eine Zeile, das Dropdown mit
+  /* Kopfzeile (Titel + Menu-Trigger) bleibt eine Zeile, das Dropdown mit
      den vier Modi rutscht per order + flex-basis:100% direkt darunter —
      dafür zurück auf Flex statt des 5-Spalten-Grids vom Desktop. */
   .menu-level-1{
