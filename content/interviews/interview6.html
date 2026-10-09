@@ -1,0 +1,103 @@
+<!-- FLAVIA -->
+
+<!--
+  content/interviews/interview6.html
+  Wird per fetch() in #page-content geladen, wenn "Flavia Zimbardi" angeklickt
+  wird. Enthält NUR den Inhalt — Header/Menü kommen weiterhin aus index.html
+  und bleiben beim Laden unverändert stehen.
+
+  Transkript: content/transcripts/interview_flavia (folgt noch). Zeilen ohne
+  "Name:"-Präfix und ohne Klammern sind dort Zwischenüberschriften ohne
+  festen Sprecher — sie werden NICHT als Redebeitrag eingepflegt, sondern
+  nur als Sprungmarken unten in .interview-nav-panel verwendet.
+  Regieanweisungen stehen immer in Klammern und gehen als .interview-note
+  über alle 3 Spalten.
+
+  Sobald das Transkript da ist:
+    node scripts/build-interview-turns.js \
+      content/transcripts/interview_flavia \
+      content/interviews/interview6.html
+  und die Sprungmarken (#turn-N) in .interview-nav-panel anpassen.
+  Portrait-Bild unter content/images/interviews/Flavia_Zimbardi.jpg ablegen.
+
+  Pro Aussage:
+    data-col      = 1, 2 oder 3 → welcher Spalte (Person) sie gehört,
+                    muss zur Reihenfolge der drei .content-header unten passen
+    data-img      = welches Bild aus den imgdefs (in index.html) gezeigt wird
+    data-title    = kleine Überschrift im Bild-Popup
+    data-caption  = kurzer Beschreibungstext im Bild-Popup
+-->
+
+<div class="interview-layout">
+
+  <!-- Linke Spalte: Portrait+Text und Sprungleiste untereinander -->
+  <div class="interview-sidebar">
+
+    <!-- Vorspann: Portrait oben, Beschreibungstext darunter -->
+    <div class="interview-intro">
+      <div class="interview-portrait">
+        <img src="content/images/interviews/Flavia_Zimbardi.jpg" alt="Flavia Zimbardi">
+      </div>
+      <div class="interview-intro-text">
+        <p>…</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Feste Navigation unten links (position:fixed, siehe style.css) —
+       öffnet sich beim Hover/Klick nach oben und zeigt die Sprungmarken
+       zu den Redebeiträgen. Klick springt zur passenden Stelle. -->
+  <nav class="interview-nav" id="interview-nav">
+    <div class="interview-nav-trigger">Navigation</div>
+    <div class="interview-nav-panel">
+      <a href="#turn-1">Personal Introduction</a>
+    </div>
+  </nav>
+
+<div class="interview-grid">
+
+  <!-- Kopfzeile: eine Zelle pro Person, Reihenfolge legt die Spalten fest -->
+  <div class="content-header"><span class="dot"></span>Flavia</div>
+  <div class="content-header"><span class="dot"></span>Phuong</div>
+  <div class="content-header"><span class="dot"></span>Mira</div>
+
+  <!-- AUTO-GENERATED TURNS START (scripts/build-interview-turns.js — nicht von Hand bearbeiten, Skript neu laufen lassen) -->
+  <div class="interview-turn interview-note" id="turn-1" data-col="2 / 4">
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p><em>(Us introducing ourselves)</em></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-2" data-col="1">
+    <span class="turn-name">Flavia</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>…</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-3" data-col="2">
+    <span class="turn-name">Phuong</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>…</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-turn" id="turn-4" data-col="3">
+    <span class="turn-name">Mira</span>
+    <div class="text-wrap">
+      <div class="turn-text">
+        <p>…</p>
+      </div>
+    </div>
+  </div>
+  <!-- AUTO-GENERATED TURNS END -->
+
+</div>
+</div>
