@@ -117,6 +117,21 @@ button{
   z-index:50;
   background:var(--white);
 }
+/* Der Abstand unter der letzten Menüzeile (deren margin-bottom) liegt
+   außerhalb der sticky Box und war damit durchsichtig — beim Scrollen
+   lief der Seitentext sichtbar durch diesen 2px-Spalt. Ein weißer Streifen
+   genau in dieser Lücke klebt mit dem Menü mit, ohne Höhe/--menu-height
+   und damit alle darauf aufbauenden sticky Abstände zu verändern. */
+.site-menu::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:100%;
+  height:var(--menu-gap);
+  background:var(--white);
+  pointer-events:none;
+}
 
 .menu-level-1,
 .menu-level-2,
