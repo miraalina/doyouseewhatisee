@@ -202,6 +202,44 @@ button{
   border-right:none;
 }
 
+/* Level-2/3-Reiter (Sessions, Interviews, Exercise/Output/Feedback)
+   bleiben bei jeder Fensterbreite eine einzige Reihe über die volle
+   Menübreite: mit flex:1 0 0 + white-space:nowrap konnten sie nicht unter
+   ihre Textbreite schrumpfen, beim Verkleinern des Fensters rutschten die
+   letzten Reiter rechts aus dem Bild. Jetzt schrumpfen alle gleichmäßig,
+   ein zu langer Name läuft am rechten Rand mit einem Verlauf aus. Passt
+   der Text, liegt der Verlauf unsichtbar auf dem gleichfarbigen Padding. */
+.menu-level-2 .nav-item,
+.menu-level-3 .nav-item{
+  flex:1 1 0;
+  position:relative;
+  overflow:hidden;
+  min-width:0;
+}
+
+.menu-level-2 .nav-item::after,
+.menu-level-3 .nav-item::after{
+  content:"";
+  position:absolute;
+  top:0; right:0; bottom:0;
+  width:16px;
+  background:linear-gradient(to right, transparent, var(--black));
+  pointer-events:none;
+}
+
+.menu-level-2 .nav-item.active::after,
+.menu-level-3 .nav-item.active::after{
+  background:linear-gradient(to right, transparent, var(--white));
+}
+
+/* Der gerade gewählte Reiter wird nie angeschnitten — bei breitem Fenster
+   bleibt er gleich breit wie die anderen, wird es eng, weichen die
+   übrigen Reiter aus. */
+.menu-level-2 .nav-item.active,
+.menu-level-3 .nav-item.active{
+  min-width:max-content;
+}
+
 /* Home / title cell */
 .title-cell{
   height:var(--menu-item-height);
@@ -326,32 +364,6 @@ button{
   .site-menu.mobile-open .menu-level-2,
   .site-menu.mobile-open .menu-level-3{
     display:none;
-  }
-
-  /* Level-2/3-Reiter (Sessions, Interviews, Exercise/Type/Feedback) bleiben
-     eine einzige Reihe über die volle Menübreite. Passt ein Name nicht
-     komplett hinein, wird er am rechten Rand ausgeblendet statt die
-     Nachbar-Reiter zu überlappen. */
-  .menu-level-2 .nav-item,
-  .menu-level-3 .nav-item{
-    position:relative;
-    overflow:hidden;
-    min-width:0;
-  }
-
-  .menu-level-2 .nav-item::after,
-  .menu-level-3 .nav-item::after{
-    content:"";
-    position:absolute;
-    top:0; right:0; bottom:0;
-    width:16px;
-    background:linear-gradient(to right, transparent, var(--black));
-    pointer-events:none;
-  }
-
-  .menu-level-2 .nav-item.active::after,
-  .menu-level-3 .nav-item.active::after{
-    background:linear-gradient(to right, transparent, var(--white));
   }
 
   /* Aktiver Reiter (Level 2, z.B. Interview-Namen) wächst auf seine volle
