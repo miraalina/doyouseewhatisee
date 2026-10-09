@@ -740,8 +740,10 @@ button{
   background:linear-gradient(to bottom, transparent, var(--white));
   transition:opacity .25s ease, background .2s ease;
 }
-.interview-turn:hover .turn-text.truncatable::after,
-.interview-turn.active .turn-text.truncatable::after{ opacity:0; }
+/* Verlauf erst ausblenden, wenn der Text wirklich aufklappt (.expanded,
+   von main.js nach der Hover-Verzögerung gesetzt) — während der Wartezeit
+   bleibt das Textende weich ausgeblendet statt hart abgeschnitten. */
+.interview-turn.expanded .turn-text.truncatable::after{ opacity:0; }
 
 /* Gekürzter Text klappt beim Hover im Seitenfluss auf und schiebt alles
    darunter nach unten (statt als Overlay darüber zu liegen, in dem man

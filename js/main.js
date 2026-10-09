@@ -21,6 +21,8 @@ let currentInterview = null;
 let currentSub = null;
 let currentTopic = null; // aktiver Sprungmarken-Eintrag der .interview-nav-panel (siehe URL-Routing)
 let pendingTopicSlug = null; // von restoreFromHash gesetzt, von initInterview beim nächsten Laden abgeholt
+let lastScrollTime = 0; // für die Hover-Verzögerung beim Aufklappen (siehe expandTurn)
+window.addEventListener('scroll', function(){ lastScrollTime = Date.now(); }, { passive:true });
 
 function clearActive(container){
   container.querySelectorAll('.nav-item, .title-cell').forEach(el => el.classList.remove('active'));
@@ -394,6 +396,23 @@ function initInterview(){
     var text = turn.querySelector('.turn-text.truncatable');
     if(!text) return;
     text.style.maxHeight = text.scrollHeight + 'px';
+    turn.classList.add('expanded');
+  }
+  // Beim Hover erst aufklappen, wenn die Maus kurz auf dem Beitrag ruht
+  // und gerade nicht gescrollt wird — sonst klappt beim Mausrad-Scrollen
+  // jeder lange Beitrag auf, der unter dem stillstehenden Zeiger
+  // vorbeigleitet, und das Layout springt beim normalen Lesen hin und her.
+  var HOVER_EXPAND_DELAY = 400;
+  function scheduleExpand(turn){
+    clearTimeout(turn._expandTimer);
+    turn._expandTimer = setTimeout(function(){
+      var sinceScroll = Date.now() - lastScrollTime;
+      if(sinceScroll < HOVER_EXPAND_DELAY){
+        scheduleExpand(turn);
+      } else if(turn.matches(':hover')){
+        expandTurn(turn);
+      }
+    }, HOVER_EXPAND_DELAY);
   }
   // Hat man innerhalb eines aufgeklappten Beitrags nach unten gescrollt,
   // liegt sein Anfang oberhalb des sichtbaren Bereichs. Würde er dann
@@ -402,8 +421,10 @@ function initInterview(){
   // und die Scrollposition um genau die verlorene Höhe korrigieren — der
   // Text unter dem Zeiger bleibt so exakt an seiner Stelle.
   function collapseTurn(turn){
+    clearTimeout(turn._expandTimer);
+    turn.classList.remove('expanded');
     var text = turn.querySelector('.turn-text.truncatable');
-    if(!text) return;
+    if(!text || !text.style.maxHeight) return;
     var stickyTop = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--menu-height')) || 0) +
                     (headers[0] ? headers[0].offsetHeight : 0);
     if(turn.getBoundingClientRect().top < stickyTop){
@@ -458,7 +479,7 @@ function initInterview(){
     var col = turn.getAttribute('data-col');
     if(hasHover){
       turn.addEventListener('mouseenter', function(e){
-        expandTurn(turn);
+        scheduleExpand(turn);
         showCursorImage(turn, e.clientX, e.clientY);
         headers.forEach(function(h, i){ h.classList.toggle('focused', String(i+1) === col); });
       });
