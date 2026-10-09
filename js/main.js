@@ -125,7 +125,10 @@ function restoreFromHash(){
 
   if(mode === 'work' && segments[1]){
     var sessionItems = Array.prototype.slice.call(document.querySelectorAll('#level2-sessions .nav-item[data-session]'));
-    var sessionItem = findByLabelSlug(sessionItems, segments[1]);
+    // Fallback für ältere Links aus der Zeit, als Session 5 noch
+    // "Not Our Decision" hieß (#Work/Notourdecision/…).
+    var sessionSlug = segments[1].toLowerCase() === 'notourdecision' ? 'Nosay' : segments[1];
+    var sessionItem = findByLabelSlug(sessionItems, sessionSlug);
     if(sessionItem){
       selectSession(sessionItem.getAttribute('data-session'));
       if(segments[2]){
