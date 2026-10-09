@@ -689,6 +689,11 @@ button{
 .interview-turn.interview-highlight .turn-text.truncatable::after{
   display:none;
 }
+/* Highlights sind oft Satzausschnitte ("the alphabet is …") — erster
+   Buchstabe immer groß, ohne den Transkript-Text selbst zu verändern. */
+.interview-turn.interview-highlight .turn-text p:first-child::first-letter{
+  text-transform:uppercase;
+}
 
 /* Name pro Beitrag — nur auf schmalen Screens sichtbar (Desktop übernimmt die Kopfzeile) */
 .turn-name{
