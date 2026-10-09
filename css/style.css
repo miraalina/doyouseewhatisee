@@ -530,6 +530,22 @@ button{
   z-index:11;
 }
 
+/* Feedback-Seiten: schwarze Fläche über die volle Höhe der beiden äußeren
+   Highlight-Spalten (von main.js eingefügt, Zeilen-Spanne wie .col-divider). */
+.col-fill{
+  background:var(--black);
+  pointer-events:none;
+  position:relative;
+}
+.interview-grid.cols-4-notes > .content-header:nth-of-type(1),
+.interview-grid.cols-4-notes > .content-header:nth-of-type(4){
+  background:var(--black);
+}
+.interview-grid.cols-4-notes > .content-header:nth-of-type(1)::after,
+.interview-grid.cols-4-notes > .content-header:nth-of-type(4)::after{
+  background:linear-gradient(to bottom, var(--black), transparent);
+}
+
 /* Kopfzeile: 3 Zellen, eine pro Person  */
 .interview-grid .content-header{
   display:flex;
@@ -687,6 +703,7 @@ button{
 }
 .interview-turn.interview-highlight[data-col="1"]{ left:0; }
 .interview-turn.interview-highlight[data-col="4"]{ right:0; }
+.interview-turn.interview-highlight .turn-text{ color:var(--white); }
 .interview-turn.interview-highlight .turn-text{
   font-size:22px;
   line-height:1.3;
@@ -801,7 +818,8 @@ button{
      Redebeiträge (grid-row:auto, s.u.) rutschen dahinter, und die
      Zeilenabstände (gap) summieren sich zu einer weißen Lücke vor dem
      ersten Text. Einspaltig gibt es keine Spaltentrennlinie zu ziehen. */
-  .col-divider{ display:none; }
+  .col-divider,
+  .col-fill{ display:none; }
   /* main.js schreibt für Desktop ein festes grid-row je Redebeitrag
      inline (z.B. row:157) — bleibt das auf Mobil stehen, während nur
      Highlights (weiter unten) auf grid-row:auto zurückgesetzt werden,

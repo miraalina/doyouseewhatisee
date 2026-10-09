@@ -361,7 +361,22 @@ function initInterview(){
   // .col-divider über Kopfzeile + alle Redebeiträge spannen. CSS
   // "grid-row:1/-1" funktioniert hier nicht, da die Zeilen implizit
   // entstehen (kein grid-template-rows).
-  Array.prototype.slice.call(grid.querySelectorAll('.col-divider')).forEach(function(div){
+  // Feedback-Seiten: die beiden äußeren Highlight-Spalten bekommen eine
+  // durchgehende schwarze Fläche (weißer Text auf Schwarz, wie die rechte
+  // Spalte der Reflection-Seite). Vor den Redebeiträgen eingefügt, damit
+  // die absolut positionierten Highlights in DOM-Reihenfolge darüber liegen.
+  if(grid.classList.contains('cols-4-notes') && !grid.querySelector('.col-fill')){
+    var firstTurn = grid.querySelector('.col-divider, .interview-turn');
+    [1, 4].forEach(function(col){
+      var fill = document.createElement('div');
+      fill.className = 'col-fill';
+      fill.setAttribute('aria-hidden', 'true');
+      fill.style.gridColumn = col;
+      grid.insertBefore(fill, firstTurn);
+    });
+  }
+
+  Array.prototype.slice.call(grid.querySelectorAll('.col-divider, .col-fill')).forEach(function(div){
     div.style.gridRow = '1 / ' + (turns.length + 2);
   });
 
