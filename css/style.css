@@ -707,6 +707,18 @@ button{
    weißen Box, nur so hoch wie sein Text. Mobil (weiter unten) umgekehrt
    schwarz auf weißer Seite. */
 .interview-turn.interview-highlight{ background:var(--white); color:var(--black); }
+/* Zur Mitte hin keine schwarze Linie neben der weißen Box: die Box liegt
+   über den .col-divider-Trennlinien (z-index:11) und reicht um Spalten-
+   abstand + Linienbreite zur Mitte hin, sodass sie dort nahtlos in die
+   weiße Mittelfläche übergeht. Links/oben/unten bleibt die schwarze Fläche.
+   (data-col 1 sitzt mit left:0 fest → wächst nach rechts, data-col 4 mit
+   right:0 → wächst nach links.) */
+@media (min-width:761px){
+  .cols-4-notes .interview-turn.interview-highlight{
+    z-index:12;
+    width:calc(var(--highlight-col-width, 20%) + var(--menu-gap) + var(--border-w));
+  }
+}
 .interview-turn.interview-highlight .turn-text{
   font-size:22px;
   line-height:1.3;
