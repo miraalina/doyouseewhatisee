@@ -555,9 +555,6 @@ button{
 .interview-grid.cols-4-notes > .content-header:nth-of-type(1),
 .interview-grid.cols-4-notes > .content-header:nth-of-type(4){
   background:var(--black);
-  /* über den weißen Highlight-Boxen (z-index:12), sonst gleiten diese
-     beim Scrollen sichtbar über die klebende schwarze Kopfzelle */
-  z-index:13;
 }
 .interview-grid.cols-4-notes > .content-header:nth-of-type(1)::after,
 .interview-grid.cols-4-notes > .content-header:nth-of-type(4)::after{
