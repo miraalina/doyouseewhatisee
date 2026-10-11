@@ -85,6 +85,9 @@ function updateHash(){
       parts.push(slugifyLabel(navLabel('.nav-item[data-session="' + currentSession + '"]')));
       if(currentSub){
         parts.push(slugifyLabel(navLabel('.nav-item[data-sub="' + currentSub + '"]')));
+        if(currentSub === 'notes' && currentTopic){
+          parts.push(currentTopic);
+        }
       }
     }
   } else if(currentMode === 'interview'){
@@ -159,7 +162,12 @@ function restoreFromHash(){
       if(segments[2]){
         var subItems = Array.prototype.slice.call(document.querySelectorAll('#level3-sub .nav-item[data-sub]'));
         var subItem = findByLabelSlug(subItems, segments[2]);
-        if(subItem) selectSub(subItem.getAttribute('data-sub'));
+        if(subItem){
+          // Feedback-Seiten: optionaler Redebeitrag als 4. Segment
+          // (z.B. #Work/Pvp/Feedback/Turn17), siehe initInterview().
+          if(subItem.getAttribute('data-sub') === 'notes') pendingTopicSlug = segments[3] || null;
+          selectSub(subItem.getAttribute('data-sub'));
+        }
       }
     }
   } else if(mode === 'interview' && segments[1]){
@@ -261,6 +269,7 @@ var subFileMap = { exercise: 'Exercise', type: 'type', notes: 'notes' };
 
 function selectSub(sub){
   currentSub = sub;
+  currentTopic = null;
   clearActive(document.getElementById('level3-sub'));
   document.querySelector('.nav-item[data-sub="' + sub + '"]').classList.add('active');
 
@@ -703,6 +712,28 @@ function initInterview(){
   // oder #Reflection/Question3):
   // restoreFromHash() hinterlässt den Sprungmarken-Slug hier, sobald die
   // .interview-nav-panel-Links (gerade oben verdrahtet) existieren.
+  // Direktlink auf einen einzelnen Redebeitrag (z.B. von der Startseite):
+  // #Interview/Ivobrouwer/Turn27, #Reflection/Turn37, #Work/Pvp/Feedback/Turn17.
+  // Springt hin, klappt ihn auf und hebt ihn kurz hervor, damit man sieht,
+  // welche Stelle gemeint ist.
+  var turnLinkMatch = pendingTopicSlug && /^turn-?(\d+)$/i.exec(pendingTopicSlug);
+  if(turnLinkMatch){
+    pendingTopicSlug = null;
+    var linkedTurn = document.getElementById('turn-' + turnLinkMatch[1]);
+    if(linkedTurn){
+      currentTopic = 'Turn' + turnLinkMatch[1];
+      updateHash();
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){
+          expandTurn(linkedTurn);
+          linkedTurn.scrollIntoView({behavior:'auto', block:'start'});
+          linkedTurn.classList.add('visible', 'linked');
+          setTimeout(function(){ linkedTurn.classList.remove('linked'); }, 2600);
+        });
+      });
+    }
+  }
+
   if(pendingTopicSlug){
     var requestedTopic = pendingTopicSlug;
     pendingTopicSlug = null;

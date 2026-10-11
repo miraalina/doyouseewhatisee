@@ -709,6 +709,18 @@ button{
   background:linear-gradient(to bottom, transparent, var(--black));
 }
 
+/* Per Direktlink angesprungener Redebeitrag (main.js, .linked): kurz
+   schwarz/weiß invertiert wie beim Hover, dann weich zurück. */
+@keyframes turn-linked{
+  0%, 55%{ background:var(--black); color:var(--white); }
+  100%{ background:transparent; color:inherit; }
+}
+.interview-turn.linked,
+.interview-turn.linked .turn-text,
+.interview-turn.linked .turn-name{
+  animation:turn-linked 2.6s ease forwards;
+}
+
 /* Regieanweisung / Randnotiz ohne festen Sprecher — geht über alle drei
    Spalten (data-col="1 / 4"), zentriert und kursiv statt linksbündig */
 .interview-turn.interview-note{
