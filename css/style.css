@@ -1675,6 +1675,15 @@ button{
   overflow-y:auto;
 }
 
+/* Porträtfeld so groß wie auf den Interview-Seiten: dort steckt es in der
+   20% breiten Sidebar (abzüglich deren 1px border-right). Nur Desktop —
+   mobil ist es wie bei den Interviews bildschirmbreit. */
+@media (min-width:761px){
+  .about-right .interview-portrait{
+    width:calc(20vw - var(--border-w));
+  }
+}
+
 .about-text{
   /* padding-bottom reserviert Platz für .about-footer, der fixed über dem
      Ende des Textflusses steht — sonst würde der letzte Absatz darunter
