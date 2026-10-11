@@ -519,8 +519,11 @@ function initInterview(){
     });
   }
 
+  // Bis zur letzten belegten Zeile (row, oben gezählt) — nicht turns.length,
+  // denn Highlights teilen sich die Zeile ihres Redebeitrags; jede
+  // überzählige leere Zeile verlängerte die Seite sonst um einen Zeilenabstand.
   Array.prototype.slice.call(grid.querySelectorAll('.col-divider, .col-fill')).forEach(function(div){
-    div.style.gridRow = '1 / ' + (turns.length + 2);
+    div.style.gridRow = '1 / ' + (row + 1);
   });
 
   function cloneInto(container, imgId){
