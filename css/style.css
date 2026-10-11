@@ -471,9 +471,17 @@ button{
      Sidebar-Breite selbst (342px) bleibt dabei unverändert, nur der
      Freiraum innerhalb der Box wird auf 2px reduziert. */
   padding:2px;
+  /* quadratisches Bildfeld (wie die graue Platzhalterfläche); das Bild
+     füllt es per object-fit:cover — zugeschnitten, nie verzerrt */
+  aspect-ratio:1/1;
+  /* Bild darf das Feld nicht über das Quadrat hinaus strecken */
+  min-height:0;
+  overflow:hidden;
+  /* Oberkante über die volle Spaltenbreite, wie die Spalten-Kopfzeilen */
+  border-top:var(--border-w) solid var(--black);
 }
 .interview-portrait svg{ display:block; width:100%; height:100%; object-fit:cover; }
-.interview-portrait img{ display:block; width:100%; height:auto; max-width:100%; }
+.interview-portrait img{ display:block; width:100%; height:100%; max-width:100%; object-fit:cover; }
 /* Fotocredit direkt unter dem Porträt — bewusst klein, aber noch lesbar */
 .interview-photo-credit{
   padding:4px 15px 5px;
@@ -865,7 +873,7 @@ button{
 @media (max-width: 760px){
   .interview-layout{ flex-direction:column; }
   .interview-sidebar{ position:static; width:100%; bottom:auto; overflow-y:visible; border-right:none; border-bottom:var(--border-w) solid var(--black); }
-  .interview-portrait{ flex:0 0 auto; aspect-ratio:4/3; border-bottom:var(--border-w) solid var(--black); }
+  .interview-portrait{ flex:0 0 auto; border-bottom:var(--border-w) solid var(--black); }
   /* Bild füllt den Rahmen (2px Abstand kommt von .interview-portrait's
      padding) und wird zugeschnitten statt verzerrt oder überzulaufen. */
   .interview-portrait img{ width:100%; height:100%; object-fit:cover; }
