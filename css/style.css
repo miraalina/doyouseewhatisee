@@ -464,8 +464,11 @@ button{
 }
 .interview-portrait{
   display:flex;
-  align-items:center;
-  justify-content:center;
+  /* untereinander: Bild füllt den Platz, ein optionaler Fotocredit sitzt
+     darunter IM Quadrat — so ist der Block auf allen Interview-Seiten
+     gleich groß, egal ob mit oder ohne Credit */
+  flex-direction:column;
+  align-items:stretch;
   /* Gleichmäßig 2px auf allen Seiten statt vorher nur oben/unten mit
      85%-Breite (die ließ links/rechts viel mehr Luft als 2px) — die
      Sidebar-Breite selbst (342px) bleibt dabei unverändert, nur der
@@ -480,11 +483,13 @@ button{
   /* Oberkante über die volle Spaltenbreite, wie die Spalten-Kopfzeilen */
   border-top:var(--border-w) solid var(--black);
 }
-.interview-portrait svg{ display:block; width:100%; height:100%; object-fit:cover; }
-.interview-portrait img{ display:block; width:100%; height:100%; max-width:100%; object-fit:cover; }
-/* Fotocredit direkt unter dem Porträt — bewusst klein, aber noch lesbar */
+.interview-portrait svg,
+.interview-portrait img{ display:block; width:100%; max-width:100%; flex:1 1 0; min-height:0; object-fit:cover; }
+/* Fotocredit unter dem Bild im Quadrat — bewusst klein, aber noch lesbar.
+   13px + 2px Rahmenabstand = gleiche linke Kante wie der Text darunter. */
 .interview-photo-credit{
-  padding:4px 15px 5px;
+  flex:0 0 auto;
+  padding:4px 13px 2px;
   font-size:11px;
   line-height:1.3;
 }
@@ -874,9 +879,6 @@ button{
   .interview-layout{ flex-direction:column; }
   .interview-sidebar{ position:static; width:100%; bottom:auto; overflow-y:visible; border-right:none; border-bottom:var(--border-w) solid var(--black); }
   .interview-portrait{ flex:0 0 auto; border-bottom:var(--border-w) solid var(--black); }
-  /* Bild füllt den Rahmen (2px Abstand kommt von .interview-portrait's
-     padding) und wird zugeschnitten statt verzerrt oder überzulaufen. */
-  .interview-portrait img{ width:100%; height:100%; object-fit:cover; }
   /* .interview-layout .interview-grid (Desktop) ist spezifischer als ein
      einfaches .interview-grid — ohne !important würde der Sidebar-Versatz
      (margin-left) hier stehen bleiben und die Spalte auf einen
