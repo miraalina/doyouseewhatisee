@@ -474,6 +474,12 @@ button{
 }
 .interview-portrait svg{ display:block; width:100%; height:100%; object-fit:cover; }
 .interview-portrait img{ display:block; width:100%; height:auto; max-width:100%; }
+/* Fotocredit direkt unter dem Porträt — bewusst klein, aber noch lesbar */
+.interview-photo-credit{
+  padding:4px 15px 5px;
+  font-size:11px;
+  line-height:1.3;
+}
 .interview-intro-text{
   padding:20px 15px;
   font-size:var(--content-font-size);
