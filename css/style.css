@@ -1538,12 +1538,22 @@ button{
 }
 .manifesto-article:last-child{ margin-bottom:0; }
 .manifesto-article h3{
-  font-size:var(--content-font-size);
+  font-size:30px;
+  line-height:1.2;
   font-weight:normal;
   font-family:var(--font-main);
   margin:0 0 .3em;
 }
 .manifesto-article p{ margin:0; }
+
+/* "Step 1", "Step 2" … in den Exercise-Anleitungen: eigene Zeile in
+   gleicher Größe wie die Artikel-Überschriften des Manifests. */
+.step-label{
+  display:block;
+  font-size:30px;
+  line-height:1.2;
+  margin:0 0 .2em;
+}
 
 @media (max-width: 760px){
   /* Reihenfolge auf mobil gedreht: "Manifesto of Collaboration" zuerst,
