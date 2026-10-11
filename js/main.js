@@ -353,6 +353,16 @@ function initHome(){
     window.addEventListener('resize', function(){ clearTimeout(t); t = setTimeout(fitHome, 100); });
   }
   fitHome();
+  // Linke Spalte: beim Hover bekommt der Session-Name jedes Mal eine neue
+  // Zufallsfarbe (kräftig genug, um auf Weiß gut lesbar zu bleiben), beim
+  // Verlassen wieder Schwarz.
+  document.querySelectorAll('.home-session').forEach(function(row){
+    row.addEventListener('mouseenter', function(){
+      var hue = Math.floor(Math.random() * 360);
+      row.style.color = 'hsl(' + hue + ', 85%, 45%)';
+    });
+    row.addEventListener('mouseleave', function(){ row.style.color = ''; });
+  });
   // Session-Schriften laden erst bei Bedarf — nach dem Laden neu messen,
   // sonst wird mit der Ersatzschrift gerechnet.
   if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitHome);

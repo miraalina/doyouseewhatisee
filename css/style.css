@@ -1789,6 +1789,7 @@ button{
   white-space:nowrap;
   line-height:1;
   cursor:pointer;
+  transition:color .2s ease;
 }
 .home-session:last-child{ border-bottom:none; }
 .home-text{
