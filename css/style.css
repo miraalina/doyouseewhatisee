@@ -1695,9 +1695,15 @@ button{
 .home-layout{
   display:grid;
   grid-template-columns:1fr 1fr;
+  /* 2px Lücke zwischen den Spalten wie auf den anderen Seiten */
+  column-gap:var(--menu-gap);
   height:calc(100vh - var(--menu-height, 40px) - var(--menu-gap));
-  /* Linie über die volle Breite, 2px (Menü-Abstand) unter dem Menü —
-     wie die Oberkante der Spalten-Kopfzeilen auf den anderen Seiten. */
+}
+/* Oberlinie 2px (Menü-Abstand) unter dem Menü, je Spalte eigene Linie —
+   wie die Spalten auf den anderen Seiten, wo die 2px-Lücke zwischen den
+   Spalten die Oberlinie direkt neben der senkrechten Trennlinie unterbricht. */
+.home-sessions,
+.home-text{
   border-top:var(--border-w) solid var(--black);
   box-sizing:border-box;
 }
