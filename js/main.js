@@ -407,11 +407,74 @@ function initInterview(){
       var colWidth = (grid.getBoundingClientRect().width - 3 * gapPx) * 0.2;
       grid.style.setProperty('--highlight-col-width', colWidth + 'px');
     };
-    syncHighlightWidth();
+
+    // Highlights sind absolut positioniert und dürfen länger sein als ihre
+    // Zeile — ein langes Zitat würde sonst in das nächste derselben Spalte
+    // hineinragen. Dann endet es 2px vor dem nächsten (schwarze Linie
+    // dazwischen), ein Verlauf zeigt an, dass es weitergeht, und beim Hover
+    // klappt es auf seine volle Höhe auf (.clipped in style.css).
+    // Bei jeder Größenänderung des Grids neu berechnet — auch wenn ein
+    // Redebeitrag auf-/zuklappt und sich dadurch die Zeilen verschieben.
+    var layoutHighlights = function(){
+      var mobile = window.matchMedia('(max-width: 760px)').matches;
+      var gapPx = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--menu-gap')) || 2;
+      [1, 4].forEach(function(col){
+        var hs = Array.prototype.slice.call(grid.querySelectorAll('.interview-highlight[data-col="' + col + '"]'));
+        // Solange eines aufgeklappt (gehovert) ist, nichts umbauen.
+        if(hs.some(function(h){ return h.matches(':hover'); })) return;
+        hs.forEach(function(h){
+          h.style.maxHeight = '';
+          h.style.top = '';
+          h.classList.remove('clipped');
+        });
+        if(mobile) return;
+        // DOM-Reihenfolge = Gesprächsreihenfolge; natürliche Lage = Anfang
+        // der Zeile des Quell-Redebeitrags.
+        var boxes = hs.map(function(h){
+          var cs = getComputedStyle(h);
+          var padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+          var lh = parseFloat(getComputedStyle(h.querySelector('.turn-text')).lineHeight) || 28;
+          return {
+            el:h,
+            natural:h.getBoundingClientRect().top,
+            full:h.scrollHeight,
+            padY:padY,
+            // so viel bleibt mindestens sichtbar, bevor das nächste beginnt
+            minVisible:Math.min(h.scrollHeight, lh * 4 + padY)
+          };
+        });
+        // Platzieren: jedes Zitat startet auf seiner Zeile, rutscht aber
+        // nach unten, falls das vorherige sonst nicht mindestens
+        // minVisible zeigen könnte (v.a. mehrere Zitate aus demselben
+        // Redebeitrag, die sonst exakt übereinander lägen).
+        var prev = null;
+        boxes.forEach(function(b){
+          b.placed = prev ? Math.max(b.natural, prev.placed + prev.minVisible + gapPx) : b.natural;
+          if(b.placed !== b.natural) b.el.style.top = (b.placed - b.natural) + 'px';
+          prev = b;
+        });
+        // Zuschneiden: endet 2px vor dem nächsten (schwarze Linie
+        // dazwischen), Verlauf + Hover-Aufklappen über .clipped.
+        boxes.forEach(function(b, i){
+          var next = boxes[i + 1];
+          if(!next) return;
+          var limit = next.placed - b.placed - gapPx;
+          if(b.full > limit){
+            // box-sizing:border-box (global) — max-height, scrollHeight und
+            // limit messen alle inkl. Innenpolster.
+            b.el.style.maxHeight = limit + 'px';
+            b.el.style.setProperty('--full-height', b.full + 'px');
+            b.el.classList.add('clipped');
+          }
+        });
+      });
+    };
+    var syncHighlights = function(){ syncHighlightWidth(); layoutHighlights(); };
+    syncHighlights();
     if('ResizeObserver' in window){
-      new ResizeObserver(syncHighlightWidth).observe(grid);
+      new ResizeObserver(syncHighlights).observe(grid);
     } else {
-      window.addEventListener('resize', syncHighlightWidth);
+      window.addEventListener('resize', syncHighlights);
     }
   }
 

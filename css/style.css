@@ -726,6 +726,34 @@ button{
    weißen Box, nur so hoch wie sein Text. Mobil (weiter unten) umgekehrt
    schwarz auf weißer Seite. */
 .interview-turn.interview-highlight{ background:var(--white); color:var(--black); }
+/* Zitat, das sonst ins nächste derselben Spalte hineinragen würde: endet
+   2px davor (main.js setzt max-height), Verlauf zeigt "geht weiter", beim
+   Hover klappt es auf volle Höhe auf und liegt über dem nächsten. */
+.interview-turn.interview-highlight.clipped{
+  overflow:hidden;
+  pointer-events:auto;
+  transition:max-height .35s cubic-bezier(.4,0,.2,1);
+}
+.interview-turn.interview-highlight.clipped::after{
+  content:"";
+  position:absolute;
+  left:0; right:0; bottom:0;
+  height:3em;
+  background:linear-gradient(to bottom, transparent, var(--white));
+  pointer-events:none;
+  transition:opacity .25s ease;
+}
+.interview-turn.interview-highlight.clipped:hover{
+  max-height:var(--full-height) !important;
+  z-index:14;
+  /* schwarze Kante, damit das aufgeklappte Zitat sich vom darunter
+     liegenden absetzt */
+  box-shadow:0 var(--menu-gap) 0 var(--black);
+}
+.interview-turn.interview-highlight.clipped:hover::after{ opacity:0; }
+/* allgemeine Hover-Regel der Redebeiträge (schwarz/weiß) hier nicht */
+.interview-turn.interview-highlight.clipped:hover{ background:var(--white); }
+.interview-turn.interview-highlight.clipped:hover .turn-text{ color:var(--black); }
 /* Zur Mitte hin keine schwarze Linie neben der weißen Box: die Box liegt
    über den .col-divider-Trennlinien (z-index:11) und reicht um Spalten-
    abstand + Linienbreite zur Mitte hin, sodass sie dort nahtlos in die
