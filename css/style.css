@@ -1654,8 +1654,10 @@ button{
 }
 
 .about-left{
-  /* 2/3 - 1/3-Aufteilung, wie .manifesto-left/-right. */
-  width:calc(66.6667% - var(--menu-gap) * 0.6667);
+  /* Rechte Spalte genau so breit wie die Interview-Sidebar (20%, abzüglich
+     deren 1px-Linie), damit das Porträtfeld dieselbe Größe hat; links der
+     Rest abzüglich Spaltenabstand. */
+  width:calc(80% + var(--border-w) - var(--menu-gap));
   /* min-height sorgt dafür, dass die Trennlinie (border-right) immer
      mindestens so weit reicht wie die rechte Spalte (.about-right, fixed
      über die volle Resthöhe) — sonst hört die Linie bei kurzem About-Text
@@ -1671,17 +1673,8 @@ button{
   top:calc(var(--menu-height, 40px) + var(--menu-gap));
   right:0;
   bottom:0;
-  width:calc(33.3333% - var(--menu-gap) * 0.3333);
+  width:calc(20% - var(--border-w));
   overflow-y:auto;
-}
-
-/* Porträtfeld so groß wie auf den Interview-Seiten: dort steckt es in der
-   20% breiten Sidebar (abzüglich deren 1px border-right). Nur Desktop —
-   mobil ist es wie bei den Interviews bildschirmbreit. */
-@media (min-width:761px){
-  .about-right .interview-portrait{
-    width:calc(20vw - var(--border-w));
-  }
 }
 
 .about-text{
@@ -1704,7 +1697,7 @@ button{
   position:fixed;
   left:0;
   bottom:0;
-  width:calc(66.6667% - var(--menu-gap) * 0.6667);
+  width:calc(80% + var(--border-w) - var(--menu-gap));
   box-sizing:border-box;
   padding:15px 40px 15px 15px;
   font-size:16px;
