@@ -62,6 +62,10 @@
   --menu-gap:2px;
   --menu-item-height:40px;
   --menu-font-size:20px;
+  /* Spalten-Kopfzeilen (.content-header: Intro, Instructions, Phuong,
+     Mira, Specimen …) — größer als die Menü-Reiter. */
+  --header-height:52px;
+  --header-font-size:30px;
   --content-font-size:16px;
   --font-main:"DINdong", sans-serif;
 }
@@ -409,7 +413,7 @@ button{
    ========================================================= */
 
 .content-header{
-  height:var(--menu-item-height);
+  height:var(--header-height);
   display:flex;
   align-items:center;
   padding:0 15px;
@@ -417,7 +421,7 @@ button{
   border-top:var(--border-w) solid var(--black);
   border-right:var(--border-w) solid var(--black);
   border-left:var(--border-w) solid var(--black);
-  font-size:var(--content-font-size);
+  font-size:var(--header-font-size);
 }
 
 /* =========================================================
@@ -575,7 +579,7 @@ button{
      das aus demselben Grund schon berücksichtigt wird). */
   top:calc(var(--menu-height, 40px) + var(--menu-gap));
   z-index:10;
-  font-size:var(--menu-font-size);
+  font-size:var(--header-font-size);
 }
 /* Redebeiträge scrollen unter der stickenden Kopfzeile durch — bleibt
    man mitten in einer Zeile stehen, schneidet die (opake) Kopfzeile sie
@@ -665,7 +669,7 @@ button{
      unter der klebenden Kopfzeile (Menü + Spalten-Reiter) versteckt lässt —
      ohne das könnte ein kurzer vorheriger Redebeitrag in einer anderen
      Spalte nicht genug Platz für den nächsten schaffen. */
-  scroll-margin-top:calc(var(--menu-height, 40px) + var(--menu-item-height));
+  scroll-margin-top:calc(var(--menu-height, 40px) + var(--header-height));
 }
 .interview-turn.visible{ opacity:1; transform:none; }
 
@@ -1019,7 +1023,7 @@ button{
   z-index:10;
   margin-bottom:var(--menu-gap);
   flex:0 0 auto;
-  font-size:var(--menu-font-size);
+  font-size:var(--header-font-size);
 }
 
 /* Visuals-Spalte: einzige Spalte, die scrollt — nur hier klebt der
@@ -1170,7 +1174,7 @@ button{
   z-index:10;
   margin-bottom:var(--menu-gap);
   flex:0 0 auto;
-  font-size:var(--menu-font-size);
+  font-size:var(--header-font-size);
 }
 
 /* Trennlinien zwischen den Spalten über die volle Spaltenhöhe, wie bei
@@ -1454,7 +1458,7 @@ button{
    darunter (statt der kleineren Fließtext-Größe der Basis-.content-header). */
 .manifesto-left > .content-header,
 .manifesto-right > .content-header{
-  font-size:var(--menu-font-size);
+  font-size:var(--header-font-size);
 }
 /* "10 Questions..." braucht keine eigene linke Kante an der äußeren
    Seitenkante — anders als bei den Menü-Reitern ("Blind Strokes",
@@ -1491,10 +1495,10 @@ button{
 }
 
 /* Mira/Phuong kleben direkt unter der jetzt ebenfalls stickenden
-   "10 Questions..."-Kopfzeile (+ var(--menu-item-height), deren Höhe) statt
+   "10 Questions..."-Kopfzeile (+ var(--header-height), deren Höhe) statt
    wie in der Basis-.interview-grid .content-header-Regel direkt unters Menü. */
 .manifesto-left .interview-grid .content-header{
-  top:calc(var(--menu-height, 40px) + var(--menu-gap) + var(--menu-item-height));
+  top:calc(var(--menu-height, 40px) + var(--menu-gap) + var(--header-height));
 }
 
 /* Genau EINE Trennlinie an den äußeren Spaltenkanten statt doppelt
