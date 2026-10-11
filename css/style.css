@@ -10,37 +10,37 @@
    hochgeladenen Datei (Dateinamen sind case-sensitive). */
 @font-face {
   font-family: "session1-Filled";
-  src: url("../content/fonts/2.52.2.1.ttf") format("truetype");
+  src: url("../content/fonts/DYSWIS-BlindStrokes-Filled.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "session1-outlined";
-  src: url("../content/fonts/2.52.2.2.ttf") format("truetype");
+  src: url("../content/fonts/DYSWIS-BlindStrokes-Outlined.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "Session2";
-  src: url("../content/fonts/2.26.3.ttf") format("truetype");
+  src: url("../content/fonts/DYSWIS-Toolbox.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "Session4";
-  src: url("../content/fonts/2.26.5.ttf") format("truetype");
+  src: url("../content/fonts/DYSWIS-NoSay.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "session5";
-  src: url("../content/fonts/2.26.6.ttf") format("truetype");
+  src: url("../content/fonts/DYSWIS-NoCompromise.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "session3";
-  src: url("../content/fonts/2.26.4.ttf") format("truetype");
+  src: url("../content/fonts/DYSWIS-PvP.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -50,7 +50,7 @@
    hochgeladenen Dateinamen, meinen aber unterschiedliche Schriften. */
 @font-face {
   font-family: "session1-parallel";
-  src: url("../content/fonts/2.113.1.ttf") format("truetype");
+  src: url("../content/fonts/DYSWIS-Handschrift.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
