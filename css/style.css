@@ -1695,9 +1695,9 @@ button{
 .home-layout{
   display:grid;
   grid-template-columns:1fr 1fr;
-  /* 1px Lücke zwischen den Spalten — unterbricht die Oberlinie direkt
-     neben der senkrechten Trennlinie, feiner als die 2px der anderen Seiten */
-  column-gap:1px;
+  /* 2px Lücke zwischen den Spalten wie auf den anderen Seiten — unterbricht
+     die Oberlinie direkt neben der senkrechten Trennlinie */
+  column-gap:var(--menu-gap);
   height:calc(100vh - var(--menu-height, 40px) - var(--menu-gap));
 }
 /* Oberlinie 2px (Menü-Abstand) unter dem Menü, je Spalte eigene Linie —
