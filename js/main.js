@@ -19,7 +19,7 @@ let currentMode = null;
 let currentSession = null;
 let currentInterview = null;
 let currentSub = null;
-let currentTopic = null; // aktiver Sprungmarken-Eintrag der .interview-nav-panel (siehe URL-Routing)
+let currentTopic = null; // URL-Segment der aktiven Sprungmarke der .interview-nav-panel (siehe topicSlug)
 let pendingTopicSlug = null; // von restoreFromHash gesetzt, von initInterview beim nächsten Laden abgeholt
 let lastScrollTime = 0; // für die Hover-Verzögerung beim Aufklappen (siehe expandTurn)
 window.addEventListener('scroll', function(){ lastScrollTime = Date.now(); }, { passive:true });
@@ -56,6 +56,22 @@ function slugifyLabel(label){
   return noSpaces.charAt(0).toUpperCase() + noSpaces.slice(1).toLowerCase();
 }
 
+// URL-Segment einer Sprungmarke (.interview-nav-panel-Link). Interviews:
+// Themen-Beschriftung nur aus Buchstaben/Ziffern (z.B. "Foundingdinamo"),
+// damit Satzzeichen wie ? “ & nicht als %-Codes in geteilten Links
+// landen. Reflection: die Fragen sind dafür zu lang — dort "Question3".
+function topicSlug(link, index){
+  if(currentMode === 'manifesto') return 'Question' + (index + 1);
+  var clean = link.textContent.replace(/[^0-9A-Za-zÀ-ÿ]+/g, '');
+  return clean ? clean.charAt(0).toUpperCase() + clean.slice(1).toLowerCase() : '';
+}
+// Vergleich tolerant gegenüber älteren Links, deren Slug noch Satzzeichen
+// enthielt (z.B. "Whatiscollaboration?").
+function sameTopicSlug(a, b){
+  var norm = function(x){ return x.replace(/[^0-9A-Za-zÀ-ÿ]+/g, '').toLowerCase(); };
+  return norm(a) === norm(b);
+}
+
 function navLabel(selector){
   var el = document.querySelector(selector);
   return el ? el.textContent.replace(/\s+/g, ' ').trim() : '';
@@ -76,11 +92,14 @@ function updateHash(){
     if(currentInterview){
       parts.push(slugifyLabel(navLabel('.nav-item[data-interview="' + currentInterview + '"]')));
       if(currentTopic){
-        parts.push(slugifyLabel(currentTopic));
+        parts.push(currentTopic);
       }
     }
   } else if(currentMode){
     parts.push(slugifyLabel(navLabel('#level1-items .nav-item[data-mode="' + currentMode + '"]')));
+    if(currentMode === 'manifesto' && currentTopic){
+      parts.push(currentTopic);
+    }
   }
   var hash = parts.length ? '#' + parts.join('/') : '';
   if(location.hash !== hash){
@@ -123,6 +142,9 @@ function restoreFromHash(){
     return;
   }
   var mode = modeItem.getAttribute('data-mode');
+  // Reflection: Sprungmarke (z.B. #Reflection/Question3) für initInterview()
+  // merken, bevor selectMode() die Seite lädt.
+  if(mode === 'manifesto') pendingTopicSlug = segments[1] || null;
   selectMode(mode);
 
   if(mode === 'work' && segments[1]){
@@ -197,6 +219,7 @@ function selectMode(mode){
   currentSession = null;
   currentInterview = null;
   currentSub = null;
+  currentTopic = null;
 
   clearActive(document.getElementById('level1-items'));
   document.getElementById('home-link').classList.remove('active');
@@ -658,32 +681,37 @@ function initInterview(){
     (prev || target).scrollIntoView({behavior: behavior, block:'start'});
   }
 
-  navLinks.forEach(function(link){
+  navLinks.forEach(function(link, i){
     link.addEventListener('click', function(e){
       e.preventDefault();
       jumpToNavLink(link, 'smooth');
       if(interviewNav) interviewNav.classList.remove('open');
-      // Sprungmarke landet als 3. Segment in der URL (nur im Interview-
-      // Modus relevant, siehe updateHash) — damit lässt sich direkt zu
-      // diesem Thema verlinken.
-      if(currentMode === 'interview'){
-        currentTopic = link.textContent.replace(/\s+/g, ' ').trim();
+      // Sprungmarke landet in der URL (Interview: 3. Segment, Reflection:
+      // 2. Segment, siehe updateHash) — damit lässt sich direkt zu dieser
+      // Stelle verlinken.
+      if(currentMode === 'interview' || currentMode === 'manifesto'){
+        currentTopic = topicSlug(link, i);
         updateHash();
       }
     });
   });
 
-  // Deep Link auf ein Thema (z.B. #Interview/Ivobrouwer/Foundingdinamo):
+  // Deep Link auf ein Thema (z.B. #Interview/Ivobrouwer/Foundingdinamo
+  // oder #Reflection/Question3):
   // restoreFromHash() hinterlässt den Sprungmarken-Slug hier, sobald die
   // .interview-nav-panel-Links (gerade oben verdrahtet) existieren.
   if(pendingTopicSlug){
-    var topicSlug = pendingTopicSlug;
+    var requestedTopic = pendingTopicSlug;
     pendingTopicSlug = null;
-    var topicLink = navLinks.find(function(link){
-      return slugifyLabel(link.textContent.replace(/\s+/g, ' ').trim()).toLowerCase() === topicSlug.toLowerCase();
+    var topicIndex = navLinks.findIndex(function(link, i){
+      return sameTopicSlug(topicSlug(link, i), requestedTopic);
     });
+    var topicLink = navLinks[topicIndex];
     if(topicLink){
-      currentTopic = topicLink.textContent.replace(/\s+/g, ' ').trim();
+      currentTopic = topicSlug(topicLink, topicIndex);
+      // selectInterview()/selectMode() haben die URL schon vor dem Laden
+      // ohne Sprungmarke geschrieben — hier wieder ergänzen.
+      updateHash();
       // Kein smooth-Scroll beim initialen Laden über einen geteilten Link
       // — die Seite soll direkt an der Stelle stehen, nicht erst dorthin
       // "fahren".
