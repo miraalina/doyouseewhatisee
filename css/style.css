@@ -1673,23 +1673,45 @@ button{
 }
 
 /* =========================================================
-   Startseite: Wortliste unten bündig im Viewport, jedes Wort ein
-   eigener Link. Hover invertiert schwarz/weiß, gleiches Prinzip wie
-   .interview-turn:hover.
+   Startseite: 2 Spalten, zusammen genau eine Bildschirmhöhe unter dem
+   Menü. Links 6 Session-Namen in ihrer jeweiligen Output-Schrift, rechts
+   der Einleitungstext. Die Schriftgrößen beider Spalten setzt initHome()
+   (main.js) passend zur tatsächlichen Spaltengröße.
    ========================================================= */
 .home-layout{
-  min-height:calc(100vh - var(--menu-height, 40px));
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  height:calc(100vh - var(--menu-height, 40px) - var(--menu-gap));
+}
+.home-sessions{
+  display:grid;
+  grid-template-rows:repeat(6, 1fr);
+  border-right:var(--border-w) solid var(--black);
+  min-height:0;
+}
+.home-session{
   display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-  box-sizing:border-box;
-  padding:40px;
+  align-items:center;
+  padding:0 25px;
+  border-bottom:var(--border-w) solid var(--black);
+  overflow:hidden;
+  min-height:0;
+  white-space:nowrap;
+  line-height:1;
+  cursor:pointer;
 }
-.home-words{
-  font-size:50px;
+.home-session:last-child{ border-bottom:none; }
+.home-text{
+  padding:15px 25px;
+  overflow:hidden;
+  min-height:0;
+}
+.home-text p{
+  margin:0;
   line-height:1.15;
-  letter-spacing:-1px;
+  letter-spacing:-0.02em;
 }
+/* Hover invertiert schwarz/weiß, gleiches Prinzip wie .interview-turn:hover */
 .home-word{
   cursor:pointer;
   transition:background .15s ease, color .15s ease;
@@ -1699,8 +1721,13 @@ button{
   color:var(--white);
 }
 
+/* Mobil untereinander: Session-Zeilen in fester Höhe, darunter der Text
+   in normaler Lesegröße (initHome passt hier nichts an). */
 @media (max-width: 760px){
-  .home-layout{ padding:20px; }
-  .home-words{ font-size:22px; }
+  .home-layout{ grid-template-columns:1fr; height:auto; }
+  .home-sessions{ grid-template-rows:repeat(6, 90px); border-right:none; border-bottom:var(--border-w) solid var(--black); }
+  .home-session{ padding:0 15px; font-size:44px; }
+  .home-text{ padding:15px; }
+  .home-text p{ font-size:26px; }
 }
 

@@ -164,7 +164,7 @@ function goHome(){
   clearActive(document.getElementById('level1-items'));
   document.getElementById('home-link').classList.add('active');
   hideLevels23();
-  loadContent('content/home/home.html');
+  loadContent('content/home/home.html', initHome);
   updateModeToggle(null);
   closeMobileMenu();
   updateHash();
@@ -303,6 +303,63 @@ function selectInterview(n){
   document.querySelector('.nav-item[data-interview="' + n + '"]').classList.add('active');
   loadContent('content/interviews/interview' + n + '.html', initInterview);
   updateHash();
+}
+
+/* =========================================================
+   initHome() — Startseite: Schriftgrößen passend zur Spaltengröße.
+   Links bekommt jeder Session-Name ca. 60% seiner Zeilenhöhe, wird aber
+   kleiner, falls er sonst nicht in die Spaltenbreite passt. Rechts wird
+   per Binärsuche die größte Schrift gesucht, bei der der ganze Text noch
+   in die Spalte passt. Bei Fenstergrößenänderung neu berechnet; mobil
+   (einspaltig) gelten die festen Größen aus style.css.
+   ========================================================= */
+var homeResizeBound = false;
+function initHome(){
+  if(!homeResizeBound){
+    homeResizeBound = true;
+    var t;
+    window.addEventListener('resize', function(){ clearTimeout(t); t = setTimeout(fitHome, 100); });
+  }
+  fitHome();
+  // Session-Schriften laden erst bei Bedarf — nach dem Laden neu messen,
+  // sonst wird mit der Ersatzschrift gerechnet.
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitHome);
+}
+
+function fitHome(){
+  var layout = document.querySelector('.home-layout');
+  if(!layout) return;
+  var sessions = layout.querySelectorAll('.home-session');
+  var text = layout.querySelector('.home-text');
+  var p = text && text.querySelector('p');
+  if(window.matchMedia('(max-width: 760px)').matches){
+    sessions.forEach(function(s){ s.style.fontSize = ''; });
+    if(p) p.style.fontSize = '';
+    return;
+  }
+
+  sessions.forEach(function(s){
+    var label = s.querySelector('span');
+    var size = s.clientHeight * 0.6;
+    s.style.fontSize = size + 'px';
+    var cs = getComputedStyle(s);
+    var avail = s.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    if(label.offsetWidth > avail){
+      s.style.fontSize = (size * avail / label.offsetWidth) + 'px';
+    }
+  });
+
+  if(p){
+    var csT = getComputedStyle(text);
+    var availH = text.clientHeight - parseFloat(csT.paddingTop) - parseFloat(csT.paddingBottom);
+    var lo = 10, hi = 200;
+    for(var i = 0; i < 20; i++){
+      var mid = (lo + hi) / 2;
+      p.style.fontSize = mid + 'px';
+      if(p.offsetHeight <= availH) lo = mid; else hi = mid;
+    }
+    p.style.fontSize = lo + 'px';
+  }
 }
 
 /* =========================================================
