@@ -678,6 +678,33 @@ button{
   color:var(--white);
 }
 
+/* Variante der linken Spalte (z.B. Studio HanLi, per Klasse .sidebar-dark
+   an .interview-layout): schwarzer Grund, weißer Text, weiße Linien —
+   die Navigation unten dafür umgekehrt weiß mit schwarzer Schrift. */
+.interview-layout.sidebar-dark .interview-sidebar{
+  background:var(--black);
+  color:var(--white);
+}
+.interview-layout.sidebar-dark .interview-portrait,
+.interview-layout.sidebar-dark .interview-intro-text{
+  border-top-color:var(--white);
+}
+.interview-layout.sidebar-dark .interview-nav-trigger{
+  background:var(--white);
+  color:var(--black);
+  border-top:var(--border-w) solid var(--black);
+  border-right:var(--border-w) solid var(--black);
+}
+.interview-layout.sidebar-dark .interview-nav-panel a{
+  background:var(--black);
+  color:var(--white);
+  border-color:var(--white);
+}
+.interview-layout.sidebar-dark .interview-nav-panel a:hover{
+  background:var(--white);
+  color:var(--black);
+}
+
 /* Ein Redebeitrag */
 .interview-turn{
   padding:10px 15px;
