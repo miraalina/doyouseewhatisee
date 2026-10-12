@@ -1195,15 +1195,10 @@ button{
    Scrollbereichs. */
 .method-col-visuals{
   overflow-y:auto;
-  /* schwarzer Hintergrund (auch in den 2px-Lücken zwischen den Bildern),
-     Reiter "Behind the Scenes" weiß auf schwarz */
-  background:var(--black);
 }
 .method-col-visuals .content-header{
   position:sticky;
   top:0;
-  background:var(--black);
-  color:var(--white);
   border-left:none;
   /* Visuals ist die rechte Außenspalte — dort keine Randlinie an der
      äußeren Seitenkante, passend zum Rest der Seite. */
