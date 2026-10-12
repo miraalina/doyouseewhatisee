@@ -4,6 +4,12 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: "ABC Prophet";
+  src: url("../fonts/ABCProphetTrial-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+}
 
 /* Sessions-Schriften für die Type-Seiten (content/fonts/, von Mira selbst
    hochgeladen) — je Session eine eigene @font-face, Name entspricht der
@@ -1596,11 +1602,12 @@ button{
   font-size:var(--menu-font-size);
 }
 
-/* Manifesto-Fließtext (Einleitung + Articles) in 28px, die
-   "Article N"-Überschriften kleiner in Menügröße. */
+/* Manifesto-Fließtext (Einleitung + Articles) in 28px im Light-Schnitt,
+   die "Article N"-Überschriften kleiner in Menügröße (Regular). */
 .manifesto-text{
   padding:25px 15px 40px;
   font-size:28px;
+  font-weight:300;
   line-height:1.25;
 }
 .manifesto-text .manifesto-intro{
