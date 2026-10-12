@@ -509,10 +509,9 @@ button{
 .interview-photo-credit.credit-dark{ color:var(--black); }
 
 /* Interview-Seiten: Bildzeile auf Schwarz (auch der 2px-Rahmen ums Bild),
-   darunter eine weiße Linie als Trennung zum ebenfalls schwarzen Intro. */
+   geht ohne Linie direkt in das ebenfalls schwarze Intro über. */
 .interview-sidebar .interview-portrait{
   background:var(--black);
-  border-bottom:var(--border-w) solid var(--white);
 }
 .interview-intro-text{
   padding:20px 15px;
@@ -802,10 +801,9 @@ button{
   margin-top:0;
 }
 /* Sprungziele (Navigation springt auf den Trenner) auf der Reflection-
-   Seite nicht unter den ZWEI klebenden Kopfzeilen (10 Questions… +
-   Mira/Phuong) verstecken. */
+   Seite nicht unter der klebenden Mira/Phuong-Kopfzeile verstecken. */
 .manifesto-left .interview-turn{
-  scroll-margin-top:calc(var(--menu-height, 40px) + var(--menu-gap) + 2 * var(--header-height));
+  scroll-margin-top:calc(var(--menu-height, 40px) + var(--menu-gap) + var(--header-height));
 }
 .interview-turn.topic-divider .turn-text{
   font-style:normal;
@@ -1553,7 +1551,7 @@ button{
 }
 
 /* =========================================================
-   MANIFESTO-MODUL — 2 gleich große Spalten: links "10 Questions"
+   MANIFESTO-MODUL — 2 gleich große Spalten: links das Gespräch
    (nochmal unterteilt in Mira/Phuong, per .interview-grid.cols-2
    wiederverwendet), rechts der Manifesto-Fließtext. Die Navigation
    unten übernimmt .interview-nav 1:1, nur mit einer Breite, die
@@ -1570,7 +1568,7 @@ button{
 
 .manifesto-layout{
   position:relative;
-  /* Kopfzeilen (10 Questions…, Mira/Phuong, Manifesto) in Menügröße —
+  /* Kopfzeilen (Mira/Phuong, Manifesto) in Menügröße —
      daher auch in Menühöhe statt der höheren Standard-Kopfzeile. Die
      sticky-Abstände rechnen mit derselben Variable und passen sich mit an. */
   --header-height:var(--menu-item-height);
@@ -1606,33 +1604,12 @@ button{
   border-right:var(--border-w) solid var(--white);
 }
 
-/* Alle Spaltenüberschriften der Reflection-Seite ("10 Questions…",
-   Mira/Phuong, "Manifesto of Collaboration") in Menügröße. */
-.manifesto-left > .content-header,
+/* Alle Spaltenüberschriften der Reflection-Seite (Mira/Phuong,
+   "Manifesto of Collaboration") in Menügröße. */
 .manifesto-right > .content-header,
 .manifesto-left .interview-grid .content-header{
   font-size:var(--menu-font-size);
 }
-/* "10 Questions..." braucht keine eigene linke Kante an der äußeren
-   Seitenkante — anders als bei den Menü-Reitern ("Blind Strokes",
-   "Exercise" …) soll hier links kein Rand stehen. */
-.manifesto-left > .content-header{
-  border-left:none;
-}
-
-/* "10 Questions to Reflect on the Project" bleibt beim Scrollen genau wie
-   Mira/Phuong darunter stehen (statt wie vorher normal mit dem Text
-   wegzuscrollen) — sonst rutschte sie ausgerechnet in dem Moment unter dem
-   Menü durch, in dem Mira/Phuong schon stehen bleiben, was wie ein
-   Doppelbild/Durchscheinen von Text wirkte. z-index über Mira/Phuong
-   (z-index:10), damit sie in diesem kurzen Übergang sauber darüber liegt
-   statt dahinter durchzuscheinen. */
-.manifesto-left > .content-header{
-  position:sticky;
-  top:calc(var(--menu-height, 40px) + var(--menu-gap));
-  z-index:11;
-}
-
 /* Titel bleibt beim Scrollen innerhalb der eigenen Spalte oben stehen,
    wie .method-col-visuals .content-header. Kein border-left/-top — die
    rechte Spalte soll komplett randlos bleiben. Eigener schwarzer
@@ -1647,22 +1624,14 @@ button{
   z-index:10;
 }
 
-/* Mira/Phuong kleben direkt unter der jetzt ebenfalls stickenden
-   "10 Questions..."-Kopfzeile (+ var(--header-height), deren Höhe) statt
-   wie in der Basis-.interview-grid .content-header-Regel direkt unters Menü. */
-.manifesto-left .interview-grid .content-header{
-  top:calc(var(--menu-height, 40px) + var(--menu-gap) + var(--header-height));
-}
-
 /* Genau EINE Trennlinie an den äußeren Spaltenkanten statt doppelt
    gemalter Ränder: .manifesto-left/-right tragen ihre volle-Höhe-Border
-   selbst, ihre Top-Level-.content-header verzichten daher auf eine
+   selbst, die Top-Level-.content-header rechts verzichtet daher auf eine
    eigene rechte Kante (wie .method-col-intro auf der Exercise-Seite).
    Mira behält ihre normale border-right (Basis-Regel) — einzige Quelle
    der kurzen Linie zwischen Mira/Phuong. Phuong sitzt an der äußeren
    Kante der linken Spalte, wo ihre eigene border-right sich mit
    .manifesto-lefts Border überlagern würde, daher hier ausgenommen. */
-.manifesto-left > .content-header,
 .manifesto-right > .content-header,
 .manifesto-left .interview-grid > .content-header:nth-child(2){
   border-right:none;
@@ -1720,7 +1689,7 @@ button{
 
 @media (max-width: 760px){
   /* Reihenfolge auf mobil gedreht: "Manifesto of Collaboration" zuerst,
-     das Gespräch ("10 Questions...") darunter — .manifesto-left steht im
+     das Gespräch darunter — .manifesto-left steht im
      HTML zuerst, deshalb hier per flex-order getauscht statt im Markup. */
   .manifesto-layout{ display:flex; flex-direction:column; }
   .manifesto-left{ order:2; }
@@ -1729,7 +1698,6 @@ button{
   /* Vertikale Trennlinie ergibt bei gestapeltem Layout keinen Sinn —
      .manifesto-right übernimmt die Trennung stattdessen per border-top. */
   .manifesto-left{ width:100%; border-right:none; }
-  .manifesto-left > .content-header{ border-right:var(--border-w) solid var(--black); }
   .manifesto-right{
     position:static;
     width:100%;
@@ -1746,7 +1714,6 @@ button{
   .manifesto-text{ padding-top:25px; }
   /* Lange Überschriften brechen auf schmalen Screens um — feste
      Kopfzeilenhöhe würde die zweite Zeile abschneiden, daher mitwachsen. */
-  .manifesto-left > .content-header,
   .manifesto-right > .content-header{
     height:auto;
     min-height:var(--header-height);
@@ -1836,6 +1803,14 @@ button{
   background:var(--black);
   color:var(--white);
   border-top-color:var(--white);
+}
+/* Porträtfeld ebenfalls auf Schwarz (2px-Rahmen ums Bild), ohne Linie
+   zum ersten Text darunter. */
+.about-right .interview-portrait{
+  background:var(--black);
+}
+.about-right .interview-portrait + .interview-intro-text{
+  border-top:none;
 }
 .about-right .interview-intro-text:last-child{
   flex:1 0 auto;
