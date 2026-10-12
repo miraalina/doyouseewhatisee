@@ -605,7 +605,7 @@ button{
    hart in der Mitte ab, die untere Hälfte hängt sichtbar direkt darunter
    (auch im Stillstand, nicht nur während der Scroll-Bewegung). Ein
    weicher Verlauf direkt unter der Kopfzeile kaschiert diesen Schnitt,
-   gleiches Prinzip wie .turn-text.truncatable::after. */
+   ähnlich wie das ausgeblendete Textende bei .turn-text.truncatable. */
 .interview-grid .content-header::after{
   content:"";
   position:absolute;
@@ -704,10 +704,6 @@ button{
 .interview-turn.active .turn-name{
   color:var(--white);
 }
-.interview-turn:hover .turn-text.truncatable::after,
-.interview-turn.active .turn-text.truncatable::after{
-  background:linear-gradient(to bottom, transparent, var(--black));
-}
 
 /* Per Direktlink angesprungener Redebeitrag (main.js, .linked): kurz
    schwarz/weiß invertiert wie beim Hover, dann weich zurück. */
@@ -805,8 +801,9 @@ button{
   max-height:none;
   overflow:visible;
 }
-.interview-turn.interview-highlight .turn-text.truncatable::after{
-  display:none;
+.interview-turn.interview-highlight .turn-text.truncatable{
+  -webkit-mask-image:none;
+  mask-image:none;
 }
 /* Highlights sind oft Satzausschnitte ("the alphabet is …") — erster
    Buchstabe immer groß, ohne den Transkript-Text selbst zu verändern. */
@@ -845,15 +842,21 @@ button{
   height:auto;
   margin:0 0 .8em;
 }
-.turn-text.truncatable::after{
-  content:""; position:absolute; left:0; right:0; bottom:0; height:2em;
-  background:linear-gradient(to bottom, transparent, var(--white));
-  transition:opacity .25s ease, background .2s ease;
+/* Textende weich ausblenden per Maske auf dem Text selbst (statt eines
+   weiß/schwarz-Verlaufs darüber): unabhängig von der Hintergrundfarbe,
+   daher kein kurz sichtbarer Kasten, während der Hover-Hintergrund
+   überblendet. */
+.turn-text.truncatable{
+  -webkit-mask-image:linear-gradient(to bottom, #000 calc(100% - 2em), transparent);
+  mask-image:linear-gradient(to bottom, #000 calc(100% - 2em), transparent);
 }
-/* Verlauf erst ausblenden, wenn der Text wirklich aufklappt (.expanded,
+/* Maske erst entfernen, wenn der Text wirklich aufklappt (.expanded,
    von main.js nach der Hover-Verzögerung gesetzt) — während der Wartezeit
    bleibt das Textende weich ausgeblendet statt hart abgeschnitten. */
-.interview-turn.expanded .turn-text.truncatable::after{ opacity:0; }
+.interview-turn.expanded .turn-text.truncatable{
+  -webkit-mask-image:none;
+  mask-image:none;
+}
 
 /* Gekürzter Text klappt beim Hover im Seitenfluss auf und schiebt alles
    darunter nach unten (statt als Overlay darüber zu liegen, in dem man
@@ -934,7 +937,7 @@ button{
      Hintergrund trotzdem schwarz (siehe .interview-turn.active oben),
      nur eben ohne Höhen-Animation, weil nichts mehr aufzuklappen ist. */
   .turn-text{ max-height:none !important; overflow:visible; }
-  .turn-text.truncatable::after{ display:none; }
+  .turn-text.truncatable{ -webkit-mask-image:none; mask-image:none; }
   .turn-image{ display:block; }
 
   /* Navigation: auf Desktop links unten fest positioniert (342px breit,
