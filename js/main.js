@@ -929,6 +929,15 @@ function initTypeTool(layout){
   var spacingSlider = layout.querySelector('.type-spacing-slider');
   if(!text) return;
 
+  // Keine automatische Großschreibung/Autokorrektur/Rechtschreibprüfung
+  // durch Browser oder Betriebssystem — sonst macht z.B. iOS/macOS aus
+  // einem mitten im Text begonnenen Wort beim Leerzeichen ein großes
+  // (verstärkt durch das Neuaufbauen des Inhalts bei den Alternates).
+  text.setAttribute('autocapitalize', 'off');
+  text.setAttribute('autocorrect', 'off');
+  text.setAttribute('autocomplete', 'off');
+  text.setAttribute('spellcheck', 'false');
+
   // Browser lassen beim Löschen des gesamten Inhalts oft ein leeres <br>
   // im contenteditable-Feld zurück — das würde :empty (Platzhalter-CSS)
   // verhindern, obwohl das Feld für die Nutzer:in leer aussieht.
