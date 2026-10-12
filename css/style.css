@@ -1485,6 +1485,10 @@ button{
 
 .manifesto-layout{
   position:relative;
+  /* Kopfzeilen (10 Questions…, Mira/Phuong, Manifesto) in Menügröße —
+     daher auch in Menühöhe statt der höheren Standard-Kopfzeile. Die
+     sticky-Abstände rechnen mit derselben Variable und passen sich mit an. */
+  --header-height:var(--menu-item-height);
 }
 
 .manifesto-left{
