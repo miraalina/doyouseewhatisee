@@ -742,31 +742,15 @@ button{
 }
 
 /* Reflection: die 10 Fragen des Gesprächs als Trenner über beide
-   Spalten — linksbündig, nur oben eine Linie, Regular in Menügröße (statt
-   zentriert/kursiv/blass wie andere .interview-note). */
+   Spalten — zentriert, ohne Linien, 28px, grau wie die Randnotizen der
+   Interview-Seiten (.interview-note, opacity .65), aber nicht kursiv. */
 .interview-turn.reflection-question{
   margin:15px 0;
-  /* Innenabstand + Höhe wie ein Menüpunkt (.nav-item) */
-  display:flex;
-  align-items:center;
-  min-height:var(--menu-item-height);
-  text-align:left;
   padding:6px 15px;
-  border-top:var(--border-w) solid var(--black);
 }
-/* Erste Frage direkt unter Mira/Phuong — ohne Abstand nach oben. Ihre
-   Linie übernimmt die Kopfzeile als Unterkante, sonst läge der weiche
-   Verlauf unter der Kopfzeile (.content-header::after) darüber und
-   ließe sie nur blassgrau erscheinen. */
+/* Erste Frage direkt unter Mira/Phuong — ohne Abstand nach oben. */
 .content-header + .interview-turn.reflection-question{
   margin-top:0;
-  border-top:none;
-}
-.manifesto-left .interview-grid > .content-header{
-  border-bottom:var(--border-w) solid var(--black);
-}
-.manifesto-left .interview-grid > .content-header::after{
-  top:calc(100% + var(--border-w));
 }
 /* Sprungziele (Navigation springt auf die Frage) nicht unter den ZWEI
    klebenden Kopfzeilen (10 Questions… + Mira/Phuong) verstecken. */
@@ -775,9 +759,8 @@ button{
 }
 .interview-turn.reflection-question .turn-text{
   font-style:normal;
-  opacity:1;
-  font-size:var(--menu-font-size);
-  line-height:1.3;
+  font-size:28px;
+  line-height:1.25;
   max-height:none;
 }
 
