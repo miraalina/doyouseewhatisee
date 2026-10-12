@@ -405,8 +405,10 @@ function fitHome(){
     var availW = s.clientWidth - padL - parseFloat(cs.paddingRight);
     var availH = s.clientHeight - padT - parseFloat(cs.paddingBottom);
     if(!(inkW > 0 && inkH > 0)) return;
-    // 15px kleiner als die größtmögliche Größe (Wunsch von Mira)
-    var size = Math.max(1, 100 * Math.min(availW / inkW, availH / inkH) - 15);
+    // Standardmäßig 15px kleiner als die größtmögliche Größe, einzelne
+    // Namen per data-shrink (home.html) abweichend (Wunsch von Mira).
+    var shrink = s.dataset.shrink ? parseFloat(s.dataset.shrink) : 15;
+    var size = Math.max(1, 100 * Math.min(availW / inkW, availH / inkH) - shrink);
     var k = size / 100;
     // Grundlinie im Span (display:block, line-height:1): halber
     // Durchschuss + Schrift-Oberlänge.
