@@ -1591,6 +1591,10 @@ button{
 .manifesto-nav{
   width:var(--manifesto-left-width, 50vw);
 }
+/* "Navigation" in Menügröße wie die übrigen Kopfzeilen der Seite. */
+.manifesto-nav .interview-nav-trigger{
+  font-size:var(--menu-font-size);
+}
 
 /* Manifesto-Fließtext (Einleitung + Articles) in 28px, die
    "Article N"-Überschriften kleiner in Menügröße. */
