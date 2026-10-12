@@ -1241,12 +1241,6 @@ button{
   line-height:1.4;
 }
 .method-text p{ margin:0 0 .8em; }
-/* Exercise-Intro: nur die Absätze in 28px, die Variablen-Tabelle
-   darunter (.intro-meta) behält ihre Fließtextgröße. */
-.method-intro-text > p{
-  font-size:28px;
-  line-height:1.25;
-}
 .method-text p:last-child{ margin-bottom:0; }
 .method-text .method-text-heading{ font-size:var(--menu-font-size); }
 .method-text .method-text-indent{ padding-left:20px; }
