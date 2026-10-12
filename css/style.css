@@ -4,6 +4,12 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: "ABC Prophet";
+  src: url("../fonts/ABCProphetTrial-RegularItalic.otf") format("opentype");
+  font-weight: normal;
+  font-style: italic;
+}
 
 /* Sessions-Schriften für die Type-Seiten (content/fonts/, von Mira selbst
    hochgeladen) — je Session eine eigene @font-face, Name entspricht der
