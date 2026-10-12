@@ -754,6 +754,20 @@ button{
   padding:6px 15px;
   border-top:var(--border-w) solid var(--black);
 }
+/* Erste Frage direkt unter Mira/Phuong — ohne Abstand nach oben. Ihre
+   Linie übernimmt die Kopfzeile als Unterkante, sonst läge der weiche
+   Verlauf unter der Kopfzeile (.content-header::after) darüber und
+   ließe sie nur blassgrau erscheinen. */
+.content-header + .interview-turn.reflection-question{
+  margin-top:0;
+  border-top:none;
+}
+.manifesto-left .interview-grid > .content-header{
+  border-bottom:var(--border-w) solid var(--black);
+}
+.manifesto-left .interview-grid > .content-header::after{
+  top:calc(100% + var(--border-w));
+}
 /* Sprungziele (Navigation springt auf die Frage) nicht unter den ZWEI
    klebenden Kopfzeilen (10 Questions… + Mira/Phuong) verstecken. */
 .manifesto-left .interview-turn{
