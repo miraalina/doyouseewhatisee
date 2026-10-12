@@ -662,8 +662,12 @@ button{
   max-height:60vh;
 }
 .interview-nav-panel a{
-  display:block;
-  padding:12px 15px;
+  /* Innenabstand + Mindesthöhe wie ein Menüpunkt (.nav-item); lange
+     Punkte brechen um und werden entsprechend höher. */
+  display:flex;
+  align-items:center;
+  min-height:var(--menu-item-height);
+  padding:6px 15px;
   background:var(--white);
   color:var(--black);
   border-top:var(--border-w) solid var(--black);
