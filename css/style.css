@@ -1391,29 +1391,8 @@ button{
 .type-col-tool{
   border-right:var(--border-w) solid var(--black);
 }
-/* Info rechts im Design der Manifesto-Spalte der Reflection-Seite:
-   weiß auf schwarz, Text 28px (Zeilenabstand 1.25), Zwischenüberschriften
-   16px wie "Article N", 30px zwischen den Abschnitten. */
 .type-col-info{
   overflow-y:auto;
-  background:var(--black);
-  color:var(--white);
-}
-.type-col-info .method-text{
-  padding:15px 15px 40px;
-  font-size:28px;
-  line-height:1.25;
-}
-.type-col-info .method-text p{
-  margin:0 0 30px;
-}
-.type-col-info .method-text p:last-child{
-  margin-bottom:0;
-}
-.type-col-info .method-text .method-text-heading{
-  font-size:var(--content-font-size);
-  line-height:1.2;
-  margin:0 0 .3em;
 }
 /* Info hat (anders als Tool) keine eigene Kopfzeile mit Text,
    aber die obere Randlinie braucht trotzdem etwas Sticky-Eigenes, das
