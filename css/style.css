@@ -1321,6 +1321,19 @@ button{
 }
 /* Punkt selbst gezeichnet — das "•" von ABC Prophet ist sehr groß;
    so skaliert er mit der Schriftgröße und sitzt mittig zur x-Höhe. */
+/* Erläuternde Absätze innerhalb eines Punkts (No Compromise: Allowed/
+   Forbidden unter "Stage N") beginnen auf derselben Höhe wie dessen
+   Text; zwischen solchen Gruppen etwas mehr Luft. */
+.method-text ul > li > p,
+.method-col-instructions .method-text ul > li > p{
+  margin:0;
+}
+.method-text ul > li:has(> p){
+  margin-bottom:.8em;
+}
+.method-text ul > li:has(> p):last-child{
+  margin-bottom:0;
+}
 .method-text ul > li::before{
   content:"";
   position:absolute;
