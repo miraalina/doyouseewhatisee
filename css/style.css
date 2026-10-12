@@ -1758,7 +1758,9 @@ button{
   /* padding-bottom reserviert Platz für .about-footer, der fixed über dem
      Ende des Textflusses steht — sonst würde der letzte Absatz darunter
      verdeckt. */
-  padding:25px 40px 130px 15px;
+  /* oben nur 1px — gleicher Abstand zur Spaltenüberschrift wie bei
+     "Manifesto of Collaboration" (.manifesto-text) */
+  padding:1px 40px 130px 15px;
   /* 28px wie der Manifesto-Text der Reflection-Seite, gleicher
      Zeilenabstand */
   font-size:28px;
