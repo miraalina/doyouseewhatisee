@@ -519,6 +519,18 @@ button{
   line-height:1.4;
   border-top:var(--border-w) solid var(--black);
 }
+/* Linke Spalte (Interview-Sidebar, Info-Seite): Scrollleiste ausblenden —
+   sie stand bei längeren Intros als weißer Streifen zwischen schwarzem
+   Inhalt und Spaltenlinie. Scrollen per Mausrad/Trackpad geht weiter. */
+.interview-sidebar,
+.about-right{
+  scrollbar-width:none;
+}
+.interview-sidebar::-webkit-scrollbar,
+.about-right::-webkit-scrollbar{
+  display:none;
+}
+
 /* Interview-Seiten: Intro-Text unter dem Porträt invertiert (weiß auf
    schwarz) und bis zum unteren Rand der Sidebar gezogen; unten Platz
    für die feste Navigation, damit sie keinen Text verdeckt. */
@@ -1690,10 +1702,10 @@ button{
 .manifesto-article p{ margin:0; }
 
 /* "Step 1", "Step 2" … in den Exercise-Anleitungen: eigene Zeile in
-   gleicher Größe wie die Artikel-Überschriften des Manifests. */
+   gleicher Größe wie die "Article N"-Überschriften des Manifests (16px). */
 .step-label{
   display:block;
-  font-size:30px;
+  font-size:var(--content-font-size);
   line-height:1.2;
   margin:0 0 .2em;
 }
