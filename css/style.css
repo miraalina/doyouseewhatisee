@@ -1259,6 +1259,11 @@ button{
 .method-col-instructions .method-text ol:last-child{
   margin-bottom:0;
 }
+/* Einleitungssatz einer Aufzählung ("…decide whether") direkt über der
+   Liste statt mit vollem Absatzabstand */
+.method-col-instructions .method-text p:has(+ ul){
+  margin-bottom:.3em;
+}
 .method-col-instructions .step-label{
   margin-bottom:.3em;
 }
