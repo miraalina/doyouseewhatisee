@@ -1636,12 +1636,10 @@ button{
 /* Manifesto-Fließtext (Einleitung + Articles) in 28px, die
    "Article N"-Überschriften kleiner in Menügröße. */
 .manifesto-text{
-  /* Oben so viel Abstand, dass "A collaboration is when…" auf derselben
-     Linie steht wie der erste Themen-Trenner links (gleiche 28px/1.25):
-     links liegen ZWEI Kopfzeilen darüber (10 Questions… + Mira/Phuong),
-     rechts nur eine — Differenz: eine Kopfzeilenhöhe + Zeilenabstand des
-     Grids (--menu-gap) + 6px Polster des Trenners. */
-  padding:calc(var(--header-height) + var(--menu-gap) + 6px) 15px 40px;
+  /* Oben nur 1px: so steht die erste Zeile von "A collaboration is
+     when…" (28px) mit ihrer Grundlinie auf derselben Linie wie "Mira"/
+     "Phuong" in der Kopfzeile links (am Screenshot nachgemessen). */
+  padding:1px 15px 40px;
   font-size:28px;
   line-height:1.25;
 }
