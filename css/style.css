@@ -669,7 +669,7 @@ button{
   border-top:var(--border-w) solid var(--black);
   border-right:var(--border-w) solid var(--black);
   border-left:var(--border-w) solid var(--black);
-  font-size:var(--menu-font-size);
+  font-size:18px;
   line-height:1.3;
   cursor:pointer;
 }
