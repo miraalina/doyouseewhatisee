@@ -1776,6 +1776,11 @@ button{
   top:calc(var(--menu-height, 40px) + var(--menu-gap));
   z-index:10;
 }
+/* Imprint-Text in Fließtextgröße */
+.about-text.about-imprint{
+  font-size:var(--content-font-size);
+  line-height:1.4;
+}
 .about-text p{ margin:0 0 1.2em; }
 .about-text p:last-child{ margin-bottom:0; }
 
