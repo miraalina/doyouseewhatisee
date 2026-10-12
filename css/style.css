@@ -1164,9 +1164,9 @@ button{
 .method-layout{
   display:grid;
   /* Reihenfolge Intro | Behind the Scenes | Instructions (per order, im
-     HTML stehen Instructions vor den Visuals); Breiten wie zuvor:
-     Intro 3, Visuals 2, Instructions 3. */
-  grid-template-columns:3fr 2fr 3fr;
+     HTML stehen Instructions vor den Visuals); Intro und Visuals teilen
+     sich ihre Breite zu gleichen Teilen, Instructions bleibt bei 3/8. */
+  grid-template-columns:2.5fr 2.5fr 3fr;
   gap:var(--menu-gap);
   align-items:start;
   height:calc(100vh - var(--menu-height, 40px));
