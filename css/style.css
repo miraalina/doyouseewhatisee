@@ -1180,10 +1180,8 @@ button{
 /* Reiter: gleiche Optik wie .interview-grid .content-header, aber pro
    Spalte statt in einer gemeinsamen Grid-Reihe — bleibt trotzdem exakt
    so breit wie die eigene Spalte, weil er ein Block-Kind von .method-col ist.
-   Intro/Instructions scrollen nicht mehr, also bleibt ihr Reiter ganz
-   normal an seiner ursprünglichen Position (kein sticky nötig — mit
-   sticky würde er sich hier sogar verschieben, weil .method-col durch
-   overflow:hidden selbst zum Scroll-Container wird). */
+   Alle drei Spalten scrollen einzeln; ihr Reiter klebt jeweils oben
+   im eigenen Scrollbereich. */
 .method-layout .content-header{
   z-index:10;
   margin-bottom:var(--menu-gap);
@@ -1193,8 +1191,8 @@ button{
   height:var(--menu-item-height);
 }
 
-/* Visuals-Spalte: einzige Spalte, die scrollt — nur hier klebt der
-   Reiter am oberen Rand des eigenen Scrollbereichs. */
+/* Visuals-Spalte scrollt, Reiter klebt am oberen Rand des eigenen
+   Scrollbereichs. */
 .method-col-visuals{
   overflow-y:auto;
 }
@@ -1213,6 +1211,13 @@ button{
    wie darunter. */
 .method-col-intro{
   border-right:var(--border-w) solid var(--black);
+  /* scrollt wie die beiden anderen Spalten, sobald der (28px-)Text
+     über das Fenster hinausgeht */
+  overflow-y:auto;
+}
+.method-col-intro .content-header{
+  position:sticky;
+  top:0;
 }
 /* Intro ist die linke Außenspalte — dort keine Randlinie an der äußeren
    Seitenkante, passend zum Rest der Seite. */
