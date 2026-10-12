@@ -742,7 +742,7 @@ button{
 }
 
 /* Reflection: die 10 Fragen des Gesprächs als Trenner über beide
-   Spalten — linksbündig, ohne Linien, Regular in Menügröße (statt
+   Spalten — linksbündig, nur oben eine Linie, Regular in Menügröße (statt
    zentriert/kursiv/blass wie andere .interview-note). */
 .interview-turn.reflection-question{
   margin:15px 0;
@@ -752,6 +752,7 @@ button{
   min-height:var(--menu-item-height);
   text-align:left;
   padding:6px 15px;
+  border-top:var(--border-w) solid var(--black);
 }
 /* Sprungziele (Navigation springt auf die Frage) nicht unter den ZWEI
    klebenden Kopfzeilen (10 Questions… + Mira/Phuong) verstecken. */
