@@ -526,6 +526,12 @@ button{
   display:flex;
   align-items:stretch;
   gap:var(--menu-gap);
+  /* Spaltenköpfe (Namen) in Menügröße und -höhe wie auf der Reflection-
+     Seite; sticky-/Scroll-Abstände rechnen mit derselben Variable. */
+  --header-height:var(--menu-item-height);
+}
+.interview-layout .interview-grid .content-header{
+  font-size:var(--menu-font-size);
 }
 
 .interview-grid{
@@ -669,6 +675,7 @@ button{
    Linie oben vom ebenfalls schwarzen Intro-Text darüber getrennt. */
 .interview-nav:not(.manifesto-nav) .interview-nav-trigger{
   border-top:var(--border-w) solid var(--white);
+  font-size:var(--menu-font-size);
 }
 .interview-nav-panel{
   position:absolute;
