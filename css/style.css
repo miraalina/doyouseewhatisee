@@ -665,13 +665,10 @@ button{
   font-size:var(--content-font-size);
   cursor:pointer;
 }
-/* Interview-Seiten: "Navigation" weiß mit schwarzer Schrift, abgesetzt
-   vom schwarzen Intro-Text darüber (Reflection behält Schwarz). */
+/* Interview-Seiten: "Navigation" bleibt schwarz, aber durch eine weiße
+   Linie oben vom ebenfalls schwarzen Intro-Text darüber getrennt. */
 .interview-nav:not(.manifesto-nav) .interview-nav-trigger{
-  background:var(--white);
-  color:var(--black);
-  border-top:var(--border-w) solid var(--black);
-  border-right:var(--border-w) solid var(--black);
+  border-top:var(--border-w) solid var(--white);
 }
 .interview-nav-panel{
   position:absolute;
