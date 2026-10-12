@@ -741,23 +741,24 @@ button{
   opacity:.65;
 }
 
-/* Reflection: die 10 Fragen des Gesprächs als Trenner über beide
-   Spalten — zentriert, ohne Linien, 28px, schwarz (nicht grau/kursiv
-   wie andere .interview-note). */
-.interview-turn.reflection-question{
+/* Themen-Trenner (main.js erzeugt sie aus den Navigationspunkten) über
+   alle Spalten — Interviews und Reflection: zentriert, ohne Linien, 28px,
+   schwarz (nicht grau/kursiv wie andere .interview-note). */
+.interview-turn.topic-divider{
   margin:15px 0;
   padding:6px 15px;
 }
-/* Erste Frage direkt unter Mira/Phuong — ohne Abstand nach oben. */
-.content-header + .interview-turn.reflection-question{
+/* Erster Trenner direkt unter der Kopfzeile — ohne Abstand nach oben. */
+.content-header + .interview-turn.topic-divider{
   margin-top:0;
 }
-/* Sprungziele (Navigation springt auf die Frage) nicht unter den ZWEI
-   klebenden Kopfzeilen (10 Questions… + Mira/Phuong) verstecken. */
+/* Sprungziele (Navigation springt auf den Trenner) auf der Reflection-
+   Seite nicht unter den ZWEI klebenden Kopfzeilen (10 Questions… +
+   Mira/Phuong) verstecken. */
 .manifesto-left .interview-turn{
   scroll-margin-top:calc(var(--menu-height, 40px) + var(--menu-gap) + 2 * var(--header-height));
 }
-.interview-turn.reflection-question .turn-text{
+.interview-turn.topic-divider .turn-text{
   font-style:normal;
   opacity:1;
   font-size:28px;
@@ -1635,7 +1636,12 @@ button{
 /* Manifesto-Fließtext (Einleitung + Articles) in 28px, die
    "Article N"-Überschriften kleiner in Menügröße. */
 .manifesto-text{
-  padding:25px 15px 40px;
+  /* Oben so viel Abstand, dass "A collaboration is when…" auf derselben
+     Linie steht wie der erste Themen-Trenner links (gleiche 28px/1.25):
+     links liegen ZWEI Kopfzeilen darüber (10 Questions… + Mira/Phuong),
+     rechts nur eine — Differenz: eine Kopfzeilenhöhe + Zeilenabstand des
+     Grids (--menu-gap) + 6px Polster des Trenners. */
+  padding:calc(var(--header-height) + var(--menu-gap) + 6px) 15px 40px;
   font-size:28px;
   line-height:1.25;
 }
@@ -1653,7 +1659,12 @@ button{
   font-family:var(--font-main);
   margin:0 0 .3em;
 }
-.manifesto-article p{ margin:0; }
+/* Article-Texte in Fließtextgröße wie das Gespräch links */
+.manifesto-article p{
+  margin:0;
+  font-size:var(--content-font-size);
+  line-height:1.4;
+}
 
 /* "Step 1", "Step 2" … in den Exercise-Anleitungen: eigene Zeile in
    gleicher Größe wie die Artikel-Überschriften des Manifests. */
@@ -1689,6 +1700,7 @@ button{
   .manifesto-right > .content-header{
     position:static;
   }
+  .manifesto-text{ padding-top:25px; }
   /* Lange Überschriften brechen auf schmalen Screens um — feste
      Kopfzeilenhöhe würde die zweite Zeile abschneiden, daher mitwachsen. */
   .manifesto-left > .content-header,

@@ -458,6 +458,26 @@ function initInterview(){
   var grid = document.querySelector('.interview-grid');
   if(!grid) return;
 
+  // Interviews + Reflection: Themen der Navigation (.interview-nav-panel)
+  // zusätzlich als Trenner im Gespräch: über alle Spalten, direkt vor dem Redebeitrag, auf den
+  // der Navigationspunkt springt. Per JS statt im HTML, weil die Turns
+  // der Interviews von scripts/build-interview-turns.js neu erzeugt werden.
+  // Als .interview-turn.interview-note, damit Zeilenzählung, Mobil-Layout
+  // und "keine Interaktion" automatisch greifen.
+  if((currentMode === 'interview' || currentMode === 'manifesto') && !grid.querySelector('.topic-divider')){
+    var colCount = grid.querySelectorAll(':scope > .content-header').length;
+    document.querySelectorAll('.interview-nav-panel a[href^="#turn-"]').forEach(function(link){
+      var target = document.getElementById(link.getAttribute('href').slice(1));
+      if(!target || target.parentNode !== grid) return;
+      var div = document.createElement('div');
+      div.className = 'interview-turn interview-note topic-divider';
+      div.setAttribute('data-col', '1 / ' + (colCount + 1));
+      div.innerHTML = '<div class="text-wrap"><div class="turn-text"><p></p></div></div>';
+      div.querySelector('p').textContent = link.textContent;
+      grid.insertBefore(div, target);
+    });
+  }
+
   var turns = Array.prototype.slice.call(grid.querySelectorAll('.interview-turn'));
   var headers = Array.prototype.slice.call(grid.querySelectorAll('.content-header'));
   var cursorFig = document.getElementById('cursorFigure');
