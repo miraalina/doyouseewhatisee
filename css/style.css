@@ -1267,11 +1267,7 @@ button{
 .method-col-instructions .method-text ul:has(+ p:not(:has(.step-label))){
   margin-bottom:.3em;
 }
-/* Aufzählungen nicht eingerückt: Punkt an der linken Textkante */
-.method-col-instructions .method-text ul{
-  padding-left:0;
-  list-style-position:inside;
-}
+
 .method-col-instructions .step-label{
   margin-bottom:.3em;
 }
@@ -1312,7 +1308,29 @@ button{
   margin:0 0 .8em;
   padding-left:1.2em;
 }
-.method-text ul{ list-style:disc; }
+/* Aufzählungen: Punkt bündig an der linken Textkante, der Text danach
+   mit kleinem Abstand — Folgezeilen beginnen auf derselben Höhe wie die
+   erste Zeile (hängender Einzug statt Umbruch unter den Punkt). */
+.method-text ul{
+  list-style:none;
+  padding-left:0;
+}
+.method-text ul > li{
+  position:relative;
+  padding-left:.8em;
+}
+/* Punkt selbst gezeichnet — das "•" von ABC Prophet ist sehr groß;
+   so skaliert er mit der Schriftgröße und sitzt mittig zur x-Höhe. */
+.method-text ul > li::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:.5em;
+  width:.28em;
+  height:.28em;
+  border-radius:50%;
+  background:currentColor;
+}
 .method-text ul:last-child,
 .method-text ol:last-child{ margin-bottom:0; }
 .method-text li{ margin:0 0 .4em; }
