@@ -740,6 +740,13 @@ button{
   scroll-margin-top:calc(var(--menu-height, 40px) + var(--header-height));
 }
 .interview-turn.visible{ opacity:1; transform:none; }
+/* Interview-Seiten: weniger Luft zwischen den einzelnen Redebeiträgen
+   (oben/unten 4px statt 10px). Steht vor .topic-divider, damit die
+   Themen-Trenner ihr eigenes Polster behalten. */
+.interview-layout .interview-turn{
+  padding-top:4px;
+  padding-bottom:4px;
+}
 
 /* Fokus-Effekt beim Hover: invertiert wie eure .nav-item.active-Logik,
    nur umgekehrt (hier: schwarz/weiß tauschen statt weiß/schwarz) */
