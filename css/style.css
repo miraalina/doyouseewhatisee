@@ -1357,12 +1357,12 @@ button{
                    siehe main.js: initTypeTool, da <script>-Tags in per
                    innerHTML geladenen Fragmenten nicht ausgeführt werden)
      "Info"      — Fließtext, wiederverwendet .method-text/-heading
-     "Specimen"  — Bilder, wiederverwendet .method-image/-images
    ========================================================= */
 
 .type-layout{
   display:grid;
-  grid-template-columns:2fr 1fr 1fr;
+  /* Tool | Info im Verhältnis 3:1 (Specimen-Spalte entfernt) */
+  grid-template-columns:3fr 1fr;
   gap:var(--menu-gap);
   align-items:start;
   height:calc(100vh - var(--menu-height, 40px));
@@ -1387,15 +1387,14 @@ button{
 
 /* Trennlinien zwischen den Spalten über die volle Spaltenhöhe, wie bei
    .method-col — Tool ist die linke Außenspalte (kein eigener Header,
-   daher kein border-Sonderfall nötig), Specimen die rechte Außenspalte. */
+   daher kein border-Sonderfall nötig), Info die rechte Außenspalte. */
 .type-col-tool{
   border-right:var(--border-w) solid var(--black);
 }
 .type-col-info{
-  border-right:var(--border-w) solid var(--black);
   overflow-y:auto;
 }
-/* Info hat (anders als Tool/Specimen) keine eigene Kopfzeile mit Text,
+/* Info hat (anders als Tool) keine eigene Kopfzeile mit Text,
    aber die obere Randlinie braucht trotzdem etwas Sticky-Eigenes, das
    beim Scrollen oben stehen bleibt — sonst gehörte die Linie bisher zum
    normal mitscrollenden .method-text und verschwand mit dem Text nach
@@ -1410,15 +1409,6 @@ button{
   height:0;
   border-top:var(--border-w) solid var(--black);
   z-index:10;
-}
-.type-col-specimen{
-  overflow-y:auto;
-}
-.type-col-specimen .content-header{
-  position:sticky;
-  top:0;
-  border-left:none;
-  border-right:none;
 }
 
 /* Kopfzeile: Versionsnummer oben links, Download-Link oben rechts. */
@@ -1605,8 +1595,7 @@ button{
      Mindestbreite auf, die Regler-Zeilen dürfen jetzt echt schrumpfen. */
   .type-layout{ grid-template-columns:minmax(0,1fr); height:auto; overflow:visible; }
   .type-col{ height:auto; overflow:visible; }
-  .type-col-info,
-  .type-col-specimen{ overflow-y:visible; }
+  .type-col-info{ overflow-y:visible; }
   .type-layout .content-header{ position:static; }
   .type-tool-control-row{ min-width:0; }
   .type-tool-control-row input[type="range"]{ min-width:0; }
