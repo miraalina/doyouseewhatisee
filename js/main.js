@@ -368,6 +368,12 @@ function initHome(){
     window.addEventListener('resize', function(){ clearTimeout(t); t = setTimeout(fitHome, 100); });
   }
   fitHome();
+  // Spaltengröße kann sich auch ohne Fenster-Resize noch ändern (z.B. wenn
+  // --menu-height nachträglich gesetzt wird) — dann neu messen.
+  if(window.ResizeObserver){
+    var homeSessions = document.querySelector('.home-sessions');
+    if(homeSessions) new ResizeObserver(function(){ fitHome(); }).observe(homeSessions);
+  }
   // Session-Schriften laden erst bei Bedarf — nach dem Laden neu messen,
   // sonst wird mit der Ersatzschrift gerechnet.
   if(document.fonts && document.fonts.load){
@@ -410,11 +416,14 @@ function fitHome(){
     var shrink = s.dataset.shrink ? parseFloat(s.dataset.shrink) : 15;
     var size = Math.max(1, 100 * Math.min(availW / inkW, availH / inkH) - shrink);
     var k = size / 100;
-    // Grundlinie im Span (display:block, line-height:1): halber
-    // Durchschuss + Schrift-Oberlänge.
-    var fA = (m.fontBoundingBoxAscent || inkA) * k, fD = (m.fontBoundingBoxDescent || 0) * k;
-    var baseline = (size - fA - fD) / 2 + fA;
     s.style.fontSize = size + 'px';
+    // Grundlinie direkt im gerenderten Span messen: ein leerer
+    // inline-block sitzt mit seiner Unterkante genau auf der Grundlinie.
+    var mark = document.createElement('i');
+    mark.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline';
+    label.appendChild(mark);
+    var baseline = mark.offsetTop;
+    label.removeChild(mark);
     label.style.left = (padL + inkL * k) + 'px';
     label.style.top = (padT + (availH - inkH * k) / 2 + inkA * k - baseline) + 'px';
   });
