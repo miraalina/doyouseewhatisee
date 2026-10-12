@@ -1647,6 +1647,16 @@ button{
   .manifesto-right > .content-header{
     position:static;
   }
+  /* Lange Überschriften brechen auf schmalen Screens um — feste
+     Kopfzeilenhöhe würde die zweite Zeile abschneiden, daher mitwachsen. */
+  .manifesto-left > .content-header,
+  .manifesto-right > .content-header{
+    height:auto;
+    min-height:var(--header-height);
+    padding-top:8px;
+    padding-bottom:8px;
+    line-height:1.15;
+  }
   .manifesto-left .interview-grid{ grid-template-columns:1fr !important; }
   .manifesto-left .interview-grid .content-header{ display:none !important; }
   .manifesto-left .interview-turn{ grid-column:1 !important; }
