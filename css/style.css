@@ -742,22 +742,15 @@ button{
 }
 
 /* Reflection: die 10 Fragen des Gesprächs als Trenner über beide
-   Spalten — zentriert, Linie nur oben, 28px, schwarz (nicht grau/kursiv
+   Spalten — zentriert, ohne Linien, 28px, schwarz (nicht grau/kursiv
    wie andere .interview-note). */
 .interview-turn.reflection-question{
   margin:15px 0;
   padding:6px 15px;
-  border-top:var(--border-w) solid var(--black);
 }
-/* Erste Frage direkt unter Mira/Phuong — ohne Abstand nach oben; ihre
-   Linie scrollt mit der Frage mit. Der weiche Verlauf unter der
-   Kopfzeile (.content-header::after) lässt dafür seine oberste
-   Linienbreite frei, sonst überdeckte er sie und sie wirkte blassgrau. */
+/* Erste Frage direkt unter Mira/Phuong — ohne Abstand nach oben. */
 .content-header + .interview-turn.reflection-question{
   margin-top:0;
-}
-.manifesto-left .interview-grid > .content-header::after{
-  background:linear-gradient(to bottom, transparent var(--border-w), var(--white) var(--border-w), transparent);
 }
 /* Sprungziele (Navigation springt auf die Frage) nicht unter den ZWEI
    klebenden Kopfzeilen (10 Questions… + Mira/Phuong) verstecken. */
