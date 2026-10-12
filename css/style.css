@@ -1733,13 +1733,13 @@ button{
 }
 
 /* Spalten getauscht: Porträts/Bios (.about-right) stehen links, fix wie
-   die Interview-Sidebar (20%, gleiche Porträtgröße, Trennlinie über
-   deren border-right); der About-Text (.about-left) rechts daneben im
-   normalen Textfluss, mit margin-left wie .interview-grid. Klassennamen
-   bleiben aus Kompatibilität (Markup/Mobil-Regeln). */
+   die Interview-Sidebar (Trennlinie über deren border-right), aber so
+   breit wie die rechte Spalte der Reflection-Seite (.manifesto-right,
+   1/3); der About-Text (.about-left) rechts daneben im normalen
+   Textfluss. Klassennamen bleiben aus Kompatibilität (Markup/Mobil-Regeln). */
 .about-left{
-  margin-left:calc(20% + var(--menu-gap));
-  width:calc(80% - var(--menu-gap));
+  margin-left:calc(33.3333% + var(--menu-gap) * 0.6667);
+  width:calc(66.6667% - var(--menu-gap) * 0.6667);
   padding-bottom:calc(var(--menu-item-height) + 20px);
   box-sizing:border-box;
 }
@@ -1749,7 +1749,7 @@ button{
   top:calc(var(--menu-height, 40px) + var(--menu-gap));
   left:0;
   bottom:0;
-  width:20%;
+  width:calc(33.3333% - var(--menu-gap) * 0.3333);
   overflow-y:auto;
   border-right:var(--border-w) solid var(--black);
 }
@@ -1775,9 +1775,9 @@ button{
 .about-footer{
   position:fixed;
   /* unten in der (jetzt rechten) Textspalte */
-  left:calc(20% + var(--menu-gap));
+  left:calc(33.3333% + var(--menu-gap) * 0.6667);
   bottom:0;
-  width:calc(80% - var(--menu-gap));
+  width:calc(66.6667% - var(--menu-gap) * 0.6667);
   box-sizing:border-box;
   padding:15px 40px 15px 15px;
   font-size:16px;
