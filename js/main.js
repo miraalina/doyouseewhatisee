@@ -405,8 +405,9 @@ function fitHome(){
     var availW = s.clientWidth - padL - parseFloat(cs.paddingRight);
     var availH = s.clientHeight - padT - parseFloat(cs.paddingBottom);
     if(!(inkW > 0 && inkH > 0)) return;
-    var k = Math.min(availW / inkW, availH / inkH);
-    var size = 100 * k;
+    // 5px kleiner als die größtmögliche Größe (Wunsch von Mira)
+    var size = Math.max(1, 100 * Math.min(availW / inkW, availH / inkH) - 5);
+    var k = size / 100;
     // Grundlinie im Span (display:block, line-height:1): halber
     // Durchschuss + Schrift-Oberlänge.
     var fA = (m.fontBoundingBoxAscent || inkA) * k, fD = (m.fontBoundingBoxDescent || 0) * k;
