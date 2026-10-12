@@ -530,8 +530,6 @@ button{
   flex:1 0 auto;
   background:var(--black);
   color:var(--white);
-  font-size:28px;
-  line-height:1.25;
   padding-bottom:calc(var(--menu-item-height) + 20px);
 }
 .interview-intro-text p{ margin:0 0 .8em; }
