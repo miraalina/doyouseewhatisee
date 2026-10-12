@@ -748,12 +748,11 @@ button{
 }
 .interview-turn.interview-note .turn-text{
   font-style:italic;
-  opacity:.65;
 }
 
 /* Themen-Trenner (main.js erzeugt sie aus den Navigationspunkten) über
    alle Spalten — Interviews und Reflection: zentriert, ohne Linien, 28px,
-   schwarz (nicht grau/kursiv wie andere .interview-note). */
+   nicht kursiv (anders als andere .interview-note). */
 .interview-turn.topic-divider{
   margin:15px 0;
   padding:6px 15px;
@@ -770,7 +769,6 @@ button{
 }
 .interview-turn.topic-divider .turn-text{
   font-style:normal;
-  opacity:1;
   font-size:28px;
   line-height:1.25;
   max-height:none;
