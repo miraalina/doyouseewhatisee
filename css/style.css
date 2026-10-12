@@ -1732,28 +1732,26 @@ button{
   position:relative;
 }
 
+/* Spalten getauscht: Porträts/Bios (.about-right) stehen links, fix wie
+   die Interview-Sidebar (20%, gleiche Porträtgröße, Trennlinie über
+   deren border-right); der About-Text (.about-left) rechts daneben im
+   normalen Textfluss, mit margin-left wie .interview-grid. Klassennamen
+   bleiben aus Kompatibilität (Markup/Mobil-Regeln). */
 .about-left{
-  /* Rechte Spalte genau so breit wie die Interview-Sidebar (20%, abzüglich
-     deren 1px-Linie), damit das Porträtfeld dieselbe Größe hat; links der
-     Rest abzüglich Spaltenabstand. */
-  width:calc(80% + var(--border-w) - var(--menu-gap));
-  /* min-height sorgt dafür, dass die Trennlinie (border-right) immer
-     mindestens so weit reicht wie die rechte Spalte (.about-right, fixed
-     über die volle Resthöhe) — sonst hört die Linie bei kurzem About-Text
-     vorzeitig auf, während rechts noch Inhalt/Fläche folgt. */
-  min-height:calc(100vh - var(--menu-height, 40px) - var(--menu-gap));
+  margin-left:calc(20% + var(--menu-gap));
+  width:calc(80% - var(--menu-gap));
   padding-bottom:calc(var(--menu-item-height) + 20px);
-  border-right:var(--border-w) solid var(--black);
   box-sizing:border-box;
 }
 
 .about-right{
   position:fixed;
   top:calc(var(--menu-height, 40px) + var(--menu-gap));
-  right:0;
+  left:0;
   bottom:0;
-  width:calc(20% - var(--border-w));
+  width:20%;
   overflow-y:auto;
+  border-right:var(--border-w) solid var(--black);
 }
 
 .about-text{
@@ -1776,31 +1774,27 @@ button{
    Scrollen des About-Texts darüber immer sichtbar/unbewegt stehen. */
 .about-footer{
   position:fixed;
-  left:0;
+  /* unten in der (jetzt rechten) Textspalte */
+  left:calc(20% + var(--menu-gap));
   bottom:0;
-  width:calc(80% + var(--border-w) - var(--menu-gap));
+  width:calc(80% - var(--menu-gap));
   box-sizing:border-box;
   padding:15px 40px 15px 15px;
   font-size:16px;
   line-height:1.5;
   background:var(--white);
-  /* Kein eigener border-top (kein Abtrenner zum Text darüber). Die
-     Trennlinie zur rechten Spalte läuft über .about-left's border-right
-     die volle Höhe durch — die fixed .about-footer läge sonst mit ihrem
-     weißen Hintergrund über diesem unteren Teil der Linie, deshalb hier
-     dieselbe border-right, damit die Linie ununterbrochen bis nach unten
-     weiterläuft. */
-  border-right:var(--border-w) solid var(--black);
+  /* Kein eigener border-top (kein Abtrenner zum Text darüber). */
 }
 .about-footer p{ margin:0 0 .3em; }
 .about-footer p:last-child{ margin-bottom:0; }
 
 @media (max-width: 760px){
   .about-layout{ display:flex; flex-direction:column; }
-  .about-left{ width:100%; border-right:none; padding-bottom:0; }
+  .about-left{ width:100%; margin-left:0; padding-bottom:0; }
   .about-right{
     position:static;
     width:100%;
+    border-right:none;
     height:auto;
     overflow-y:visible;
   }
@@ -1814,7 +1808,6 @@ button{
   .about-footer{
     position:static;
     width:100%;
-    border-right:none;
     padding:0 40px 0 15px;
     font-size:28px;
     line-height:1.25;
