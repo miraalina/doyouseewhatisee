@@ -1822,3 +1822,13 @@ button{
   .home-text p{ font-size:26px; }
 }
 
+
+/* Bildschutz (siehe js/main.js): kein Herausziehen, kein Markieren,
+   kein "Bild sichern"-Menü beim Lange-Drücken auf iOS. */
+img, video, svg, picture {
+  -webkit-user-drag: none;
+  user-drag: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}

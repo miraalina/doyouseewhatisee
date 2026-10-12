@@ -13,6 +13,21 @@ document.addEventListener('error', function(e){
 }, true);
 
 /* =========================================================
+   Bildschutz: Rechtsklick-Menü ("Bild speichern/kopieren") und
+   Herausziehen per Drag & Drop auf Bildern und Videos unterbinden.
+   Delegiert am document, damit auch per fetch() nachgeladene
+   Fragmente abgedeckt sind. Lange-Drücken auf iOS: siehe style.css
+   (-webkit-touch-callout).
+   ========================================================= */
+['contextmenu', 'dragstart'].forEach(function(type){
+  document.addEventListener(type, function(e){
+    if(e.target.closest && e.target.closest('img, video, svg, picture')){
+      e.preventDefault();
+    }
+  });
+});
+
+/* =========================================================
    Navigations-Zustand + Menü-Helfer
    ========================================================= */
 let currentMode = null;
