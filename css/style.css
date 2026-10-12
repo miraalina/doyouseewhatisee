@@ -1407,6 +1407,11 @@ button{
 .type-col-info{
   overflow-y:auto;
 }
+/* Zwischenüberschriften im Info-Text (Form-finding, Digitization) in
+   Fließtextgröße statt 20px */
+.type-col-info .method-text .method-text-heading{
+  font-size:var(--content-font-size);
+}
 /* Spaltenüberschrift "Information" klebt oben im eigenen Scrollbereich;
    Info ist die rechte Außenspalte — dort keine Randlinien links/rechts. */
 .type-col-info .content-header{
