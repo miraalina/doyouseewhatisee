@@ -1763,8 +1763,19 @@ button{
      Zeilenabstand */
   font-size:28px;
   line-height:1.25;
-  /* Ersetzt die entfernte "About"-Kopfzeile als obere Abgrenzung zum Menü. */
-  border-top:var(--border-w) solid var(--black);
+}
+/* Spaltenüberschrift "About" über dem Text — in Menügröße und -höhe wie
+   die Kopfzeilen der Reflection-Seite, bleibt beim Scrollen oben stehen.
+   Links keine eigene Linie (die liefert die border-right der Bio-
+   Spalte), rechts keine an der Seitenkante. */
+.about-left > .content-header{
+  height:var(--menu-item-height);
+  font-size:var(--menu-font-size);
+  border-left:none;
+  border-right:none;
+  position:sticky;
+  top:calc(var(--menu-height, 40px) + var(--menu-gap));
+  z-index:10;
 }
 .about-text p{ margin:0 0 1.2em; }
 .about-text p:last-child{ margin-bottom:0; }
