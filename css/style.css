@@ -491,13 +491,28 @@ button{
 }
 .interview-portrait svg,
 .interview-portrait img{ display:block; width:100%; max-width:100%; flex:1 1 0; min-height:0; object-fit:cover; }
-/* Fotocredit unter dem Bild im Quadrat — bewusst klein, aber noch lesbar.
-   13px + 2px Rahmenabstand = gleiche linke Kante wie der Text darunter. */
+/* Fotocredit weiß in der unteren linken Ecke AUF dem Bild (absolut über
+   dem Bild, nimmt ihm keinen Platz weg — das Bild füllt das Quadrat
+   innerhalb des 2px-Rahmens ganz aus). */
+.interview-portrait{ position:relative; }
 .interview-photo-credit{
-  flex:0 0 auto;
-  padding:4px 13px 2px;
+  position:absolute;
+  left:2px;
+  bottom:2px;
+  padding:6px 8px;
+  color:var(--white);
   font-size:11px;
   line-height:1.3;
+  pointer-events:none;
+}
+/* Auf hellen Bildern (z.B. Studio HanLi) schwarz statt weiß */
+.interview-photo-credit.credit-dark{ color:var(--black); }
+
+/* Interview-Seiten: Bildzeile auf Schwarz (auch der 2px-Rahmen ums Bild),
+   darunter eine weiße Linie als Trennung zum ebenfalls schwarzen Intro. */
+.interview-sidebar .interview-portrait{
+  background:var(--black);
+  border-bottom:var(--border-w) solid var(--white);
 }
 .interview-intro-text{
   padding:20px 15px;
