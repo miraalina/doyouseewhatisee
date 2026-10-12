@@ -153,8 +153,11 @@ function restoreFromHash(){
   var modeItems = Array.prototype.slice.call(document.querySelectorAll('#level1-items .nav-item[data-mode]'));
   // Fallback für ältere Links aus der Zeit, als die Menüpunkte noch
   // "Work Mode"/"Interview Mode"/… hießen (#Workmode/…, #Interviewmode/…).
+  // Außerdem: Abgleich mit data-mode, damit Links auf inzwischen
+  // umbenannte Menüpunkte weiter funktionieren ("About" → "Info").
   var modeItem = findByLabelSlug(modeItems, segments[0]) ||
-                 findByLabelSlug(modeItems, segments[0].replace(/mode$/i, ''));
+                 findByLabelSlug(modeItems, segments[0].replace(/mode$/i, '')) ||
+                 modeItems.filter(function(i){ return i.getAttribute('data-mode') === segments[0].toLowerCase(); })[0];
   if(!modeItem){
     goHome();
     return;

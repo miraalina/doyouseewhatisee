@@ -1755,18 +1755,15 @@ button{
 }
 
 .about-text{
-  /* padding-bottom reserviert Platz für .about-footer, der fixed über dem
-     Ende des Textflusses steht — sonst würde der letzte Absatz darunter
-     verdeckt. */
   /* oben nur 1px — gleicher Abstand zur Spaltenüberschrift wie bei
      "Manifesto of Collaboration" (.manifesto-text) */
-  padding:1px 40px 130px 15px;
+  padding:1px 40px 25px 15px;
   /* 28px wie der Manifesto-Text der Reflection-Seite, gleicher
      Zeilenabstand */
   font-size:28px;
   line-height:1.25;
 }
-/* Spaltenüberschrift "About" über dem Text — in Menügröße und -höhe wie
+/* Spaltenüberschriften "About" und "Imprint" — in Menügröße und -höhe wie
    die Kopfzeilen der Reflection-Seite, bleibt beim Scrollen oben stehen.
    Links keine eigene Linie (die liefert die border-right der Bio-
    Spalte), rechts keine an der Seitenkante. */
@@ -1782,25 +1779,6 @@ button{
 .about-text p{ margin:0 0 1.2em; }
 .about-text p:last-child{ margin-bottom:0; }
 
-/* Letzte 2 Absätze (DinDong-Credit, Bug-Hinweis) unten bündig an die Seite
-   — fixed statt Teil des scrollenden .about-text, bleiben also beim
-   Scrollen des About-Texts darüber immer sichtbar/unbewegt stehen. */
-.about-footer{
-  position:fixed;
-  /* unten in der (jetzt rechten) Textspalte */
-  left:calc(33.3333% + var(--menu-gap) * 0.6667);
-  bottom:0;
-  width:calc(66.6667% - var(--menu-gap) * 0.6667);
-  box-sizing:border-box;
-  padding:15px 40px 15px 15px;
-  font-size:16px;
-  line-height:1.5;
-  background:var(--white);
-  /* Kein eigener border-top (kein Abtrenner zum Text darüber). */
-}
-.about-footer p{ margin:0 0 .3em; }
-.about-footer p:last-child{ margin-bottom:0; }
-
 @media (max-width: 760px){
   .about-layout{ display:flex; flex-direction:column; }
   .about-left{ width:100%; margin-left:0; padding-bottom:0; }
@@ -1810,20 +1788,6 @@ button{
     border-right:none;
     height:auto;
     overflow-y:visible;
-  }
-  /* Fixed würde auf mobil (About-Text und gestapelte rechte Spalte
-     untereinander) den nachfolgenden Inhalt verdecken — hier also
-     normaler Textfluss statt am Bildschirmrand fixiert. Kein eigenes
-     Aussehen mehr (Schriftgröße/Padding wie .about-text) — auf mobil
-     reiht sich der Footer einfach als weiterer Absatz ein, statt als
-     eigener Abschnitt aufzufallen. */
-  .about-text{ padding-bottom:25px; }
-  .about-footer{
-    position:static;
-    width:100%;
-    padding:0 40px 0 15px;
-    font-size:28px;
-    line-height:1.25;
   }
 }
 
