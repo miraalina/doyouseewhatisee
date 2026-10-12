@@ -1652,19 +1652,15 @@ button{
   margin:0 0 1.5em;
 }
 .manifesto-article:last-child{ margin-bottom:0; }
+/* "Article N" in Fließtextgröße (16px), Article-Text bleibt 28px */
 .manifesto-article h3{
-  font-size:var(--menu-font-size);
+  font-size:var(--content-font-size);
   line-height:1.2;
   font-weight:normal;
   font-family:var(--font-main);
   margin:0 0 .3em;
 }
-/* Article-Texte in Fließtextgröße wie das Gespräch links */
-.manifesto-article p{
-  margin:0;
-  font-size:var(--content-font-size);
-  line-height:1.4;
-}
+.manifesto-article p{ margin:0; }
 
 /* "Step 1", "Step 2" … in den Exercise-Anleitungen: eigene Zeile in
    gleicher Größe wie die Artikel-Überschriften des Manifests. */
