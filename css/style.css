@@ -1517,11 +1517,12 @@ button{
   border-right:var(--border-w) solid var(--white);
 }
 
-/* Beide Top-Level-Reiter in gleicher Schriftgröße wie Mira/Phuong
-   darunter (statt der kleineren Fließtext-Größe der Basis-.content-header). */
+/* Alle Spaltenüberschriften der Reflection-Seite ("10 Questions…",
+   Mira/Phuong, "Manifesto of Collaboration") in Menügröße. */
 .manifesto-left > .content-header,
-.manifesto-right > .content-header{
-  font-size:var(--header-font-size);
+.manifesto-right > .content-header,
+.manifesto-left .interview-grid .content-header{
+  font-size:var(--menu-font-size);
 }
 /* "10 Questions..." braucht keine eigene linke Kante an der äußeren
    Seitenkante — anders als bei den Menü-Reitern ("Blind Strokes",
@@ -1587,14 +1588,11 @@ button{
   width:var(--manifesto-left-width, 50vw);
 }
 
-/* Einheitliche Textgröße für Einleitung, Article-Überschriften und
-   Fließtext — genauso groß wie der Fließtext in der linken Spalte
-   (.turn-text), damit auf der ganzen Seite (außer dem Menü) überall
-   dieselbe Schriftgröße steht. Nur die eigene Zeile pro Article
-   unterscheidet sie optisch. */
+/* Manifesto-Fließtext (Einleitung + Articles) in 28px, die
+   "Article N"-Überschriften kleiner in Menügröße. */
 .manifesto-text{
   padding:25px 15px 40px;
-  font-size:var(--content-font-size);
+  font-size:28px;
   line-height:1.5;
 }
 .manifesto-text .manifesto-intro{
@@ -1605,7 +1603,7 @@ button{
 }
 .manifesto-article:last-child{ margin-bottom:0; }
 .manifesto-article h3{
-  font-size:30px;
+  font-size:var(--menu-font-size);
   line-height:1.2;
   font-weight:normal;
   font-family:var(--font-main);
