@@ -1260,9 +1260,17 @@ button{
   margin-bottom:0;
 }
 /* Einleitungssatz einer Aufzählung ("…decide whether") direkt über der
-   Liste statt mit vollem Absatzabstand */
-.method-col-instructions .method-text p:has(+ ul){
+   Liste statt mit vollem Absatzabstand; ebenso eine Aufzählung direkt
+   über ihren erläuternden Absätzen (No Compromise: "Stage N" →
+   Allowed/Forbidden), außer der nächste Absatz beginnt einen neuen Step. */
+.method-col-instructions .method-text p:has(+ ul),
+.method-col-instructions .method-text ul:has(+ p:not(:has(.step-label))){
   margin-bottom:.3em;
+}
+/* Aufzählungen nicht eingerückt: Punkt an der linken Textkante */
+.method-col-instructions .method-text ul{
+  padding-left:0;
+  list-style-position:inside;
 }
 .method-col-instructions .step-label{
   margin-bottom:.3em;
