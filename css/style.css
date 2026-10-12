@@ -746,7 +746,12 @@ button{
    Fließtextgröße (statt kursiv/blass wie andere .interview-note). */
 .interview-turn.reflection-question{
   margin:15px 0;
-  padding:12px 15px;
+  /* Innenabstand + Höhe wie ein Menüpunkt (.nav-item) */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:var(--menu-item-height);
+  padding:6px 15px;
   border-top:var(--border-w) solid var(--black);
   border-bottom:var(--border-w) solid var(--black);
 }
