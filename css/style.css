@@ -1643,11 +1643,12 @@ button{
   font-size:28px;
   line-height:1.25;
 }
+/* Abstand zwischen den Absätzen: .75em (bei 28px ≈ 21px) */
 .manifesto-text .manifesto-intro{
-  margin:0 0 1.5em;
+  margin:0 0 .75em;
 }
 .manifesto-article{
-  margin:0 0 1.5em;
+  margin:0 0 .75em;
 }
 .manifesto-article:last-child{ margin-bottom:0; }
 /* "Article N" in Fließtextgröße (16px), Article-Text bleibt 28px */
