@@ -1176,7 +1176,9 @@ button{
   z-index:10;
   margin-bottom:var(--menu-gap);
   flex:0 0 auto;
-  font-size:var(--header-font-size);
+  /* Spaltenüberschriften in Menügröße und -höhe */
+  font-size:var(--menu-font-size);
+  height:var(--menu-item-height);
 }
 
 /* Visuals-Spalte: einzige Spalte, die scrollt — nur hier klebt der
@@ -1327,7 +1329,9 @@ button{
   z-index:10;
   margin-bottom:var(--menu-gap);
   flex:0 0 auto;
-  font-size:var(--header-font-size);
+  /* Spaltenüberschriften in Menügröße und -höhe */
+  font-size:var(--menu-font-size);
+  height:var(--menu-item-height);
 }
 
 /* Trennlinien zwischen den Spalten über die volle Spaltenhöhe, wie bei
