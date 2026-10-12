@@ -742,8 +742,8 @@ button{
 }
 
 /* Reflection: die 10 Fragen des Gesprächs als Trenner über beide
-   Spalten — zentriert, ohne Linien, 28px, grau wie die Randnotizen der
-   Interview-Seiten (.interview-note, opacity .65), aber nicht kursiv. */
+   Spalten — zentriert, ohne Linien, 28px, schwarz (nicht grau/kursiv
+   wie andere .interview-note). */
 .interview-turn.reflection-question{
   margin:15px 0;
   padding:6px 15px;
@@ -759,6 +759,7 @@ button{
 }
 .interview-turn.reflection-question .turn-text{
   font-style:normal;
+  opacity:1;
   font-size:28px;
   line-height:1.25;
   max-height:none;
