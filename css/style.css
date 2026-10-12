@@ -505,6 +505,19 @@ button{
   line-height:1.4;
   border-top:var(--border-w) solid var(--black);
 }
+/* Interview-Seiten: Intro-Text unter dem Porträt invertiert (weiß auf
+   schwarz) und bis zum unteren Rand der Sidebar gezogen; unten Platz
+   für die feste Navigation, damit sie keinen Text verdeckt. */
+.interview-sidebar .interview-intro{
+  flex:1 0 auto;
+  margin-bottom:0;
+}
+.interview-sidebar .interview-intro-text{
+  flex:1 0 auto;
+  background:var(--black);
+  color:var(--white);
+  padding-bottom:calc(var(--menu-item-height) + 20px);
+}
 .interview-intro-text p{ margin:0 0 .8em; }
 .interview-intro-text p:last-child{ margin-bottom:0; }
 
@@ -651,6 +664,14 @@ button{
   color:var(--white);
   font-size:var(--content-font-size);
   cursor:pointer;
+}
+/* Interview-Seiten: "Navigation" weiß mit schwarzer Schrift, abgesetzt
+   vom schwarzen Intro-Text darüber (Reflection behält Schwarz). */
+.interview-nav:not(.manifesto-nav) .interview-nav-trigger{
+  background:var(--white);
+  color:var(--black);
+  border-top:var(--border-w) solid var(--black);
+  border-right:var(--border-w) solid var(--black);
 }
 .interview-nav-panel{
   position:absolute;
