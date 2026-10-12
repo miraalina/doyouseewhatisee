@@ -1784,6 +1784,22 @@ button{
   font-size:var(--content-font-size);
   line-height:1.4;
 }
+/* Info-Seite links: die beiden Bio-Blöcke unter dem Porträt invertiert
+   (weiß auf schwarz), Trennlinie dazwischen weiß. Der letzte Block wächst
+   bis zum unteren Rand der fixen Spalte, damit darunter kein weißer
+   Rest stehen bleibt. */
+.about-right .interview-intro{
+  min-height:100%;
+  margin-bottom:0;
+}
+.about-right .interview-intro-text{
+  background:var(--black);
+  color:var(--white);
+  border-top-color:var(--white);
+}
+.about-right .interview-intro-text:last-child{
+  flex:1 0 auto;
+}
 .about-text p{ margin:0 0 1.2em; }
 .about-text p:last-child{ margin-bottom:0; }
 
