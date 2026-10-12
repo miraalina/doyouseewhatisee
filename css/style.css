@@ -1361,8 +1361,8 @@ button{
 
 .type-layout{
   display:grid;
-  /* Tool | Info im Verhältnis 3:1 (Specimen-Spalte entfernt) */
-  grid-template-columns:3fr 1fr;
+  /* Tool | Info im Verhältnis 2:1 (Specimen-Spalte entfernt) */
+  grid-template-columns:2fr 1fr;
   gap:var(--menu-gap);
   align-items:start;
   height:calc(100vh - var(--menu-height, 40px));
