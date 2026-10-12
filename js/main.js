@@ -354,11 +354,11 @@ function selectInterview(n){
 
 /* =========================================================
    initHome() — Startseite: Schriftgrößen passend zur Spaltengröße.
-   Links bekommt jeder Session-Name ca. 60% seiner Zeilenhöhe, wird aber
-   kleiner, falls er sonst nicht in die Spaltenbreite passt. Rechts wird
+   Links wird jeder Session-Name so groß wie möglich, ohne über seine
+   Box hinauszugehen (auch mobil). Rechts wird
    per Binärsuche die größte Schrift gesucht, bei der der ganze Text noch
    in die Spalte passt. Bei Fenstergrößenänderung neu berechnet; mobil
-   (einspaltig) gelten die festen Größen aus style.css.
+   (einspaltig) gilt für den Text rechts die feste Größe aus style.css.
    ========================================================= */
 var homeResizeBound = false;
 function initHome(){
@@ -368,19 +368,14 @@ function initHome(){
     window.addEventListener('resize', function(){ clearTimeout(t); t = setTimeout(fitHome, 100); });
   }
   fitHome();
-  // Linke Spalte: beim Hover bekommt der Session-Name jedes Mal eine neue
-  // Zufallsfarbe (kräftig genug, um auf Weiß gut lesbar zu bleiben), beim
-  // Verlassen wieder Schwarz.
-  document.querySelectorAll('.home-session').forEach(function(row){
-    row.addEventListener('mouseenter', function(){
-      var hue = Math.floor(Math.random() * 360);
-      row.style.color = 'hsl(' + hue + ', 85%, 45%)';
-    });
-    row.addEventListener('mouseleave', function(){ row.style.color = ''; });
-  });
   // Session-Schriften laden erst bei Bedarf — nach dem Laden neu messen,
   // sonst wird mit der Ersatzschrift gerechnet.
-  if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitHome);
+  if(document.fonts && document.fonts.load){
+    var loads = Array.prototype.map.call(document.querySelectorAll('.home-session'), function(s){
+      return document.fonts.load('100px ' + getComputedStyle(s).fontFamily, s.textContent);
+    });
+    Promise.all(loads).then(fitHome, fitHome);
+  }
 }
 
 function fitHome(){
@@ -389,22 +384,42 @@ function fitHome(){
   var sessions = layout.querySelectorAll('.home-session');
   var text = layout.querySelector('.home-text');
   var p = text && text.querySelector('p');
+  // Jeder Session-Name so groß wie möglich: gemessen werden per Canvas
+  // die tatsächlich sichtbaren Buchstabenumrisse (nicht die Zeilenhöhe —
+  // die Session-Schriften haben teils riesige Ober-/Unterlängen-Reserven).
+  // Schrift skaliert linear, also einmal bei 100px messen, auf den
+  // kleineren Faktor (Breite/Höhe) hochrechnen und den Namen dann so
+  // positionieren, dass seine Umrisse links bündig und vertikal mittig
+  // in der Box sitzen. Gilt auch mobil.
+  var ctx = fitHome.ctx || (fitHome.ctx = document.createElement('canvas').getContext('2d'));
+  sessions.forEach(function(s){
+    var label = s.querySelector('span');
+    var cs = getComputedStyle(s);
+    var txt = label.textContent;
+    if(cs.textTransform === 'uppercase') txt = txt.toUpperCase();
+    ctx.font = '100px ' + cs.fontFamily;
+    var m = ctx.measureText(txt);
+    var inkL = m.actualBoundingBoxLeft, inkW = inkL + m.actualBoundingBoxRight;
+    var inkA = m.actualBoundingBoxAscent, inkH = inkA + m.actualBoundingBoxDescent;
+    var padL = parseFloat(cs.paddingLeft), padT = parseFloat(cs.paddingTop);
+    var availW = s.clientWidth - padL - parseFloat(cs.paddingRight);
+    var availH = s.clientHeight - padT - parseFloat(cs.paddingBottom);
+    if(!(inkW > 0 && inkH > 0)) return;
+    var k = Math.min(availW / inkW, availH / inkH);
+    var size = 100 * k;
+    // Grundlinie im Span (display:block, line-height:1): halber
+    // Durchschuss + Schrift-Oberlänge.
+    var fA = (m.fontBoundingBoxAscent || inkA) * k, fD = (m.fontBoundingBoxDescent || 0) * k;
+    var baseline = (size - fA - fD) / 2 + fA;
+    s.style.fontSize = size + 'px';
+    label.style.left = (padL + inkL * k) + 'px';
+    label.style.top = (padT + (availH - inkH * k) / 2 + inkA * k - baseline) + 'px';
+  });
+
   if(window.matchMedia('(max-width: 760px)').matches){
-    sessions.forEach(function(s){ s.style.fontSize = ''; });
     if(p) p.style.fontSize = '';
     return;
   }
-
-  sessions.forEach(function(s){
-    var label = s.querySelector('span');
-    var size = s.clientHeight * 0.6;
-    s.style.fontSize = size + 'px';
-    var cs = getComputedStyle(s);
-    var avail = s.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-    if(label.offsetWidth > avail){
-      s.style.fontSize = (size * avail / label.offsetWidth) + 'px';
-    }
-  });
 
   if(p){
     var csT = getComputedStyle(text);
