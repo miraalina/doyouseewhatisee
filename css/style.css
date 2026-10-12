@@ -805,19 +805,6 @@ button{
 .manifesto-left .interview-turn{
   scroll-margin-top:calc(var(--menu-height, 40px) + var(--menu-gap) + var(--header-height));
 }
-/* Wo durchgehende Spaltenlinien (.col-divider, z-index:11) laufen,
-   liegen die Themen-Trenner darüber; nur direkt hinter dem Text ist die
-   Linie mit Weiß unterbrochen, sonst läuft sie durch. */
-.interview-turn.topic-divider{
-  z-index:12;
-}
-.interview-turn.topic-divider .turn-text p{
-  display:inline;
-  padding:0 10px;
-  background:var(--white);
-  -webkit-box-decoration-break:clone;
-  box-decoration-break:clone;
-}
 .interview-turn.topic-divider .turn-text{
   font-style:normal;
   font-size:28px;
