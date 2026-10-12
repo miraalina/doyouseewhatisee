@@ -741,6 +741,28 @@ button{
   opacity:.65;
 }
 
+/* Reflection: die 10 Fragen des Gesprächs als Trenner über beide
+   Spalten — zentriert, oben und unten eine Linie, normale Schrift
+   (statt kursiv/blass wie andere .interview-note). */
+.interview-turn.reflection-question{
+  margin:15px 0;
+  padding:12px 15px;
+  border-top:var(--border-w) solid var(--black);
+  border-bottom:var(--border-w) solid var(--black);
+}
+/* Sprungziele (Navigation springt auf die Frage) nicht unter den ZWEI
+   klebenden Kopfzeilen (10 Questions… + Mira/Phuong) verstecken. */
+.manifesto-left .interview-turn{
+  scroll-margin-top:calc(var(--menu-height, 40px) + var(--menu-gap) + 2 * var(--header-height));
+}
+.interview-turn.reflection-question .turn-text{
+  font-style:normal;
+  opacity:1;
+  font-size:var(--menu-font-size);
+  line-height:1.3;
+  max-height:none;
+}
+
 /* Highlight-Zitat in der äußeren Notes-Spalte, größer gesetzt neben der
    Original-Aussage (aus ==...== markierten Textstellen erzeugt, siehe
    scripts/build-interview-turns.js). Keine Interaktion, daher wie
