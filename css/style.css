@@ -1822,11 +1822,12 @@ button{
   color:var(--white);
 }
 
-/* Mobil untereinander: Session-Zeilen in fester Höhe, darunter der Text
-   in normaler Lesegröße (initHome passt hier nichts an). */
+/* Mobil untereinander: oben der Text in normaler Lesegröße, darunter die
+   Session-Zeilen in fester Höhe (deren Oberlinie trennt beide). */
 @media (max-width: 760px){
   .home-layout{ grid-template-columns:1fr; height:auto; }
-  .home-sessions{ grid-template-rows:repeat(6, 90px); border-right:none; border-bottom:var(--border-w) solid var(--black); }
+  .home-text{ order:-1; }
+  .home-sessions{ grid-template-rows:repeat(6, 90px); border-right:none; }
   .home-session{ padding:8px 15px; }
   .home-text{ padding:15px; }
   .home-text p{ font-size:26px; }
