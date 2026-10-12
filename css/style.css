@@ -4,6 +4,12 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: "ABC Prophet";
+  src: url("../fonts/ABCProphetTrial-Bold.otf") format("opentype");
+  font-weight: bold;
+  font-style: normal;
+}
 
 /* Sessions-Schriften für die Type-Seiten (content/fonts/, von Mira selbst
    hochgeladen) — je Session eine eigene @font-face, Name entspricht der
@@ -742,15 +748,15 @@ button{
 }
 
 /* Reflection: die 10 Fragen des Gesprächs als Trenner über beide
-   Spalten — zentriert, oben und unten eine Linie, normale Schrift in
-   Fließtextgröße (statt kursiv/blass wie andere .interview-note). */
+   Spalten — linksbündig, oben und unten eine Linie, fett in
+   Fließtextgröße (statt zentriert/kursiv/blass wie andere .interview-note). */
 .interview-turn.reflection-question{
   margin:15px 0;
   /* Innenabstand + Höhe wie ein Menüpunkt (.nav-item) */
   display:flex;
   align-items:center;
-  justify-content:center;
   min-height:var(--menu-item-height);
+  text-align:left;
   padding:6px 15px;
   border-top:var(--border-w) solid var(--black);
   border-bottom:var(--border-w) solid var(--black);
@@ -762,6 +768,7 @@ button{
 }
 .interview-turn.reflection-question .turn-text{
   font-style:normal;
+  font-weight:bold;
   opacity:1;
   font-size:var(--content-font-size);
   line-height:1.4;
