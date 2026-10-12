@@ -635,6 +635,60 @@ button{
   background:linear-gradient(to bottom, var(--black), transparent);
 }
 
+/* Feedback-Seiten (main.js baut .cols-4-notes zu .cols-notes um):
+   Gespräch Phuong|Mira links auf 2/3 Breite, rechts eine feste Spalte
+   "Notes" (1/3) im Design der Manifesto-Spalte der Reflection-Seite —
+   weiß auf schwarz, "Note N" 16px, Text 28px, 30px Abstand. */
+.interview-grid.cols-notes{
+  grid-template-columns:1fr 1fr;
+  width:calc(66.6667% - var(--menu-gap) * 0.6667);
+  border-right:var(--border-w) solid var(--black);
+  --header-height:var(--menu-item-height);
+}
+.interview-grid.cols-notes > .content-header{
+  font-size:var(--menu-font-size);
+}
+.notes-panel{
+  position:fixed;
+  top:calc(var(--menu-height, 40px) + var(--menu-gap));
+  right:0;
+  bottom:0;
+  width:calc(33.3333% - var(--menu-gap) * 0.3333);
+  overflow-y:auto;
+  background:var(--black);
+  color:var(--white);
+}
+.notes-panel > .content-header{
+  position:sticky;
+  top:0;
+  height:var(--menu-item-height);
+  font-size:var(--menu-font-size);
+  background:var(--black);
+  color:var(--white);
+  border:none;
+  z-index:10;
+}
+.notes-list{
+  padding:1px 15px 40px;
+  font-size:28px;
+  line-height:1.25;
+}
+.note-item{
+  display:block;
+  margin:0 0 30px;
+  cursor:pointer;
+  transition:opacity .15s ease;
+}
+.note-item:last-child{ margin-bottom:0; }
+.note-item:hover{ opacity:.6; }
+.note-item p{ margin:0; }
+.note-label{
+  display:block;
+  font-size:var(--content-font-size);
+  line-height:1.2;
+  margin:0 0 .3em;
+}
+
 /* Kopfzeile: 3 Zellen, eine pro Person  */
 .interview-grid .content-header{
   display:flex;
@@ -1008,9 +1062,14 @@ button{
      Platz dafür schon über .manifesto-left frei — dort kein Extra-Abstand,
      sonst bleibt am Seitenende ein leerer Streifen. */
   .interview-grid.cols-4-notes,
+  .interview-grid.cols-notes,
   .manifesto-left .interview-grid{
     padding-bottom:0;
   }
+  /* Feedback: Gespräch volle Breite, Notes darunter im normalen Fluss */
+  .interview-grid.cols-notes{ width:100%; border-right:none; }
+  .notes-panel{ position:static; width:100%; overflow-y:visible; }
+  .notes-panel > .content-header{ position:static; }
   .interview-grid .content-header{ display:none !important; }
   /* Feedback-Seiten: .col-divider bekommt von main.js grid-row "1 / N+2"
      und belegt so in der einzigen Mobil-Spalte N+1 leere Zeilen — die

@@ -461,6 +461,66 @@ function initInterview(){
   var grid = document.querySelector('.interview-grid');
   if(!grid) return;
 
+  // Feedback-Seiten: Die Highlights (aus ==…== im Transkript, siehe
+  // scripts/build-interview-turns.js) stehen nicht mehr in den äußeren
+  // Spalten neben dem Gesagten, sondern untereinander in einer festen
+  // Spalte rechts ("Notes", 1/3 Breite, wie die Manifesto-Spalte der
+  // Reflection-Seite). Umbau beim Laden statt im HTML, damit Transkript
+  // und Generator-Skript unverändert bleiben. Klick auf eine Note springt
+  // zur Stelle im Gespräch und hebt sie kurz hervor.
+  if(grid.classList.contains('cols-4-notes')){
+    grid.classList.remove('cols-4-notes');
+    grid.classList.add('cols-notes');
+    // leere äußere Kopfzeilen + Spaltenlinien der alten 4er-Aufteilung weg
+    var gridHeaders = grid.querySelectorAll(':scope > .content-header');
+    gridHeaders[0].remove();
+    gridHeaders[gridHeaders.length - 1].remove();
+    grid.querySelectorAll('.col-divider').forEach(function(d){ d.remove(); });
+
+    var panel = document.createElement('aside');
+    panel.className = 'notes-panel';
+    panel.innerHTML = '<div class="content-header">Notes</div><div class="notes-list"></div>';
+    var list = panel.querySelector('.notes-list');
+    grid.querySelectorAll('.interview-highlight').forEach(function(h, i){
+      // Quelle = der Redebeitrag direkt davor (Generator setzt das
+      // Highlight unmittelbar hinter seinen Original-Turn)
+      var source = h.previousElementSibling;
+      while(source && (!source.classList.contains('interview-turn') || source.classList.contains('interview-highlight'))){
+        source = source.previousElementSibling;
+      }
+      var item = document.createElement('a');
+      item.className = 'note-item';
+      item.href = source ? '#' + source.id : '#';
+      item.innerHTML = '<span class="note-label">Note ' + (i + 1) + '</span>' +
+                       h.querySelector('.turn-text').innerHTML;
+      if(source){
+        // alte Direktlinks auf die Highlight-ID landen beim Original
+        source.setAttribute('data-note-ids', ((source.getAttribute('data-note-ids') || '') + ' ' + h.id).trim());
+        item.addEventListener('click', function(e){
+          e.preventDefault();
+          expandTurn(source);
+          source.scrollIntoView({behavior:'smooth', block:'start'});
+          source.classList.add('visible');
+          source.classList.remove('linked');
+          void source.offsetWidth; // Animation bei erneutem Klick neu starten
+          source.classList.add('linked');
+          setTimeout(function(){ source.classList.remove('linked'); }, 2600);
+          currentTopic = 'Turn' + source.id.replace('turn-', '');
+          updateHash();
+        });
+      }
+      list.appendChild(item);
+      h.remove();
+    });
+    grid.parentNode.appendChild(panel);
+
+    // Spalten neu durchzählen: Phuong 2→1, Mira 3→2, Randnotizen über beide
+    grid.querySelectorAll('.interview-turn[data-col]').forEach(function(t){
+      var c = t.getAttribute('data-col');
+      t.setAttribute('data-col', c.indexOf('/') !== -1 ? '1 / 3' : String(parseInt(c, 10) - 1));
+    });
+  }
+
   // Interviews + Reflection: Themen der Navigation (.interview-nav-panel)
   // zusätzlich als Trenner im Gespräch: über alle Spalten, direkt vor dem Redebeitrag, auf den
   // der Navigationspunkt springt. Per JS statt im HTML, weil die Turns
@@ -794,7 +854,8 @@ function initInterview(){
   var turnLinkMatch = pendingTopicSlug && /^turn-?(\d+)$/i.exec(pendingTopicSlug);
   if(turnLinkMatch){
     pendingTopicSlug = null;
-    var linkedTurn = document.getElementById('turn-' + turnLinkMatch[1]);
+    var linkedTurn = document.getElementById('turn-' + turnLinkMatch[1]) ||
+                     document.querySelector('[data-note-ids~="turn-' + turnLinkMatch[1] + '"]');
     if(linkedTurn){
       currentTopic = 'Turn' + turnLinkMatch[1];
       updateHash();
