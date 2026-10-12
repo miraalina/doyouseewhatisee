@@ -1163,13 +1163,19 @@ button{
    Intro und Instructions bleiben unbewegt stehen. */
 .method-layout{
   display:grid;
-  grid-template-columns:3fr 3fr 2fr;
+  /* Reihenfolge Intro | Behind the Scenes | Instructions (per order, im
+     HTML stehen Instructions vor den Visuals); Breiten wie zuvor:
+     Intro 3, Visuals 2, Instructions 3. */
+  grid-template-columns:3fr 2fr 3fr;
   gap:var(--menu-gap);
   align-items:start;
   height:calc(100vh - var(--menu-height, 40px));
   overflow:hidden;
 }
 
+.method-col-intro{ order:1; }
+.method-col-visuals{ order:2; }
+.method-col-instructions{ order:3; }
 .method-col{
   display:flex;
   flex-direction:column;
@@ -1200,8 +1206,7 @@ button{
   position:sticky;
   top:0;
   border-left:none;
-  /* Visuals ist die rechte Außenspalte — dort keine Randlinie an der
-     äußeren Seitenkante, passend zum Rest der Seite. */
+  /* rechts grenzt die schwarze Instructions-Spalte an — keine Linie nötig */
   border-right:none;
 }
 
@@ -1222,15 +1227,44 @@ button{
 /* Intro ist die linke Außenspalte — dort keine Randlinie an der äußeren
    Seitenkante, passend zum Rest der Seite. */
 .method-col-intro .content-header{ border-right:none; border-left:none; }
+/* Instructions als rechte Spalte im Design der Manifesto-Spalte der
+   Reflection-Seite: weiß auf schwarz, randloser schwarzer Reiter, Text
+   28px (Zeilenabstand 1.25), "Step N" 16px, 30px zwischen den Absätzen. */
 .method-col-instructions{
-  border-right:var(--border-w) solid var(--black);
   overflow-y:auto;
+  background:var(--black);
+  color:var(--white);
 }
 .method-col-instructions .content-header{
   position:sticky;
   top:0;
+  background:var(--black);
+  color:var(--white);
+  border-top:none;
   border-left:none;
   border-right:none;
+}
+.method-col-instructions .method-text{
+  padding:1px 15px 40px;
+  font-size:28px;
+  line-height:1.25;
+}
+.method-col-instructions .method-text p,
+.method-col-instructions .method-text ul,
+.method-col-instructions .method-text ol{
+  margin-bottom:30px;
+}
+.method-col-instructions .method-text p:last-child,
+.method-col-instructions .method-text ul:last-child,
+.method-col-instructions .method-text ol:last-child{
+  margin-bottom:0;
+}
+.method-col-instructions .step-label{
+  margin-bottom:.3em;
+}
+.method-col-instructions .method-text hr{
+  border-top-color:var(--white);
+  margin-bottom:30px;
 }
 
 /* Text- und Listen-Spalten (Intro, Instructions) — kein Rahmen,
