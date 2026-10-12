@@ -1394,21 +1394,13 @@ button{
 .type-col-info{
   overflow-y:auto;
 }
-/* Info hat (anders als Tool) keine eigene Kopfzeile mit Text,
-   aber die obere Randlinie braucht trotzdem etwas Sticky-Eigenes, das
-   beim Scrollen oben stehen bleibt — sonst gehörte die Linie bisher zum
-   normal mitscrollenden .method-text und verschwand mit dem Text nach
-   oben aus dem Bild, sobald der Inhalt länger als die Spalte war. Ein
-   randloses, 0px hohes ::before übernimmt genau diese Linie sticky,
-   ganz ohne zusätzliches Markup in jeder Type-Seite. */
-.type-col-info::before{
-  content:"";
-  display:block;
+/* Spaltenüberschrift "Information" klebt oben im eigenen Scrollbereich;
+   Info ist die rechte Außenspalte — dort keine Randlinien links/rechts. */
+.type-col-info .content-header{
   position:sticky;
   top:0;
-  height:0;
-  border-top:var(--border-w) solid var(--black);
-  z-index:10;
+  border-left:none;
+  border-right:none;
 }
 
 /* Kopfzeile: Versionsnummer oben links, Download-Link oben rechts. */
