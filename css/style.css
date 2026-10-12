@@ -706,15 +706,24 @@ button{
 }
 
 /* Per Direktlink angesprungener Redebeitrag (main.js, .linked): kurz
-   schwarz/weiß invertiert wie beim Hover, dann weich zurück. */
-@keyframes turn-linked{
-  0%, 55%{ background:var(--black); color:var(--white); }
-  100%{ background:transparent; color:inherit; }
+   schwarz/weiß invertiert wie beim Hover, dann weich zurück. Hintergrund
+   NUR am ganzen Beitrag animieren, Text/Name nur in der Farbe — sonst
+   bekamen .turn-text/.turn-name beim Ausblenden einen eigenen schwarzen
+   Hintergrund und zeichneten einen sichtbaren inneren Kasten. */
+@keyframes turn-linked-bg{
+  0%, 55%{ background:var(--black); }
+  100%{ background:transparent; }
 }
-.interview-turn.linked,
+@keyframes turn-linked-color{
+  0%, 55%{ color:var(--white); }
+  100%{ color:var(--black); }
+}
+.interview-turn.linked{
+  animation:turn-linked-bg 2.6s ease forwards;
+}
 .interview-turn.linked .turn-text,
 .interview-turn.linked .turn-name{
-  animation:turn-linked 2.6s ease forwards;
+  animation:turn-linked-color 2.6s ease forwards;
 }
 
 /* Regieanweisung / Randnotiz ohne festen Sprecher — geht über alle drei
