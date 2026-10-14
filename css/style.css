@@ -671,7 +671,8 @@ button{
   z-index:10;
 }
 .notes-list{
-  padding:1px 15px 40px;
+  /* rechts etwas mehr Luft zum Gespräch daneben */
+  padding:1px 30px 40px 15px;
   font-size:28px;
   line-height:1.25;
 }
