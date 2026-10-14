@@ -523,11 +523,13 @@ button{
    sie stand bei längeren Intros als weißer Streifen zwischen schwarzem
    Inhalt und Spaltenlinie. Scrollen per Mausrad/Trackpad geht weiter. */
 .interview-sidebar,
-.about-right{
+.about-right,
+.notes-panel{
   scrollbar-width:none;
 }
 .interview-sidebar::-webkit-scrollbar,
-.about-right::-webkit-scrollbar{
+.about-right::-webkit-scrollbar,
+.notes-panel::-webkit-scrollbar{
   display:none;
 }
 
@@ -636,13 +638,13 @@ button{
 }
 
 /* Feedback-Seiten (main.js baut .cols-4-notes zu .cols-notes um):
-   Gespräch Phuong|Mira links auf 2/3 Breite, rechts eine feste Spalte
-   "Notes" (1/3) im Design der Manifesto-Spalte der Reflection-Seite —
-   weiß auf schwarz, "Note N" 16px, Text 28px, 30px Abstand. */
+   links eine feste Spalte "Notes" (1/3) im Design der Manifesto-Spalte
+   der Reflection-Seite — weiß auf schwarz, "Note N" 16px, Text 28px,
+   30px Abstand —, rechts daneben das Gespräch Phuong|Mira auf 2/3. */
 .interview-grid.cols-notes{
   grid-template-columns:1fr 1fr;
+  margin-left:calc(33.3333% + var(--menu-gap) * 0.6667);
   width:calc(66.6667% - var(--menu-gap) * 0.6667);
-  border-right:var(--border-w) solid var(--black);
   --header-height:var(--menu-item-height);
 }
 .interview-grid.cols-notes > .content-header{
@@ -651,7 +653,7 @@ button{
 .notes-panel{
   position:fixed;
   top:calc(var(--menu-height, 40px) + var(--menu-gap));
-  right:0;
+  left:0;
   bottom:0;
   width:calc(33.3333% - var(--menu-gap) * 0.3333);
   overflow-y:auto;
@@ -1067,7 +1069,7 @@ button{
     padding-bottom:0;
   }
   /* Feedback: Gespräch volle Breite, Notes darunter im normalen Fluss */
-  .interview-grid.cols-notes{ width:100%; border-right:none; }
+  .interview-grid.cols-notes{ width:100%; margin-left:0; }
   .notes-panel{ position:static; width:100%; overflow-y:visible; }
   .notes-panel > .content-header{ position:static; }
   .interview-grid .content-header{ display:none !important; }
