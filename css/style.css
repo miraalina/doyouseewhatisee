@@ -1008,7 +1008,8 @@ button{
    untereinander in EINER Spalte statt im Spalten-Grid. Ohne Spalten-
    köpfe steht ein fettes Namenskürzel ("M:", "P:" …) vor jedem Beitrag; Text 20px über die volle
    Spaltenbreite (rechts mehr Rand); Beiträge von Phuong/Mira (.is-host)
-   in 18px, Beiträge der Gäste (.is-guest) eingerückt. Lange Beiträge sind
+   in 18px, Text der Gäste (.is-guest) eingerückt, Kürzel aller
+   Beiträge auf einer Linie. Lange Beiträge sind
    auf 10 Zeilen gekürzt — das Ende blendet per Verlauf aus — und
    klappen per Klick auf (main.js). */
 .interview-grid.stacked{
@@ -1024,12 +1025,23 @@ button{
 .interview-grid.stacked > .interview-turn.is-host .turn-text{
   font-size:18px;
 }
-.interview-grid.stacked > .interview-turn.is-guest{
-  padding-left:80px !important;
-}
+
 /* Name steht als fettes Kürzel vor dem Text (.turn-initial, main.js) */
 .interview-grid.stacked .turn-name{ display:none !important; }
-.interview-grid.stacked .turn-initial{ font-weight:bold; }
+/* Kürzel aller Beiträge rechtsbündig in einer gemeinsamen schmalen
+   Spalte (Doppelpunkte auf einer Linie). Der Text von Phuong/Mira folgt
+   direkt daneben, der Text der Gäste ist zusätzlich eingerückt. Px statt
+   em, damit die Spalte trotz 18/20px-Schrift überall gleich breit ist. */
+.interview-grid.stacked .turn-text{ padding-left:44px; }
+.interview-grid.stacked .is-guest .turn-text{ padding-left:124px; }
+.interview-grid.stacked .interview-note .turn-text{ padding-left:0; }
+.interview-grid.stacked .turn-initial{
+  font-weight:bold;
+  position:absolute;
+  left:0;
+  width:36px;
+  text-align:right;
+}
 .interview-grid.stacked .turn-text{
   font-size:20px;
   line-height:1.35;
