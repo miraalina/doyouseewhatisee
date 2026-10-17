@@ -1231,10 +1231,9 @@ button{
   stroke-width:1.6;
   stroke-linejoin:round;
 }
-/* Umrisse schwarz, nur die Füllung in Riso-Pink */
-.fun-star.is-on{ fill:var(--riso-pink); }
+.fun-star.is-on{ fill:currentColor; }
 /* halber Stern: linke Hälfte gefüllt (per clipPath im SVG) */
-.fun-star .fun-star-half{ fill:var(--riso-pink); }
+.fun-star .fun-star-half{ fill:currentColor; }
 .intro-meta-hang{
   display:block;
   padding-left:42px;
