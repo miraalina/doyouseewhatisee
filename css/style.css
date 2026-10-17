@@ -1082,6 +1082,14 @@ button{
 .interview-grid.stacked .turn-text p{ margin:0; }
 .interview-grid.stacked .turn-text p + p{ text-indent:1.5em; }
 
+/* Interview-Seiten: Kürzel 16px, Text der Beiträge 20px (Regie-
+   anweisungen und Abschnittstitel ausgenommen) */
+.interview-layout .interview-grid.stacked .turn-label{ font-size:16px; }
+.interview-layout .interview-grid.stacked > .interview-turn:not(.interview-note) .turn-text{
+  font-size:20px;
+  max-height:14em; /* 10 Zeilen à 1.4 */
+}
+
 /* Regieanweisungen: kursiv, an der Textkante */
 .interview-grid.stacked > .interview-turn.interview-note:not(.topic-divider){
   text-align:left;
