@@ -1008,7 +1008,7 @@ button{
    untereinander in EINER Spalte statt im Spalten-Grid. Ohne Spalten-
    köpfe steht der Name über jedem Beitrag; Text 20px über die volle
    Spaltenbreite (rechts mehr Rand); Beiträge von Phuong/Mira (.is-host)
-   fett in 18px, Beiträge der Gäste (.is-guest) eingerückt. Lange Beiträge sind
+   in 18px, Beiträge der Gäste (.is-guest) eingerückt. Lange Beiträge sind
    auf 10 Zeilen gekürzt — das Ende blendet per Verlauf aus — und
    klappen per Klick auf (main.js). */
 .interview-grid.stacked{
@@ -1020,10 +1020,9 @@ button{
   grid-column:1 !important;
   padding:14px 60px 16px 15px !important;
 }
-/* Beiträge von Phuong und Mira (.is-host, setzt main.js) fett in 18px */
+/* Beiträge von Phuong und Mira (.is-host, setzt main.js) in 18px */
 .interview-grid.stacked > .interview-turn.is-host .turn-text{
   font-size:18px;
-  font-weight:bold;
 }
 .interview-grid.stacked > .interview-turn.is-guest{
   padding-left:80px !important;
