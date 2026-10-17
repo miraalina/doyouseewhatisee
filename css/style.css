@@ -1544,6 +1544,13 @@ button{
   font-size:var(--content-font-size);
   border-top:var(--border-w) solid var(--black);
 }
+/* Dateiname 10px höher: Grundlinie auf einer Linie mit der Spalten-
+   überschrift "Information" daneben (am Screenshot nachgemessen); der
+   Download-Button bleibt an seiner Position. */
+.type-tool-topbar > span{
+  position:relative;
+  top:-10px;
+}
 /* Download als Button: schwarzes abgerundetes Rechteck, weiße Schrift */
 .type-tool-topbar a{
   display:inline-block;
