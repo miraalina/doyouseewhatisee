@@ -1067,6 +1067,7 @@ button{
 .interview-grid.stacked .turn-text{
   font-size:17px;
   line-height:1.4;
+  letter-spacing:-0.02em; /* -2% Laufweite */
   text-align:justify;
   -webkit-hyphens:auto;
   hyphens:auto;
