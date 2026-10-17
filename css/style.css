@@ -477,8 +477,8 @@ button{
    Einheit neben dem Dialog-Grid — dadurch beginnt das Grid (Kopfzeile) auf
    gleicher Höhe direkt unter dem Menü, statt unter einem volle-Breite-Vorspann */
 .interview-sidebar{
-  /* 1/5 der Seitenbreite. */
-  width:20%;
+  /* 1/4 der Seitenbreite. */
+  width:25%;
   display:flex;
   flex-direction:column;
   /* position:fixed statt sticky — die Sidebar bleibt dadurch komplett
@@ -623,7 +623,7 @@ button{
    Interview-Seiten (mit .interview-layout-Sidebar), NICHT auf Seiten wie
    notes1.html, die .interview-grid ganz ohne Sidebar nutzen. */
 .interview-layout .interview-grid{
-  margin-left:calc(20% + var(--menu-gap));
+  margin-left:calc(25% + var(--menu-gap));
 }
 
 /* Variante ohne Sidebar (z.B. Session-Notes): nur 2 Spalten */
@@ -790,7 +790,7 @@ button{
   position:fixed;
   left:0;
   bottom:0;
-  width:20%; /* wie .interview-sidebar */
+  width:25%; /* wie .interview-sidebar */
   z-index:60;
 }
 .interview-nav-trigger{
@@ -1024,7 +1024,7 @@ button{
      Zeilenlänge (max. 960px)
    - Fragen von Phuong/Mira (.is-host) eröffnen einen neuen Gesprächs-
      schritt mit mehr Luft davor, Antworten folgen dicht darunter
-   - Abschnitte mit feiner Linie darüber
+   - Abschnitte mit großer Überschrift
    - lange Beiträge auf 10 Zeilen gekürzt, Ende blendet per Verlauf aus,
      Klick klappt auf (main.js) */
 .interview-grid.stacked{
@@ -1088,7 +1088,7 @@ button{
 }
 .interview-grid.stacked .interview-turn:has(.turn-text.truncatable){ cursor:pointer; }
 
-/* Abschnitte: feine Linie, große Überschrift (32px) */
+/* Abschnitte: große Überschrift (32px) */
 .interview-grid.stacked > .interview-turn.topic-divider{
   margin:0;
   padding:56px 60px 6px 15px !important;
@@ -1097,10 +1097,6 @@ button{
 .interview-grid.stacked > .interview-turn.topic-divider:first-child,
 .interview-grid.stacked > .content-header + .interview-turn.topic-divider{
   padding-top:20px !important;
-}
-.interview-grid.stacked > .interview-turn.topic-divider .text-wrap{
-  border-top:var(--border-w) solid var(--black);
-  padding-top:10px;
 }
 .interview-grid.stacked > .interview-turn.topic-divider .turn-text{
   padding-left:0;
