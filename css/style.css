@@ -1022,8 +1022,7 @@ button{
    - links eine schmale Spalte mit den Kürzeln (M, P, IB …)
    - Fragen von Phuong/Mira (.is-host) beginnen an der ersten Textkante,
      Antworten der Gäste (.is-guest) sind weiter eingerückt
-   - Blocksatz mit Silbentrennung, dichter Satz ohne Abstände zwischen
-     den Beiträgen
+   - Flattersatz, dichter Satz ohne Abstände zwischen den Beiträgen
    - Abschnittsüberschriften ganz links, Regieanweisungen kursiv
    - lange Beiträge auf 10 Zeilen gekürzt, Ende blendet per Verlauf aus,
      Klick klappt auf (main.js) */
@@ -1056,9 +1055,7 @@ button{
 .interview-grid.stacked .turn-text{
   font-size:17px;
   line-height:1.4;
-  text-align:justify;
-  -webkit-hyphens:auto;
-  hyphens:auto;
+  text-align:left; /* Flattersatz */
   max-height:14em; /* 10 Zeilen à 1.4 */
   -webkit-mask-image:none;
   mask-image:none;
