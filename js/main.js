@@ -543,12 +543,18 @@ function initInterview(){
   var turns = Array.prototype.slice.call(grid.querySelectorAll('.interview-turn'));
   var headers = Array.prototype.slice.call(grid.querySelectorAll('.content-header'));
 
-  // Interview-Seiten: Gespräch untereinander in einer Spalte (.stacked,
+  // Interview-, Feedback- und Reflection-Seite: Gespräch untereinander in
+  // einer Spalte (.stacked,
   // siehe style.css) statt im Spalten-Grid. Beiträge der Gäste (alle
   // Spalten außer Phuong/Mira) bekommen .is-guest und werden eingerückt.
   // Lange Beiträge sind auf 10 Zeilen gekürzt (Unschärfe am Ende) und
   // klappen per Klick auf/zu statt beim Hover.
-  var stacked = !!grid.closest('.interview-layout');
+  // Gilt auch für die Feedback-Seiten (.cols-notes) und das Gespräch auf
+  // der Reflection-Seite (.manifesto-left) — dort gibt es nur Phuong und
+  // Mira, also keine eingerückten Beiträge.
+  var stacked = !!grid.closest('.interview-layout') ||
+                grid.classList.contains('cols-notes') ||
+                !!grid.closest('.manifesto-left');
   if(stacked){
     grid.classList.add('stacked');
     var hostCols = [];
