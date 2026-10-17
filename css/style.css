@@ -1019,9 +1019,9 @@ button{
 
 /* Interview-Seiten (.stacked, setzt main.js): Gespräch wie mobil
    untereinander in EINER Spalte statt im Spalten-Grid. Ohne Spalten-
-   köpfe steht der Name fett vor jedem Beitrag ("Mira:", "Patrick:" …); Text 20px über die volle
+   köpfe steht der Name fett vor jedem Beitrag ("Mira:", "Patrick:" …); Text 16px über die volle
    Spaltenbreite (rechts mehr Rand); Beiträge von Phuong/Mira (.is-host)
-   in 24px und eingerückt, bei Gästen (.is-guest) nur die erste Zeile;
+   eingerückt, bei Gästen (.is-guest) nur die erste Zeile;
    Namen aller Beiträge auf einer Linie. Lange Beiträge sind
    auf 10 Zeilen gekürzt — das Ende blendet per Verlauf aus — und
    klappen per Klick auf (main.js). */
@@ -1034,12 +1034,6 @@ button{
   grid-column:1 !important;
   padding:6px 60px 6px 15px !important;
 }
-/* Beiträge von Phuong und Mira (.is-host, setzt main.js) größer als
-   der Fließtext der Gäste (20px) */
-.interview-grid.stacked > .interview-turn.is-host .turn-text{
-  font-size:24px;
-  line-height:1.3;
-}
 
 /* Name steht fett vor dem Text (.turn-initial, main.js) statt darüber */
 .interview-grid.stacked .turn-name{ display:none !important; }
@@ -1051,12 +1045,8 @@ button{
 .interview-grid.stacked .is-host .turn-text{ padding-left:var(--name-col, 114px); }
 .interview-grid.stacked .is-guest .turn-text p:first-child{ text-indent:var(--name-col, 114px); }
 .interview-grid.stacked .interview-note .turn-text{ padding-left:0; }
-/* Regieanweisungen linksbündig statt zentriert, in 16px */
+/* Regieanweisungen linksbündig statt zentriert */
 .interview-grid.stacked > .interview-turn.interview-note:not(.topic-divider){ text-align:left; }
-.interview-grid.stacked > .interview-turn.interview-note:not(.topic-divider) .turn-text{
-  font-size:var(--content-font-size);
-  line-height:1.4;
-}
 .interview-grid.stacked .turn-initial{
   font-weight:bold;
   position:absolute;
@@ -1065,10 +1055,12 @@ button{
   text-align:left;
   text-indent:0; /* erbt sonst den Erstzeilen-Einzug der Gäste */
 }
+/* Alle Beiträge einheitlich in Fließtextgröße (16px); nur die Themen-
+   Überschriften bleiben groß (siehe .topic-divider unten). */
 .interview-grid.stacked .turn-text{
-  font-size:20px;
-  line-height:1.35;
-  max-height:13.5em; /* 10 Zeilen à 1.35 */
+  font-size:var(--content-font-size);
+  line-height:1.4;
+  max-height:14em; /* 10 Zeilen à 1.4 */
   -webkit-mask-image:none;
   mask-image:none;
 }
