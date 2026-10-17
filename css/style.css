@@ -1024,13 +1024,12 @@ button{
      Zeilenlänge (max. ~44em)
    - Fragen von Phuong/Mira (.is-host) eröffnen einen neuen Gesprächs-
      schritt mit mehr Luft davor, Antworten folgen dicht darunter
-   - Abschnitte nummeriert (01, 02 …) mit feiner Linie darüber
+   - Abschnitte mit feiner Linie darüber
    - lange Beiträge auf 10 Zeilen gekürzt, Ende blendet per Verlauf aus,
      Klick klappt auf (main.js) */
 .interview-grid.stacked{
   grid-template-columns:1fr !important;
   gap:0;
-  counter-reset:section;
 }
 .interview-grid.stacked > .content-header{ display:none; }
 .interview-grid.stacked > .interview-turn{
@@ -1048,6 +1047,7 @@ button{
   max-width:calc(var(--name-col, 114px) + 44em);
   font-size:var(--content-font-size);
   line-height:1.5;
+  letter-spacing:.03em; /* etwas mehr Laufweite */
   max-height:15em; /* 10 Zeilen à 1.5 */
   -webkit-mask-image:none;
   mask-image:none;
@@ -1077,9 +1077,8 @@ button{
 }
 .interview-grid.stacked .interview-turn:has(.turn-text.truncatable){ cursor:pointer; }
 
-/* Abschnitte: feine Linie, kleine Nummer, große Überschrift (28px) */
+/* Abschnitte: feine Linie, große Überschrift (28px) */
 .interview-grid.stacked > .interview-turn.topic-divider{
-  counter-increment:section;
   margin:0;
   padding:56px 60px 6px 15px !important;
   text-align:left;
@@ -1097,13 +1096,6 @@ button{
   max-width:none;
   font-size:28px;
   line-height:1.2;
-}
-.interview-grid.stacked > .interview-turn.topic-divider .turn-text::before{
-  content:counter(section, decimal-leading-zero);
-  display:block;
-  font-size:var(--content-font-size);
-  line-height:1.2;
-  margin-bottom:6px;
 }
 
 /* Name pro Beitrag — nur auf schmalen Screens sichtbar (Desktop übernimmt die Kopfzeile) */
