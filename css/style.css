@@ -1039,18 +1039,18 @@ button{
   gap:0;
   --label-col:64px;
   --answer-indent:56px;
-  --text-col:880px;
   padding-bottom:80px;
 }
 .interview-grid.stacked > .content-header{ display:none; }
 .interview-grid.stacked > .interview-turn{
   grid-column:1 !important;
   display:grid;
-  grid-template-columns:var(--label-col) minmax(0, var(--text-col));
+  grid-template-columns:var(--label-col) minmax(0, 1fr);
   align-items:first baseline;
-  /* Satzspiegel mittig in der Spalte: links und rechts gleich viel Raum */
-  width:100%;
-  max-width:calc(var(--label-col) + var(--text-col) + 60px);
+  /* Satzspiegel mittig in der Spalte, responsiv: 92% der Spaltenbreite
+     (≈ 880px Textspalte bei 1440px Fenster), links und rechts gleich
+     viel Raum */
+  width:92%;
   margin-left:auto;
   margin-right:auto;
   padding:3px 30px !important;
@@ -1251,7 +1251,7 @@ button{
   .interview-grid.stacked .turn-text.truncatable{ -webkit-mask-image:none; mask-image:none; }
   /* Magazin-Layout mobil: schmalere Kürzelspalte und Einrückung */
   .interview-grid.stacked{ --label-col:36px; --answer-indent:24px; }
-  .interview-grid.stacked > .interview-turn{ padding:3px 15px !important; }
+  .interview-grid.stacked > .interview-turn{ width:100%; padding:3px 15px !important; }
   .interview-grid.stacked > .interview-turn.topic-divider{ padding:36px 15px 10px !important; }
   .turn-text.truncatable{ -webkit-mask-image:none; mask-image:none; }
   .turn-image{ display:block; }
