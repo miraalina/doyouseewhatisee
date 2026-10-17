@@ -1219,6 +1219,8 @@ button{
   stroke-linejoin:round;
 }
 .fun-star.is-on{ fill:currentColor; }
+/* halber Stern: linke Hälfte gefüllt (per clipPath im SVG) */
+.fun-star .fun-star-half{ fill:currentColor; }
 .intro-meta-hang{
   display:block;
   padding-left:42px;
