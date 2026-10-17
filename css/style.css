@@ -1088,12 +1088,16 @@ button{
 .interview-grid.stacked .turn-text p{ margin:0; }
 .interview-grid.stacked .turn-text p + p{ text-indent:1.5em; }
 
-/* Interview-Seiten: Kürzel 16px, Text der Beiträge 20px (Regie-
-   anweisungen und Abschnittstitel ausgenommen) */
+/* Interview-Seiten: Kürzel, Redebeiträge und Regieanweisungen einheitlich
+   16px; Regieanweisungen in Regular statt kursiv (Abschnittstitel
+   ausgenommen) */
 .interview-layout .interview-grid.stacked .turn-label{ font-size:16px; }
-.interview-layout .interview-grid.stacked > .interview-turn:not(.interview-note) .turn-text{
-  font-size:20px;
+.interview-layout .interview-grid.stacked > .interview-turn:not(.topic-divider) .turn-text{
+  font-size:16px;
   max-height:14em; /* 10 Zeilen à 1.4 */
+}
+.interview-layout .interview-grid.stacked > .interview-turn.interview-note:not(.topic-divider) .turn-text{
+  font-style:normal;
 }
 
 /* Regieanweisungen: kursiv, an der Textkante */
@@ -2331,10 +2335,14 @@ img, video, svg, picture {
     font-size:22px;
   }
   .about-text.about-imprint{ font-size:var(--content-font-size); }
-  .interview-grid.stacked .turn-text,
-  .interview-layout .interview-grid.stacked > .interview-turn:not(.interview-note) .turn-text{
+  .interview-grid.stacked .turn-text{
     text-align:left;
     font-size:17px;
+  }
+  /* Interview-Seiten auch mobil 16px (Flattersatz) */
+  .interview-layout .interview-grid.stacked > .interview-turn:not(.topic-divider) .turn-text{
+    text-align:left;
+    font-size:16px;
   }
   .interview-grid.stacked > .interview-turn.topic-divider .turn-text{ font-size:24px; }
 }
