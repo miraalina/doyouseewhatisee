@@ -2052,6 +2052,13 @@ button{
   background:var(--riso-pink);
   color:var(--white);
 }
+/* Imprint: Abschnittstitel mit mehr Abstand nach oben, direkt über
+   ihrem Absatz */
+.about-imprint .imprint-heading{
+  margin:2em 0 .2em;
+}
+.about-imprint .imprint-heading:first-child{ margin-top:0; }
+.about-imprint a{ text-decoration:underline; }
 .about-text p{ margin:0 0 1.2em; }
 .about-text p:last-child{ margin-bottom:0; }
 
