@@ -356,8 +356,11 @@ button{
 
   .title-cell{
     order:1;
-    flex:1 1 auto;
-    padding-right:15px;
+    flex:1 1 0;
+    min-width:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    padding-right:10px;
   }
 
   .mode-toggle{
@@ -367,7 +370,7 @@ button{
     align-items:center;
     gap:10px;
     height:var(--menu-item-height);
-    padding:6px 15px;
+    padding:6px 12px;
     background:var(--black);
     color:var(--white);
     border-top:var(--border-w) solid var(--black);
@@ -436,14 +439,17 @@ button{
     display:none;
   }
 
-  /* Aktiver Reiter (Level 2, z.B. Interview-Namen) wächst auf seine volle
-     Textbreite, statt wie die anderen gleichmäßig geteilt zu werden — die
-     übrigen Reiter weichen dafür und schrumpfen. */
-  .menu-level-2 .nav-item{
-    flex:1 1 0;
+  /* Level 2 (6 Sessions bzw. 6 Interviews): statt alle in eine Zeile
+     gequetscht (Namen abgeschnitten) als Raster mit 2 Spalten × 3 Zeilen,
+     jeder Name vollständig lesbar. */
+  .menu-level-2:not(.hidden){
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
   }
-  .menu-level-2 .nav-item.active{
-    flex:0 0 auto;
+  .menu-level-2 .nav-item{
+    min-width:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
   }
   .menu-level-2 .nav-item.active::after{
     display:none;
@@ -2296,8 +2302,7 @@ button{
    Session-Zeilen in fester Höhe (deren Oberlinie trennt beide). */
 @media (max-width: 760px){
   .home-layout{ grid-template-columns:1fr; height:auto; }
-  .home-text{ order:-1; }
-  .home-sessions{ grid-template-rows:repeat(6, 90px); border-right:none; }
+  .home-sessions{ grid-template-rows:repeat(6, 90px); border-right:none; border-bottom:var(--border-w) solid var(--black); }
   .home-session{ padding:8px 15px; }
   .home-text{ padding:15px; }
   .home-text p{ font-size:26px; }
@@ -2312,4 +2317,24 @@ img, video, svg, picture {
   -webkit-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
+}
+
+/* =========================================================
+   Handy: große Lesetexte (28px am Desktop) etwas kleiner, Gespräche im
+   Flattersatz — Blocksatz reißt in der schmalen Spalte große Wortlücken.
+   ========================================================= */
+@media (max-width: 760px){
+  .manifesto-text,
+  .about-text,
+  .method-col-instructions .method-text,
+  .notes-list{
+    font-size:22px;
+  }
+  .about-text.about-imprint{ font-size:var(--content-font-size); }
+  .interview-grid.stacked .turn-text,
+  .interview-layout .interview-grid.stacked > .interview-turn:not(.interview-note) .turn-text{
+    text-align:left;
+    font-size:17px;
+  }
+  .interview-grid.stacked > .interview-turn.topic-divider .turn-text{ font-size:24px; }
 }

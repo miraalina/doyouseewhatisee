@@ -571,7 +571,9 @@ function initInterview(){
       list.appendChild(item);
       h.remove();
     });
-    grid.parentNode.appendChild(panel);
+    // vor dem Gespräch einfügen: am Desktop ist die Spalte fix positioniert
+    // (Reihenfolge egal), auf dem Handy stehen die Notes so zuerst
+    grid.parentNode.insertBefore(panel, grid);
 
     // Spalten neu durchzählen: Phuong 2→1, Mira 3→2, Randnotizen über beide
     grid.querySelectorAll('.interview-turn[data-col]').forEach(function(t){
