@@ -10,12 +10,6 @@
   font-weight: normal;
   font-style: italic;
 }
-@font-face {
-  font-family: "ABC Prophet";
-  src: url("../fonts/ABCProphetTrial-Bold.otf") format("opentype");
-  font-weight: bold;
-  font-style: normal;
-}
 
 /* Sessions-Schriften für die Type-Seiten (content/fonts/, von Mira selbst
    hochgeladen) — je Session eine eigene @font-face, Name entspricht der
@@ -85,6 +79,9 @@
 }
 
 *{ box-sizing:border-box; }
+
+/* Keine fette Schrift auf der Website — auch <b>/<strong> in Regular */
+b, strong{ font-weight:normal; }
 
 /* Markierter Text überall in Riso-Pink mit weißer Schrift */
 ::selection{
@@ -1044,8 +1041,14 @@ button{
 }
 .interview-grid.stacked .turn-name{ display:none !important; }
 .interview-grid.stacked > .interview-turn > .text-wrap{ grid-column:2; }
+/* Antworten eingerückt und mit längerer Zeile: laufen über die
+   Textspalte der Fragen hinaus bis an den rechten Rand */
+.interview-grid.stacked > .interview-turn.is-guest{
+  grid-template-columns:var(--label-col) minmax(0, 1fr);
+}
 .interview-grid.stacked > .interview-turn.is-guest > .text-wrap{
   padding-left:var(--answer-indent);
+  max-width:calc(var(--answer-indent) + var(--text-col) + 160px);
 }
 .interview-grid.stacked .turn-label{
   grid-column:1;
@@ -1182,7 +1185,7 @@ button{
   background:var(--white); border:var(--border-w) solid var(--black); border-top:none;
   padding:8px 10px;
 }
-.cursor-figure .cap b{ display:block; font-weight:bold; margin-bottom:2px; }
+.cursor-figure .cap b{ display:block; font-weight:normal; margin-bottom:2px; }
 
 @media (max-width: 760px){
   .interview-layout{ flex-direction:column; }
@@ -1589,7 +1592,6 @@ button{
 .method-text ol li::before{
   content:"Step " counter(step) ".";
   flex:0 0 auto;
-  font-weight:bold;
 }
 
 /* Visuals-Spalte: Bilder untereinander, ohne Rahmen */
@@ -2119,7 +2121,6 @@ button{
 /* Imprint-Überschrift und -Text in Fließtextgröße */
 .about-left > .content-header.about-imprint-header{
   font-size:var(--content-font-size);
-  font-weight:bold;
 }
 .about-text.about-imprint{
   font-size:var(--content-font-size);
