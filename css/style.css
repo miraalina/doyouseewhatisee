@@ -1004,6 +1004,52 @@ button{
   text-transform:uppercase;
 }
 
+/* Versuch, nur Fabian-Harb-Interview (.stacked): Gespräch wie mobil
+   untereinander in EINER Spalte statt im 3-Spalten-Grid. Ohne Spalten-
+   köpfe steht der Name über jedem Beitrag; Text voll ausgeschrieben
+   (keine 5-Zeilen-Kürzung), etwas größer und auf eine gut lesbare
+   Zeilenlänge begrenzt; feine Linien trennen die Beiträge. */
+.interview-grid.stacked{
+  grid-template-columns:1fr !important;
+  gap:0;
+}
+.interview-grid.stacked > .content-header{ display:none; }
+.interview-grid.stacked > .interview-turn{
+  grid-column:1 !important;
+  padding:14px 15px 16px !important;
+  border-top:var(--border-w) solid var(--black);
+}
+.interview-grid.stacked > .interview-turn:not(.topic-divider) > *{
+  max-width:780px;
+}
+.interview-grid.stacked .turn-name{
+  display:block;
+  font-size:var(--content-font-size);
+  margin-bottom:6px;
+}
+.interview-grid.stacked .turn-text{
+  font-size:20px;
+  line-height:1.35;
+  max-height:none !important;
+  -webkit-mask-image:none;
+  mask-image:none;
+}
+/* Themen-Trenner: linksbündig wie der Text, groß (28px), mit Luft davor */
+.interview-grid.stacked > .interview-turn.topic-divider .turn-text{
+  font-size:28px;
+  line-height:1.25;
+}
+.interview-grid.stacked > .interview-turn.topic-divider{
+  margin:0;
+  padding:40px 15px 14px !important;
+  text-align:left;
+}
+.interview-grid.stacked > .interview-turn.topic-divider:first-child,
+.interview-grid.stacked > .content-header + .interview-turn.topic-divider{
+  padding-top:14px !important;
+  border-top:none;
+}
+
 /* Name pro Beitrag — nur auf schmalen Screens sichtbar (Desktop übernimmt die Kopfzeile) */
 .turn-name{
   display:none;
