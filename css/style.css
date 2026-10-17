@@ -64,6 +64,8 @@
 :root{
   --black:#000;
   --white:#fff;
+  /* Riso-Druckfarbe "Fluorescent Pink" */
+  --riso-pink:#FF48B0;
   --border-w:1px;
   --menu-gap:2px;
   --menu-item-height:40px;
@@ -684,13 +686,13 @@ button{
   margin:0 -45px 0 -15px;
   padding:15px 45px 15px 15px;
   cursor:pointer;
-  transition:opacity .15s ease;
+  transition:color .15s ease;
 }
 .note-item:first-child{ padding-top:0; }
 .note-item + .note-item{
   border-top:var(--border-w) solid var(--white);
 }
-.note-item:hover{ opacity:.6; }
+.note-item:hover{ color:var(--riso-pink); }
 .note-item p{ margin:0; }
 /* Notes sind oft Satzausschnitte ("the alphabet is …") — erster
    Buchstabe immer groß, ohne den Transkript-Text zu verändern. */
