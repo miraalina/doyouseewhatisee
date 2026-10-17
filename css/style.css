@@ -1083,7 +1083,7 @@ button{
 }
 .interview-grid.stacked > .interview-turn.topic-divider{
   margin:0;
-  padding:40px 15px 14px !important;
+  padding:18px 15px 10px !important;
   text-align:left;
 }
 .interview-grid.stacked > .interview-turn.topic-divider:first-child,
