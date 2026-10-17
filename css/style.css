@@ -1053,8 +1053,12 @@ button{
 .interview-grid.stacked .is-host .turn-text{ padding-left:var(--name-col, 114px); }
 .interview-grid.stacked .is-guest .turn-text p:first-child{ text-indent:var(--name-col, 114px); }
 .interview-grid.stacked .interview-note .turn-text{ padding-left:0; }
-/* Regieanweisungen linksbündig statt zentriert */
+/* Regieanweisungen linksbündig statt zentriert, in 16px */
 .interview-grid.stacked > .interview-turn.interview-note:not(.topic-divider){ text-align:left; }
+.interview-grid.stacked > .interview-turn.interview-note:not(.topic-divider) .turn-text{
+  font-size:var(--content-font-size);
+  line-height:1.4;
+}
 .interview-grid.stacked .turn-initial{
   font-weight:bold;
   position:absolute;
