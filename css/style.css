@@ -1029,7 +1029,15 @@ button{
 }
 /* Name steht als fettes Kürzel vor dem Text (.turn-initial, main.js) */
 .interview-grid.stacked .turn-name{ display:none !important; }
-.interview-grid.stacked .turn-initial{ font-weight:bold; }
+/* Kürzel in einer eigenen schmalen Spalte links, der Text beginnt mit
+   festem Einzug daneben — auch in allen Folgezeilen und Absätzen. */
+.interview-grid.stacked .turn-text{ padding-left:2.4em; }
+.interview-grid.stacked .interview-note .turn-text{ padding-left:0; }
+.interview-grid.stacked .turn-initial{
+  font-weight:bold;
+  position:absolute;
+  left:0;
+}
 .interview-grid.stacked .turn-text{
   font-size:20px;
   line-height:1.35;
