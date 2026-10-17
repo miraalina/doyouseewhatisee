@@ -2086,13 +2086,13 @@ button{
   line-height:1.15;
   letter-spacing:-0.02em;
 }
-/* Hover invertiert schwarz/weiß, gleiches Prinzip wie .interview-turn:hover */
+/* Hover: weiße Schrift auf Riso-Pink */
 .home-word{
   cursor:pointer;
   transition:background .15s ease, color .15s ease;
 }
 .home-word:hover{
-  background:var(--black);
+  background:var(--riso-pink);
   color:var(--white);
 }
 
