@@ -1023,7 +1023,7 @@ button{
    untereinander in EINER Spalte statt im Spalten-Grid. Ohne Spalten-
    köpfe steht der Name fett vor jedem Beitrag ("Mira:", "Patrick:" …); Text 20px über die volle
    Spaltenbreite (rechts mehr Rand); Beiträge von Phuong/Mira (.is-host)
-   in 18px und eingerückt, bei Gästen (.is-guest) nur die erste Zeile;
+   in 24px und eingerückt, bei Gästen (.is-guest) nur die erste Zeile;
    Namen aller Beiträge auf einer Linie. Lange Beiträge sind
    auf 10 Zeilen gekürzt — das Ende blendet per Verlauf aus — und
    klappen per Klick auf (main.js). */
@@ -1036,9 +1036,11 @@ button{
   grid-column:1 !important;
   padding:6px 60px 6px 15px !important;
 }
-/* Beiträge von Phuong und Mira (.is-host, setzt main.js) in 18px */
+/* Beiträge von Phuong und Mira (.is-host, setzt main.js) größer als
+   der Fließtext der Gäste (20px) */
 .interview-grid.stacked > .interview-turn.is-host .turn-text{
-  font-size:18px;
+  font-size:24px;
+  line-height:1.3;
 }
 
 /* Name steht fett vor dem Text (.turn-initial, main.js) statt darüber */
@@ -1047,8 +1049,9 @@ button{
    bei den Gästen nur die erste Zeile — die weiteren laufen über die
    volle Breite. Px statt em, damit die Spalte trotz 18/20px-Schrift
    überall gleich breit ist. */
-.interview-grid.stacked .is-host .turn-text{ padding-left:114px; }
-.interview-grid.stacked .is-guest .turn-text p:first-child{ text-indent:114px; }
+/* --name-col: Breite des längsten Namens + Abstand, setzt main.js */
+.interview-grid.stacked .is-host .turn-text{ padding-left:var(--name-col, 114px); }
+.interview-grid.stacked .is-guest .turn-text p:first-child{ text-indent:var(--name-col, 114px); }
 .interview-grid.stacked .interview-note .turn-text{ padding-left:0; }
 /* Regieanweisungen linksbündig statt zentriert */
 .interview-grid.stacked > .interview-turn.interview-note:not(.topic-divider){ text-align:left; }
@@ -1056,7 +1059,7 @@ button{
   font-weight:bold;
   position:absolute;
   left:0;
-  width:100px;
+  white-space:nowrap;
   text-align:left;
   text-indent:0; /* erbt sonst den Erstzeilen-Einzug der Gäste */
 }
