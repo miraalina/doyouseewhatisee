@@ -606,8 +606,8 @@ function initInterview(){
   // Interview-, Feedback- und Reflection-Seite: Gespräch untereinander in
   // einer Spalte (.stacked,
   // siehe style.css) statt im Spalten-Grid. Beiträge der Gäste (alle
-  // Spalten außer Phuong/Mira) bekommen .is-guest und werden eingerückt.
-  // Lange Beiträge sind auf 10 Zeilen gekürzt (Unschärfe am Ende) und
+  // Spalten außer Phuong/Mira) bekommen .is-guest, die von Phuong/Mira
+  // .is-host. Lange Beiträge sind auf 10 Zeilen gekürzt (Verlauf am Ende) und
   // klappen per Klick auf/zu statt beim Hover.
   // Gilt auch für die Feedback-Seiten (.cols-notes) und das Gespräch auf
   // der Reflection-Seite (.manifesto-left) — dort gibt es nur Phuong und
@@ -626,26 +626,29 @@ function initInterview(){
       if(!c || c.indexOf('/') !== -1) return;
       t.classList.add(hostCols.indexOf(c) === -1 ? 'is-guest' : 'is-host');
     });
-    // Statt des Namens über dem Beitrag steht er fett direkt vor dem Text
-    // ("Mira:", "Patrick:" …), rechtsbündig in einer eigenen Spalte.
+    // Magazin-Layout (style.css): Kürzel in einer eigenen Spalte links
+    // (.turn-label). Phuong/Mira: ein Buchstabe (P, M); Gäste: Initialen
+    // ihres vollen Namens aus dem Menü (Ivo Brouwer → IB), sonst der
+    // Anfangsbuchstabe (Elias → E).
+    var activeItem = document.querySelector('.nav-item[data-interview].active');
+    var fullName = activeItem ? activeItem.textContent.trim() : '';
     turns.forEach(function(t){
       var n = t.querySelector('.turn-name');
-      var firstP = t.querySelector('.turn-text p');
-      if(!n || !firstP) return;
-      var tag = document.createElement('b');
-      tag.className = 'turn-initial';
-      tag.textContent = n.textContent.trim() + ': ';
-      firstP.insertBefore(tag, firstP.firstChild);
+      if(!n) return;
+      var name = n.textContent.trim();
+      var short = name[0];
+      if(t.classList.contains('is-guest') && fullName.indexOf(name) === 0){
+        var parts = fullName.split(/\s+/);
+        if(parts.length > 1) short = parts.map(function(w){ return w[0]; }).join('');
+      }
+      var label = document.createElement('span');
+      label.className = 'turn-label';
+      label.textContent = short.toUpperCase();
+      label.title = name;
+      t.insertBefore(label, t.firstChild);
     });
-    // Namensspalte so breit wie der längste Name der Seite + kleiner (9px)
-    // Abstand — so steht der Text bei kurzen wie langen Namen dicht dahinter.
-    var fitNameCol = function(){
-      var max = 0;
-      grid.querySelectorAll('.turn-initial').forEach(function(b){ max = Math.max(max, b.offsetWidth); });
-      if(max) grid.style.setProperty('--name-col', Math.ceil(max + 9) + 'px');
-    };
-    fitNameCol();
-    if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitNameCol);
+    // Texte sind englisch — für korrekte Silbentrennung im Blocksatz
+    grid.setAttribute('lang', 'en');
   }
   var cursorFig = document.getElementById('cursorFigure');
   var cursorFrame = document.getElementById('cursorFrame');
