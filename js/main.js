@@ -618,8 +618,11 @@ function initInterview(){
   if(stacked){
     grid.classList.add('stacked');
     var hostCols = [];
+    // Reflection-Seite: dort sprechen nur Mira und Phuong — Phuong wird
+    // wie ein Gast eingerückt, damit sich die beiden Stimmen abheben.
+    var hostPattern = grid.closest('.manifesto-left') ? /^Mira$/ : /^(Phuong|Mira)$/;
     headers.forEach(function(h, i){
-      if(/^(Phuong|Mira)$/.test(h.textContent.trim())) hostCols.push(String(i + 1));
+      if(hostPattern.test(h.textContent.trim())) hostCols.push(String(i + 1));
     });
     turns.forEach(function(t){
       var c = t.getAttribute('data-col');
