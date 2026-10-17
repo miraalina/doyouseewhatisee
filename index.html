@@ -4,10 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Do you see what I see?</title>
-<!-- Tab-Icon je nach Hell-/Dunkelmodus des Browsers: schwarze Zeichnung
-     für helle Tabs, weiße für dunkle (beide transparent hinterlegt) -->
-<link rel="icon" type="image/png" href="content/images/favicon-light.png" media="(prefers-color-scheme: light)">
-<link rel="icon" type="image/png" href="content/images/favicon-dark.png" media="(prefers-color-scheme: dark)">
+<!-- Tab-Icon: schwarze Zeichnung mit schmalem weißem Rand auf transparentem
+     Grund — sichtbar auf hellen wie dunklen Tab-Leisten. (Zwei Icons per
+     prefers-color-scheme funktionieren nicht zuverlässig: die Media-Query
+     folgt dem Betriebssystem, nicht der Tab-Farbe des Browsers.) -->
+<link rel="icon" type="image/png" href="content/images/favicon.png">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
