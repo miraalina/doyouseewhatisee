@@ -1091,6 +1091,31 @@ button{
   padding-top:14px !important;
 }
 
+/* Interview-Seiten (Desktop): Abschnittsüberschriften in einer eigenen
+   Spalte am rechten Rand (26% der Gesprächsbreite), jeweils auf Höhe des
+   ersten Beitrags ihres Abschnitts; das Gespräch läuft nur bis zu dieser
+   Spalte. Der Trenner selbst hat keine Höhe mehr, seine Überschrift hängt
+   absolut rechts daneben. 35.135% = 26 / 74 (Spalte relativ zur
+   verbleibenden Textbreite). Mobil bleiben sie zwischen den Abschnitten. */
+@media (min-width: 761px){
+  .interview-layout .interview-grid.stacked{
+    padding-right:26%;
+  }
+  .interview-layout .interview-grid.stacked > .interview-turn.topic-divider{
+    height:0;
+    margin:0;
+    padding:0 !important;
+    overflow:visible;
+  }
+  .interview-layout .interview-grid.stacked > .interview-turn.topic-divider .text-wrap{
+    position:absolute;
+    top:6px;
+    left:100%;
+    width:35.135%;
+    padding:0 15px;
+  }
+}
+
 /* Name pro Beitrag — nur auf schmalen Screens sichtbar (Desktop übernimmt die Kopfzeile) */
 .turn-name{
   display:none;
