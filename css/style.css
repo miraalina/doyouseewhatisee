@@ -313,10 +313,20 @@ button{
   display:inline-block;
 }
 
-/* Ausgewählter Menüpunkt: Punkt in Riso-Pink (Umriss + Füllung) */
+/* Ausgewählter Menüpunkt: Punkt in Riso-Pink; der Umriss bleibt stehen,
+   die Füllung blinkt (an/aus). */
 .nav-item.active .dot{
   border-color:var(--riso-pink);
   background:var(--riso-pink);
+  animation:dot-blink 1.2s steps(1, end) infinite;
+}
+@keyframes dot-blink{
+  0%{ background-color:var(--riso-pink); }
+  50%{ background-color:transparent; }
+}
+@media (prefers-reduced-motion: reduce){
+  .nav-item.active .dot,
+  .mode-toggle.mode-active .dot{ animation:none; }
 }
 
 /* Mobiler Menü-Trigger ("Menu" / aktueller Modus + Punkt), ersetzt auf
@@ -380,6 +390,7 @@ button{
     display:inline-block;
     border-color:var(--riso-pink);
     background:var(--riso-pink);
+    animation:dot-blink 1.2s steps(1, end) infinite;
   }
 
   .site-menu.mobile-open .mode-toggle .dot{
