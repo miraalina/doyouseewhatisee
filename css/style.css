@@ -1028,8 +1028,7 @@ button{
 
 /* Name steht fett vor dem Text (.turn-initial, main.js) statt darüber */
 .interview-grid.stacked .turn-name{ display:none !important; }
-/* Namen aller Beiträge rechtsbündig in einer gemeinsamen Spalte
-   (Doppelpunkte auf einer Linie). Text von Phuong/Mira ganz eingerückt,
+/* Namen aller Beiträge linksbündig in einer gemeinsamen Spalte. Text von Phuong/Mira ganz eingerückt,
    bei den Gästen nur die erste Zeile — die weiteren laufen über die
    volle Breite. Px statt em, damit die Spalte trotz 18/20px-Schrift
    überall gleich breit ist. */
@@ -1041,7 +1040,7 @@ button{
   position:absolute;
   left:0;
   width:100px;
-  text-align:right;
+  text-align:left;
   text-indent:0; /* erbt sonst den Erstzeilen-Einzug der Gäste */
 }
 .interview-grid.stacked .turn-text{
