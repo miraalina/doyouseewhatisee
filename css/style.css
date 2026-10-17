@@ -316,6 +316,16 @@ button{
 .nav-item.active .dot{
   border-color:var(--black);
   background:var(--black);
+  animation:dot-blink 1.2s steps(1, end) infinite;
+}
+/* Ausgewählter Menüpunkt: gefüllter Punkt blinkt (an/aus) */
+@keyframes dot-blink{
+  0%{ opacity:1; }
+  50%{ opacity:0; }
+}
+@media (prefers-reduced-motion: reduce){
+  .nav-item.active .dot,
+  .mode-toggle.mode-active .dot{ animation:none; }
 }
 
 /* Mobiler Menü-Trigger ("Menu" / aktueller Modus + Punkt), ersetzt auf
@@ -378,6 +388,7 @@ button{
   .mode-toggle.mode-active .dot{
     display:inline-block;
     background:var(--white);
+    animation:dot-blink 1.2s steps(1, end) infinite;
   }
 
   .site-menu.mobile-open .mode-toggle .dot{
@@ -1035,6 +1046,8 @@ button{
 .interview-grid.stacked .is-host .turn-text{ padding-left:114px; }
 .interview-grid.stacked .is-guest .turn-text p:first-child{ text-indent:114px; }
 .interview-grid.stacked .interview-note .turn-text{ padding-left:0; }
+/* Regieanweisungen linksbündig statt zentriert */
+.interview-grid.stacked > .interview-turn.interview-note:not(.topic-divider){ text-align:left; }
 .interview-grid.stacked .turn-initial{
   font-weight:bold;
   position:absolute;
