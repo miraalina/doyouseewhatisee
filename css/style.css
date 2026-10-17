@@ -10,6 +10,12 @@
   font-weight: normal;
   font-style: italic;
 }
+@font-face {
+  font-family: "ABC Prophet";
+  src: url("../fonts/ABCProphetTrial-Bold.otf") format("opentype");
+  font-weight: bold;
+  font-style: normal;
+}
 
 /* Sessions-Schriften für die Type-Seiten (content/fonts/, von Mira selbst
    hochgeladen) — je Session eine eigene @font-face, Name entspricht der
@@ -2002,6 +2008,7 @@ button{
 /* Imprint-Überschrift und -Text in Fließtextgröße */
 .about-left > .content-header.about-imprint-header{
   font-size:var(--content-font-size);
+  font-weight:bold;
 }
 .about-text.about-imprint{
   font-size:var(--content-font-size);
