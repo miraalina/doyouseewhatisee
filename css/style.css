@@ -85,6 +85,18 @@
   background:var(--riso-pink);
   color:var(--white);
 }
+/* Auf schwarzem Grund kippt das Pink optisch ins Rote — dort ein hellerer
+   Pink-Ton mit schwarzer Schrift, der neben Schwarz als Pink lesbar bleibt. */
+.manifesto-right ::selection,
+.method-col-instructions ::selection,
+.notes-panel ::selection,
+.interview-sidebar .interview-intro-text ::selection,
+.about-right .interview-intro-text ::selection,
+.nav-item ::selection,
+.interview-nav-trigger ::selection{
+  background:#FFA3C4;
+  color:var(--black);
+}
 
 html,
 body{
