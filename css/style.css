@@ -1566,9 +1566,10 @@ button{
   color:var(--white);
   text-decoration:none;
   cursor:pointer;
-  transition:opacity .15s ease;
+  transition:background .15s ease;
 }
-.type-tool-topbar a:hover{ opacity:.75; }
+/* Hover: Riso-Pink statt Schwarz, Schrift bleibt weiß */
+.type-tool-topbar a:hover{ background:var(--riso-pink); }
 
 /* Bühne: Eingabefeld vertikal/horizontal zentriert, wächst mit der
    verbleibenden Höhe zwischen Kopf- und Reglerzeile. */
