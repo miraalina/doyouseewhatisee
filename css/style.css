@@ -1009,8 +1009,8 @@ button{
    köpfe steht der Name über jedem Beitrag; Text 20px über die volle
    Spaltenbreite (rechts mehr Rand); feine Linien trennen die Beiträge,
    Beiträge der Gäste (.is-guest) sind eingerückt. Lange Beiträge sind
-   auf 10 Zeilen gekürzt — das Ende wird unscharf — und klappen per
-   Klick auf (main.js). */
+   auf 10 Zeilen gekürzt — das Ende blendet per Verlauf aus — und
+   klappen per Klick auf (main.js). */
 .interview-grid.stacked{
   grid-template-columns:1fr !important;
   gap:0;
@@ -1037,22 +1037,16 @@ button{
   mask-image:none;
 }
 .interview-grid.stacked .turn-text.fits{ max-height:none; }
-/* Unschärfe über den letzten Zeilen, nach unten zunehmend */
-.interview-grid.stacked .turn-text.truncatable::after{
-  content:"";
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:0;
-  height:3em;
-  -webkit-backdrop-filter:blur(4px);
-  backdrop-filter:blur(4px);
-  -webkit-mask-image:linear-gradient(to bottom, transparent, #000 70%);
-  mask-image:linear-gradient(to bottom, transparent, #000 70%);
-  pointer-events:none;
-  transition:opacity .25s ease;
+/* Textende weich ausblenden (Verlauf per Maske auf dem Text selbst, wie
+   zuvor bei den gekürzten Feldern) — aufgeklappt ohne Verlauf */
+.interview-grid.stacked .turn-text.truncatable{
+  -webkit-mask-image:linear-gradient(to bottom, #000 calc(100% - 3em), transparent);
+  mask-image:linear-gradient(to bottom, #000 calc(100% - 3em), transparent);
 }
-.interview-grid.stacked .interview-turn.expanded .turn-text.truncatable::after{ opacity:0; }
+.interview-grid.stacked .interview-turn.expanded .turn-text.truncatable{
+  -webkit-mask-image:none;
+  mask-image:none;
+}
 .interview-grid.stacked .interview-turn:has(.turn-text.truncatable){ cursor:pointer; }
 /* Themen-Trenner: linksbündig wie der Text, groß (28px), mit Luft davor */
 .interview-grid.stacked > .interview-turn.topic-divider .turn-text{
@@ -1201,7 +1195,7 @@ button{
      Hintergrund trotzdem schwarz (siehe .interview-turn.active oben),
      nur eben ohne Höhen-Animation, weil nichts mehr aufzuklappen ist. */
   .turn-text{ max-height:none !important; overflow:visible; }
-  .interview-grid.stacked .turn-text.truncatable::after{ display:none; }
+  .interview-grid.stacked .turn-text.truncatable{ -webkit-mask-image:none; mask-image:none; }
   .turn-text.truncatable{ -webkit-mask-image:none; mask-image:none; }
   .turn-image{ display:block; }
 
