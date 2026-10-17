@@ -1021,7 +1021,7 @@ button{
    schlichtes, zeitgenössisches Interview-Layout in EINER Spalte.
    - links eine schmale Namensspalte (fett, so breit wie der längste Name
      + 9px, --name-col setzt main.js), daneben der Text in lesbarer
-     Zeilenlänge (max. 700px)
+     Zeilenlänge (max. 960px)
    - Fragen von Phuong/Mira (.is-host) eröffnen einen neuen Gesprächs-
      schritt mit mehr Luft davor, Antworten folgen dicht darunter
    - Abschnitte mit feiner Linie darüber
@@ -1044,7 +1044,7 @@ button{
 /* Text neben der Namensspalte, alle Zeilen bündig */
 .interview-grid.stacked .turn-text{
   padding-left:var(--name-col, 114px);
-  max-width:calc(var(--name-col, 114px) + 700px); /* gleiche rechte Kante für alle Größen */
+  max-width:calc(var(--name-col, 114px) + 960px); /* gleiche rechte Kante für alle Größen */
   font-size:var(--content-font-size);
   line-height:1.5;
   letter-spacing:.03em; /* etwas mehr Laufweite */
