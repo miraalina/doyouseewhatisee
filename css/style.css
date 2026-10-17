@@ -1049,12 +1049,13 @@ button{
   display:grid;
   grid-template-columns:var(--label-col) minmax(0, 1fr);
   align-items:first baseline;
-  /* Satzspiegel mittig in der Spalte, responsiv: 80% der Spaltenbreite,
-     links und rechts gleich viel Raum */
-  width:80%;
-  margin-left:auto;
-  margin-right:auto;
-  padding:3px 30px !important;
+  /* Beitrag über die volle Spaltenbreite (Hover-Hintergrund geht von
+     Rand zu Rand); der Satzspiegel bleibt mittig auf 80% der Breite —
+     die Seitenpolster sind je 10% (+30px wie zuvor). */
+  width:100%;
+  margin-left:0;
+  margin-right:0;
+  padding:3px calc(10% + 30px) !important;
 }
 .interview-grid.stacked .turn-name{ display:none !important; }
 .interview-grid.stacked > .interview-turn > .text-wrap{ grid-column:2; }
@@ -1104,7 +1105,7 @@ button{
 
 /* Abschnittsüberschriften: an der Textkante, mit Luft davor */
 .interview-grid.stacked > .interview-turn.topic-divider{
-  padding:30px 30px 8px !important;
+  padding:30px calc(10% + 30px) 8px !important;
   text-align:left;
 }
 .interview-grid.stacked > .interview-turn.topic-divider:first-child,
