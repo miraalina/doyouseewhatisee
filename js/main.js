@@ -577,12 +577,12 @@ function initInterview(){
       tag.textContent = n.textContent.trim() + ': ';
       firstP.insertBefore(tag, firstP.firstChild);
     });
-    // Namensspalte so breit wie der längste Name der Seite + kleiner
+    // Namensspalte so breit wie der längste Name der Seite + kleiner (9px)
     // Abstand — so steht der Text bei kurzen wie langen Namen dicht dahinter.
     var fitNameCol = function(){
       var max = 0;
       grid.querySelectorAll('.turn-initial').forEach(function(b){ max = Math.max(max, b.offsetWidth); });
-      if(max) grid.style.setProperty('--name-col', Math.ceil(max + 18) + 'px');
+      if(max) grid.style.setProperty('--name-col', Math.ceil(max + 9) + 'px');
     };
     fitNameCol();
     if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitNameCol);
