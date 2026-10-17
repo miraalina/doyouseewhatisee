@@ -804,8 +804,9 @@ button{
   line-height:1.3;
   cursor:pointer;
 }
+/* Navigationspunkte: Hover Riso-Pink mit weißer Schrift */
 .interview-nav-panel a:hover{
-  background:var(--black);
+  background:var(--riso-pink);
   color:var(--white);
 }
 
@@ -2027,6 +2028,27 @@ button{
 }
 .about-right .interview-intro-text:last-child{
   flex:1 0 auto;
+}
+/* Info-Seite: Links unter den Bios (Website, Portfolio, Instagram) als
+   Buttons wie der Download-Button der Output-Seiten, aber invertiert —
+   weißer Button, schwarze Schrift; Hover Riso-Pink mit weißer Schrift. */
+.about-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.about-right .interview-intro-text .about-links a{
+  display:inline-block;
+  padding:6px 18px;
+  border-radius:999px;
+  background:var(--white);
+  color:var(--black);
+  text-decoration:none;
+  transition:background .15s ease, color .15s ease;
+}
+.about-right .interview-intro-text .about-links a:hover{
+  background:var(--riso-pink);
+  color:var(--white);
 }
 .about-text p{ margin:0 0 1.2em; }
 .about-text p:last-child{ margin-bottom:0; }
