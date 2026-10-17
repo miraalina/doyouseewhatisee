@@ -313,21 +313,10 @@ button{
   display:inline-block;
 }
 
+/* Ausgewählter Menüpunkt: Punkt in Riso-Pink (Umriss + Füllung) */
 .nav-item.active .dot{
-  border-color:var(--black);
-  --dot-fill:var(--black);
-  background:var(--dot-fill);
-  animation:dot-blink 1.2s steps(1, end) infinite;
-}
-/* Ausgewählter Menüpunkt: nur die Füllung des Punkts blinkt (an/aus),
-   der Umriss bleibt stehen. */
-@keyframes dot-blink{
-  0%{ background-color:var(--dot-fill); }
-  50%{ background-color:transparent; }
-}
-@media (prefers-reduced-motion: reduce){
-  .nav-item.active .dot,
-  .mode-toggle.mode-active .dot{ animation:none; }
+  border-color:var(--riso-pink);
+  background:var(--riso-pink);
 }
 
 /* Mobiler Menü-Trigger ("Menu" / aktueller Modus + Punkt), ersetzt auf
@@ -389,15 +378,13 @@ button{
 
   .mode-toggle.mode-active .dot{
     display:inline-block;
-    --dot-fill:var(--white);
-    background:var(--dot-fill);
-    animation:dot-blink 1.2s steps(1, end) infinite;
+    border-color:var(--riso-pink);
+    background:var(--riso-pink);
   }
 
   .site-menu.mobile-open .mode-toggle .dot{
-    border-color:var(--black);
-    --dot-fill:var(--black);
-    background:var(--dot-fill);
+    border-color:var(--riso-pink);
+    background:var(--riso-pink);
   }
 
   /* Level-1-Items: auf Desktop eine Reihe, hier standardmäßig verborgen
