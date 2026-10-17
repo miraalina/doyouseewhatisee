@@ -306,8 +306,8 @@ button{
 
 /* Dot */
 .nav-item .dot{
-  width:8px;
-  height:8px;
+  width:11px;
+  height:11px;
   border-radius:50%;
   border:var(--border-w) solid var(--white);
   display:inline-block;
@@ -315,13 +315,15 @@ button{
 
 .nav-item.active .dot{
   border-color:var(--black);
-  background:var(--black);
+  --dot-fill:var(--black);
+  background:var(--dot-fill);
   animation:dot-blink 1.2s steps(1, end) infinite;
 }
-/* Ausgewählter Menüpunkt: gefüllter Punkt blinkt (an/aus) */
+/* Ausgewählter Menüpunkt: nur die Füllung des Punkts blinkt (an/aus),
+   der Umriss bleibt stehen. */
 @keyframes dot-blink{
-  0%{ opacity:1; }
-  50%{ opacity:0; }
+  0%{ background-color:var(--dot-fill); }
+  50%{ background-color:transparent; }
 }
 @media (prefers-reduced-motion: reduce){
   .nav-item.active .dot,
@@ -378,8 +380,8 @@ button{
   }
 
   .mode-toggle .dot{
-    width:8px;
-    height:8px;
+    width:11px;
+    height:11px;
     border-radius:50%;
     border:var(--border-w) solid var(--white);
     display:none;
@@ -387,13 +389,15 @@ button{
 
   .mode-toggle.mode-active .dot{
     display:inline-block;
-    background:var(--white);
+    --dot-fill:var(--white);
+    background:var(--dot-fill);
     animation:dot-blink 1.2s steps(1, end) infinite;
   }
 
   .site-menu.mobile-open .mode-toggle .dot{
     border-color:var(--black);
-    background:var(--black);
+    --dot-fill:var(--black);
+    background:var(--dot-fill);
   }
 
   /* Level-1-Items: auf Desktop eine Reihe, hier standardmäßig verborgen
