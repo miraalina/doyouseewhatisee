@@ -2070,9 +2070,9 @@ button{
   position:absolute;
   display:block;
 }
-/* Hover invertiert schwarz/weiß wie .home-word */
+/* Hover wie .home-word: weiße Schrift auf Riso-Pink */
 .home-session:hover{
-  background:var(--black);
+  background:var(--riso-pink);
   color:var(--white);
 }
 .home-session:last-child{ border-bottom:none; }
