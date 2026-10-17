@@ -1544,10 +1544,18 @@ button{
   font-size:var(--content-font-size);
   border-top:var(--border-w) solid var(--black);
 }
+/* Download als Button: schwarzes abgerundetes Rechteck, weiße Schrift */
 .type-tool-topbar a{
-  text-decoration:underline;
+  display:inline-block;
+  padding:4px 12px;
+  border-radius:6px;
+  background:var(--black);
+  color:var(--white);
+  text-decoration:none;
   cursor:pointer;
+  transition:opacity .15s ease;
 }
+.type-tool-topbar a:hover{ opacity:.75; }
 
 /* Bühne: Eingabefeld vertikal/horizontal zentriert, wächst mit der
    verbleibenden Höhe zwischen Kopf- und Reglerzeile. */
