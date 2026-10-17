@@ -1017,56 +1017,56 @@ button{
   text-transform:uppercase;
 }
 
-/* Interview-Seiten (.stacked, setzt main.js): Gespräch wie mobil
-   untereinander in EINER Spalte statt im Spalten-Grid. Ohne Spalten-
-   köpfe steht der Name fett vor jedem Beitrag ("Mira:", "Patrick:" …); Text 16px über die volle
-   Spaltenbreite (rechts mehr Rand); Beiträge von Phuong/Mira (.is-host)
-   eingerückt, bei Gästen (.is-guest) nur die erste Zeile;
-   Namen aller Beiträge auf einer Linie. Lange Beiträge sind
-   auf 10 Zeilen gekürzt — das Ende blendet per Verlauf aus — und
-   klappen per Klick auf (main.js). */
+/* Gespräche (.stacked, setzt main.js — Interviews, Feedback, Reflection):
+   schlichtes, zeitgenössisches Interview-Layout in EINER Spalte.
+   - links eine schmale Namensspalte (fett, so breit wie der längste Name
+     + 9px, --name-col setzt main.js), daneben der Text in lesbarer
+     Zeilenlänge (max. ~44em)
+   - Fragen von Phuong/Mira (.is-host) eröffnen einen neuen Gesprächs-
+     schritt mit mehr Luft davor, Antworten folgen dicht darunter
+   - Abschnitte nummeriert (01, 02 …) mit feiner Linie darüber
+   - lange Beiträge auf 10 Zeilen gekürzt, Ende blendet per Verlauf aus,
+     Klick klappt auf (main.js) */
 .interview-grid.stacked{
   grid-template-columns:1fr !important;
   gap:0;
+  counter-reset:section;
 }
 .interview-grid.stacked > .content-header{ display:none; }
 .interview-grid.stacked > .interview-turn{
   grid-column:1 !important;
-  padding:6px 60px 6px 15px !important;
+  padding:5px 60px 5px 15px !important;
 }
-
-/* Name steht fett vor dem Text (.turn-initial, main.js) statt darüber */
+.interview-grid.stacked > .interview-turn.is-host{
+  padding-top:22px !important;
+}
 .interview-grid.stacked .turn-name{ display:none !important; }
-/* Namen aller Beiträge linksbündig in einer gemeinsamen Spalte. Text von Phuong/Mira ganz eingerückt,
-   bei den Gästen nur die erste Zeile — die weiteren laufen über die
-   volle Breite. Px statt em, damit die Spalte trotz 18/20px-Schrift
-   überall gleich breit ist. */
-/* --name-col: Breite des längsten Namens + Abstand, setzt main.js */
-.interview-grid.stacked .is-host .turn-text{ padding-left:var(--name-col, 114px); }
-.interview-grid.stacked .is-guest .turn-text p:first-child{ text-indent:var(--name-col, 114px); }
-.interview-grid.stacked .interview-note .turn-text{ padding-left:0; }
-/* Regieanweisungen linksbündig statt zentriert */
-.interview-grid.stacked > .interview-turn.interview-note:not(.topic-divider){ text-align:left; }
+
+/* Text neben der Namensspalte, alle Zeilen bündig */
+.interview-grid.stacked .turn-text{
+  padding-left:var(--name-col, 114px);
+  max-width:calc(var(--name-col, 114px) + 44em);
+  font-size:var(--content-font-size);
+  line-height:1.5;
+  max-height:15em; /* 10 Zeilen à 1.5 */
+  -webkit-mask-image:none;
+  mask-image:none;
+}
+.interview-grid.stacked .turn-text.fits{ max-height:none; }
 .interview-grid.stacked .turn-initial{
   font-weight:bold;
   position:absolute;
   left:0;
   white-space:nowrap;
+}
+/* Regieanweisungen: kursiv, an der Textkante, ohne Namen */
+.interview-grid.stacked > .interview-turn.interview-note:not(.topic-divider){
   text-align:left;
-  text-indent:0; /* erbt sonst den Erstzeilen-Einzug der Gäste */
+  padding-top:10px !important;
+  padding-bottom:10px !important;
 }
-/* Alle Beiträge einheitlich in Fließtextgröße (16px); nur die Themen-
-   Überschriften bleiben groß (siehe .topic-divider unten). */
-.interview-grid.stacked .turn-text{
-  font-size:var(--content-font-size);
-  line-height:1.4;
-  max-height:14em; /* 10 Zeilen à 1.4 */
-  -webkit-mask-image:none;
-  mask-image:none;
-}
-.interview-grid.stacked .turn-text.fits{ max-height:none; }
-/* Textende weich ausblenden (Verlauf per Maske auf dem Text selbst, wie
-   zuvor bei den gekürzten Feldern) — aufgeklappt ohne Verlauf */
+
+/* Textende weich ausblenden — aufgeklappt ohne Verlauf */
 .interview-grid.stacked .turn-text.truncatable{
   -webkit-mask-image:linear-gradient(to bottom, #000 calc(100% - 3em), transparent);
   mask-image:linear-gradient(to bottom, #000 calc(100% - 3em), transparent);
@@ -1076,19 +1076,34 @@ button{
   mask-image:none;
 }
 .interview-grid.stacked .interview-turn:has(.turn-text.truncatable){ cursor:pointer; }
-/* Themen-Trenner: linksbündig wie der Text, groß (28px), mit Luft davor */
-.interview-grid.stacked > .interview-turn.topic-divider .turn-text{
-  font-size:28px;
-  line-height:1.25;
-}
+
+/* Abschnitte: feine Linie, kleine Nummer, große Überschrift (28px) */
 .interview-grid.stacked > .interview-turn.topic-divider{
+  counter-increment:section;
   margin:0;
-  padding:18px 15px 10px !important;
+  padding:56px 60px 6px 15px !important;
   text-align:left;
 }
 .interview-grid.stacked > .interview-turn.topic-divider:first-child,
 .interview-grid.stacked > .content-header + .interview-turn.topic-divider{
-  padding-top:14px !important;
+  padding-top:20px !important;
+}
+.interview-grid.stacked > .interview-turn.topic-divider .text-wrap{
+  border-top:var(--border-w) solid var(--black);
+  padding-top:10px;
+}
+.interview-grid.stacked > .interview-turn.topic-divider .turn-text{
+  padding-left:0;
+  max-width:none;
+  font-size:28px;
+  line-height:1.2;
+}
+.interview-grid.stacked > .interview-turn.topic-divider .turn-text::before{
+  content:counter(section, decimal-leading-zero);
+  display:block;
+  font-size:var(--content-font-size);
+  line-height:1.2;
+  margin-bottom:6px;
 }
 
 /* Name pro Beitrag — nur auf schmalen Screens sichtbar (Desktop übernimmt die Kopfzeile) */
