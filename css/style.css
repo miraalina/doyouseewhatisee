@@ -1004,12 +1004,13 @@ button{
   text-transform:uppercase;
 }
 
-/* Versuch, nur Fabian-Harb-Interview (.stacked): Gespräch wie mobil
-   untereinander in EINER Spalte statt im 3-Spalten-Grid. Ohne Spalten-
-   köpfe steht der Name über jedem Beitrag; Text voll ausgeschrieben
-   (keine 5-Zeilen-Kürzung), etwas größer, über die volle Spaltenbreite;
-   feine Linien trennen die Beiträge, die Antworten des Gasts (Spalte 1)
-   sind eingerückt. */
+/* Interview-Seiten (.stacked, setzt main.js): Gespräch wie mobil
+   untereinander in EINER Spalte statt im Spalten-Grid. Ohne Spalten-
+   köpfe steht der Name über jedem Beitrag; Text 20px über die volle
+   Spaltenbreite (rechts mehr Rand); feine Linien trennen die Beiträge,
+   Beiträge der Gäste (.is-guest) sind eingerückt. Lange Beiträge sind
+   auf 10 Zeilen gekürzt — das Ende wird unscharf — und klappen per
+   Klick auf (main.js). */
 .interview-grid.stacked{
   grid-template-columns:1fr !important;
   gap:0;
@@ -1017,10 +1018,10 @@ button{
 .interview-grid.stacked > .content-header{ display:none; }
 .interview-grid.stacked > .interview-turn{
   grid-column:1 !important;
-  padding:14px 15px 16px !important;
+  padding:14px 60px 16px 15px !important;
   border-top:var(--border-w) solid var(--black);
 }
-.interview-grid.stacked > .interview-turn[data-col="1"]{
+.interview-grid.stacked > .interview-turn.is-guest{
   padding-left:80px !important;
 }
 .interview-grid.stacked .turn-name{
@@ -1031,10 +1032,28 @@ button{
 .interview-grid.stacked .turn-text{
   font-size:20px;
   line-height:1.35;
-  max-height:none !important;
+  max-height:13.5em; /* 10 Zeilen à 1.35 */
   -webkit-mask-image:none;
   mask-image:none;
 }
+.interview-grid.stacked .turn-text.fits{ max-height:none; }
+/* Unschärfe über den letzten Zeilen, nach unten zunehmend */
+.interview-grid.stacked .turn-text.truncatable::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:3em;
+  -webkit-backdrop-filter:blur(4px);
+  backdrop-filter:blur(4px);
+  -webkit-mask-image:linear-gradient(to bottom, transparent, #000 70%);
+  mask-image:linear-gradient(to bottom, transparent, #000 70%);
+  pointer-events:none;
+  transition:opacity .25s ease;
+}
+.interview-grid.stacked .interview-turn.expanded .turn-text.truncatable::after{ opacity:0; }
+.interview-grid.stacked .interview-turn:has(.turn-text.truncatable){ cursor:pointer; }
 /* Themen-Trenner: linksbündig wie der Text, groß (28px), mit Luft davor */
 .interview-grid.stacked > .interview-turn.topic-divider .turn-text{
   font-size:28px;
@@ -1182,6 +1201,7 @@ button{
      Hintergrund trotzdem schwarz (siehe .interview-turn.active oben),
      nur eben ohne Höhen-Animation, weil nichts mehr aufzuklappen ist. */
   .turn-text{ max-height:none !important; overflow:visible; }
+  .interview-grid.stacked .turn-text.truncatable::after{ display:none; }
   .turn-text.truncatable{ -webkit-mask-image:none; mask-image:none; }
   .turn-image{ display:block; }
 

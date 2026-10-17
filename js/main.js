@@ -542,6 +542,24 @@ function initInterview(){
 
   var turns = Array.prototype.slice.call(grid.querySelectorAll('.interview-turn'));
   var headers = Array.prototype.slice.call(grid.querySelectorAll('.content-header'));
+
+  // Interview-Seiten: Gespräch untereinander in einer Spalte (.stacked,
+  // siehe style.css) statt im Spalten-Grid. Beiträge der Gäste (alle
+  // Spalten außer Phuong/Mira) bekommen .is-guest und werden eingerückt.
+  // Lange Beiträge sind auf 10 Zeilen gekürzt (Unschärfe am Ende) und
+  // klappen per Klick auf/zu statt beim Hover.
+  var stacked = !!grid.closest('.interview-layout');
+  if(stacked){
+    grid.classList.add('stacked');
+    var hostCols = [];
+    headers.forEach(function(h, i){
+      if(/^(Phuong|Mira)$/.test(h.textContent.trim())) hostCols.push(String(i + 1));
+    });
+    turns.forEach(function(t){
+      var c = t.getAttribute('data-col');
+      if(c && c.indexOf('/') === -1 && hostCols.indexOf(c) === -1) t.classList.add('is-guest');
+    });
+  }
   var cursorFig = document.getElementById('cursorFigure');
   var cursorFrame = document.getElementById('cursorFrame');
   var cursorCap = document.getElementById('cursorCap');
@@ -684,7 +702,7 @@ function initInterview(){
     requestAnimationFrame(function(){
       var lh = parseFloat(getComputedStyle(text).lineHeight) || 22;
       var lines = text.scrollHeight / lh;
-      if(lines > 5.3){
+      if(lines > (stacked ? 10.3 : 5.3)){
         text.classList.add('truncatable');
       } else {
         text.classList.add('fits');
@@ -783,13 +801,23 @@ function initInterview(){
     var col = turn.getAttribute('data-col');
     if(hasHover){
       turn.addEventListener('mouseenter', function(e){
-        scheduleExpand(turn);
+        if(!stacked) scheduleExpand(turn);
         showCursorImage(turn, e.clientX, e.clientY);
         headers.forEach(function(h, i){ h.classList.toggle('focused', String(i+1) === col); });
       });
       turn.addEventListener('mousemove', function(e){ positionCursorFigure(e.clientX, e.clientY); });
+      // Gestapelt: gekürzte Beiträge per Klick auf-/zuklappen (Links im
+      // Text bleiben normal klickbar).
+      if(stacked){
+        turn.addEventListener('click', function(e){
+          if(e.target.closest('a')) return;
+          if(!turn.querySelector('.turn-text.truncatable')) return;
+          if(turn.classList.contains('expanded')) collapseTurn(turn);
+          else expandTurn(turn);
+        });
+      }
       turn.addEventListener('mouseleave', function(){
-        collapseTurn(turn);
+        if(!stacked) collapseTurn(turn);
         cursorFig.classList.remove('visible');
         currentImg = null;
         headers.forEach(function(h){ h.classList.remove('focused'); });
