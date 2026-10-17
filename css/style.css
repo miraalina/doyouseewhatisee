@@ -1201,7 +1201,7 @@ button{
    Werts nach dem Label ("Tools: ") weiterlaufen. padding-left auf dem
    Label-<span> statt direkt auf dem <td> — <br> selbst hat keine Breite,
    daher muss der Einzug am Text NACH dem Umbruch ansetzen. */
-/* Fun parameter: 5 kleine Sterne als Bewertung — umrandet, die
+/* Fun rating: 5 kleine Sterne als Bewertung — umrandet, die
    vergebenen (.is-on) schwarz gefüllt. Anzahl steht im HTML der
    jeweiligen Exercise-Seite. */
 .fun-rating{
