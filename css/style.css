@@ -1876,20 +1876,14 @@ button{
   font-size:28px;
   line-height:1.25;
 }
-/* Abstand zwischen den Absätzen: 30px — bei den Articles als je 15px
-   Polster oben/unten, damit die Hover-Fläche (Riso-Pink, über die volle
-   Spaltenbreite per negativem Seitenrand) den ganzen Article umfasst. */
+/* Abstand zwischen den Absätzen: 30px */
 .manifesto-text .manifesto-intro{
-  margin:0 0 15px;
+  margin:0 0 30px;
 }
 .manifesto-article{
-  margin:0 -15px;
-  padding:15px;
-  transition:background .15s ease;
+  margin:0 0 30px;
 }
-.manifesto-article:hover{
-  background:var(--riso-pink);
-}
+.manifesto-article:last-child{ margin-bottom:0; }
 /* "Article N" in Fließtextgröße (16px), Article-Text bleibt 28px */
 .manifesto-article h3{
   font-size:var(--content-font-size);
