@@ -1547,8 +1547,8 @@ button{
 /* Download als Button: schwarzes abgerundetes Rechteck, weiße Schrift */
 .type-tool-topbar a{
   display:inline-block;
-  padding:4px 12px;
-  border-radius:11px;
+  padding:6px 18px;
+  border-radius:999px; /* maximal rund: Pillenform */
   background:var(--black);
   color:var(--white);
   text-decoration:none;
