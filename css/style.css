@@ -1123,7 +1123,7 @@ button{
 
 /* Abschnittsüberschriften: an der Textkante, mit Luft davor */
 .interview-grid.stacked > .interview-turn.topic-divider{
-  padding:30px calc(10% + 30px) 8px !important;
+  padding:18px calc(10% + 30px) 8px !important;
   text-align:left;
 }
 .interview-grid.stacked > .interview-turn.topic-divider:first-child,
