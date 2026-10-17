@@ -80,6 +80,12 @@
 
 *{ box-sizing:border-box; }
 
+/* Markierter Text überall in Riso-Pink mit weißer Schrift */
+::selection{
+  background:var(--riso-pink);
+  color:var(--white);
+}
+
 html,
 body{
   margin:0;
