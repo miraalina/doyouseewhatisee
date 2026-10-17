@@ -1006,10 +1006,10 @@ button{
 
 /* Interview-Seiten (.stacked, setzt main.js): Gespräch wie mobil
    untereinander in EINER Spalte statt im Spalten-Grid. Ohne Spalten-
-   köpfe steht ein fettes Namenskürzel ("M:", "P:" …) vor jedem Beitrag; Text 20px über die volle
+   köpfe steht der Name fett vor jedem Beitrag ("Mira:", "Patrick:" …); Text 20px über die volle
    Spaltenbreite (rechts mehr Rand); Beiträge von Phuong/Mira (.is-host)
-   in 18px, Text der Gäste (.is-guest) eingerückt, Kürzel aller
-   Beiträge auf einer Linie. Lange Beiträge sind
+   in 18px und eingerückt, bei Gästen (.is-guest) nur die erste Zeile;
+   Namen aller Beiträge auf einer Linie. Lange Beiträge sind
    auf 10 Zeilen gekürzt — das Ende blendet per Verlauf aus — und
    klappen per Klick auf (main.js). */
 .interview-grid.stacked{
@@ -1026,24 +1026,23 @@ button{
   font-size:18px;
 }
 
-/* Name steht als fettes Kürzel vor dem Text (.turn-initial, main.js) */
+/* Name steht fett vor dem Text (.turn-initial, main.js) statt darüber */
 .interview-grid.stacked .turn-name{ display:none !important; }
-/* Kürzel aller Beiträge rechtsbündig in einer gemeinsamen schmalen
-   Spalte (Doppelpunkte auf einer Linie). Der Text der Gäste ist ganz
-   eingerückt, bei Phuong/Mira nur die erste Zeile. Px statt
-   em, damit die Spalte trotz 18/20px-Schrift überall gleich breit ist. */
-.interview-grid.stacked .is-guest .turn-text{ padding-left:124px; }
-/* Phuong/Mira: nur die erste Zeile beginnt auf Höhe des Gast-Texts,
-   alle weiteren Zeilen laufen über die volle Breite ohne Einzug. */
-.interview-grid.stacked .is-host .turn-text p:first-child{ text-indent:124px; }
+/* Namen aller Beiträge rechtsbündig in einer gemeinsamen Spalte
+   (Doppelpunkte auf einer Linie). Text von Phuong/Mira ganz eingerückt,
+   bei den Gästen nur die erste Zeile — die weiteren laufen über die
+   volle Breite. Px statt em, damit die Spalte trotz 18/20px-Schrift
+   überall gleich breit ist. */
+.interview-grid.stacked .is-host .turn-text{ padding-left:114px; }
+.interview-grid.stacked .is-guest .turn-text p:first-child{ text-indent:114px; }
 .interview-grid.stacked .interview-note .turn-text{ padding-left:0; }
 .interview-grid.stacked .turn-initial{
   font-weight:bold;
   position:absolute;
   left:0;
-  width:36px;
+  width:100px;
   text-align:right;
-  text-indent:0; /* erbt sonst den Erstzeilen-Einzug von Phuong/Mira */
+  text-indent:0; /* erbt sonst den Erstzeilen-Einzug der Gäste */
 }
 .interview-grid.stacked .turn-text{
   font-size:20px;

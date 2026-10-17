@@ -566,34 +566,15 @@ function initInterview(){
       if(!c || c.indexOf('/') !== -1) return;
       t.classList.add(hostCols.indexOf(c) === -1 ? 'is-guest' : 'is-host');
     });
-    // Statt des Namens über dem Beitrag ein fettes Kürzel direkt vor dem
-    // Text ("M:", "P:", "F:" …). Teilt ein Gast den Anfangsbuchstaben mit
-    // Phuong/Mira (z.B. Patrick), bekommt der Gast die Initialen seines
-    // vollen Namens aus dem Menü ("PT:"), Phuong/Mira bleiben bei einem
-    // Buchstaben.
-    var activeLabel = document.querySelector('.nav-item[data-interview].active');
-    var fullName = activeLabel ? activeLabel.textContent.trim() : '';
-    var names = turns.map(function(t){
+    // Statt des Namens über dem Beitrag steht er fett direkt vor dem Text
+    // ("Mira:", "Patrick:" …), rechtsbündig in einer eigenen Spalte.
+    turns.forEach(function(t){
       var n = t.querySelector('.turn-name');
-      return n ? n.textContent.trim() : '';
-    });
-    var byInitial = {};
-    names.forEach(function(n){
-      if(!n) return;
-      (byInitial[n[0]] = byInitial[n[0]] || {})[n] = true;
-    });
-    turns.forEach(function(t, i){
-      var n = names[i];
       var firstP = t.querySelector('.turn-text p');
       if(!n || !firstP) return;
-      var short = n[0];
-      if(Object.keys(byInitial[n[0]]).length > 1 && t.classList.contains('is-guest')){
-        var parts = fullName.indexOf(n) === 0 ? fullName.split(/\s+/) : [n];
-        short = parts.length > 1 ? parts.map(function(w){ return w[0]; }).join('').toUpperCase() : n.slice(0, 2);
-      }
       var tag = document.createElement('b');
       tag.className = 'turn-initial';
-      tag.textContent = short + ': ';
+      tag.textContent = n.textContent.trim() + ': ';
       firstP.insertBefore(tag, firstP.firstChild);
     });
   }
