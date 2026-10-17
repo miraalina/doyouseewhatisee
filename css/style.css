@@ -1218,8 +1218,6 @@ button{
    vergebenen (.is-on) schwarz gefüllt. Anzahl steht im HTML der
    jeweiligen Exercise-Seite. */
 .fun-rating{
-  /* Sterne (Füllung + Umriss nutzen currentColor) in Riso-Pink */
-  color:var(--riso-pink);
   display:inline-flex;
   gap:3px;
   vertical-align:-2px;
@@ -1233,9 +1231,10 @@ button{
   stroke-width:1.6;
   stroke-linejoin:round;
 }
-.fun-star.is-on{ fill:currentColor; }
+/* Umrisse schwarz, nur die Füllung in Riso-Pink */
+.fun-star.is-on{ fill:var(--riso-pink); }
 /* halber Stern: linke Hälfte gefüllt (per clipPath im SVG) */
-.fun-star .fun-star-half{ fill:currentColor; }
+.fun-star .fun-star-half{ fill:var(--riso-pink); }
 .intro-meta-hang{
   display:block;
   padding-left:42px;
