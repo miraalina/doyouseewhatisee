@@ -557,6 +557,11 @@ button{
 .about-right::-webkit-scrollbar,
 .notes-panel::-webkit-scrollbar{
   display:none;
+  /* zusätzlich Breite 0 — manche WebKit-Versionen (Safari mit "Scroll-
+     leisten immer einblenden") ignorieren display:none hier */
+  width:0;
+  height:0;
+  background:transparent;
 }
 
 /* Interview-Seiten: Intro-Text unter dem Porträt invertiert (weiß auf
