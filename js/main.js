@@ -566,6 +566,29 @@ function initInterview(){
       if(!c || c.indexOf('/') !== -1) return;
       t.classList.add(hostCols.indexOf(c) === -1 ? 'is-guest' : 'is-host');
     });
+    // Statt des Namens über dem Beitrag ein fettes Kürzel direkt vor dem
+    // Text ("M:", "P:", "F:" …). Teilen sich zwei Personen einer Seite den
+    // Anfangsbuchstaben (z.B. Patrick/Phuong), bekommen beide zwei
+    // Buchstaben ("Pa:", "Ph:").
+    var names = turns.map(function(t){
+      var n = t.querySelector('.turn-name');
+      return n ? n.textContent.trim() : '';
+    });
+    var byInitial = {};
+    names.forEach(function(n){
+      if(!n) return;
+      (byInitial[n[0]] = byInitial[n[0]] || {})[n] = true;
+    });
+    turns.forEach(function(t, i){
+      var n = names[i];
+      var firstP = t.querySelector('.turn-text p');
+      if(!n || !firstP) return;
+      var short = Object.keys(byInitial[n[0]]).length > 1 ? n.slice(0, 2) : n[0];
+      var tag = document.createElement('b');
+      tag.className = 'turn-initial';
+      tag.textContent = short + ': ';
+      firstP.insertBefore(tag, firstP.firstChild);
+    });
   }
   var cursorFig = document.getElementById('cursorFigure');
   var cursorFrame = document.getElementById('cursorFrame');
