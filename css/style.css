@@ -1039,7 +1039,7 @@ button{
   gap:0;
   --label-col:64px;
   --answer-indent:56px;
-  --text-col:940px;
+  --text-col:880px;
   padding-bottom:80px;
 }
 .interview-grid.stacked > .content-header{ display:none; }
