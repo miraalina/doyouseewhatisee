@@ -1112,6 +1112,11 @@ button{
 .interview-grid.stacked > .content-header + .interview-turn.topic-divider{
   padding-top:20px !important;
 }
+/* Feedback-Seiten beginnen ohne Abschnittsüberschrift — erster Beitrag
+   mit demselben Abstand zum Menü wie die erste Überschrift */
+.interview-grid.stacked > .content-header + .interview-turn:not(.topic-divider){
+  padding-top:20px !important;
+}
 .interview-grid.stacked > .interview-turn.topic-divider .turn-text{
   font-size:28px;
   line-height:1.15;
