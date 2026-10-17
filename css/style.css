@@ -1007,8 +1007,8 @@ button{
 /* Interview-Seiten (.stacked, setzt main.js): Gespräch wie mobil
    untereinander in EINER Spalte statt im Spalten-Grid. Ohne Spalten-
    köpfe steht der Name über jedem Beitrag; Text 20px über die volle
-   Spaltenbreite (rechts mehr Rand); feine Linien trennen die Beiträge,
-   Beiträge der Gäste (.is-guest) sind eingerückt. Lange Beiträge sind
+   Spaltenbreite (rechts mehr Rand); Beiträge von Phuong/Mira (.is-host)
+   fett in 18px, Beiträge der Gäste (.is-guest) eingerückt. Lange Beiträge sind
    auf 10 Zeilen gekürzt — das Ende blendet per Verlauf aus — und
    klappen per Klick auf (main.js). */
 .interview-grid.stacked{
@@ -1019,7 +1019,11 @@ button{
 .interview-grid.stacked > .interview-turn{
   grid-column:1 !important;
   padding:14px 60px 16px 15px !important;
-  border-top:var(--border-w) solid var(--black);
+}
+/* Beiträge von Phuong und Mira (.is-host, setzt main.js) fett in 18px */
+.interview-grid.stacked > .interview-turn.is-host .turn-text{
+  font-size:18px;
+  font-weight:bold;
 }
 .interview-grid.stacked > .interview-turn.is-guest{
   padding-left:80px !important;
@@ -1061,7 +1065,6 @@ button{
 .interview-grid.stacked > .interview-turn.topic-divider:first-child,
 .interview-grid.stacked > .content-header + .interview-turn.topic-divider{
   padding-top:14px !important;
-  border-top:none;
 }
 
 /* Name pro Beitrag — nur auf schmalen Screens sichtbar (Desktop übernimmt die Kopfzeile) */

@@ -563,7 +563,8 @@ function initInterview(){
     });
     turns.forEach(function(t){
       var c = t.getAttribute('data-col');
-      if(c && c.indexOf('/') === -1 && hostCols.indexOf(c) === -1) t.classList.add('is-guest');
+      if(!c || c.indexOf('/') !== -1) return;
+      t.classList.add(hostCols.indexOf(c) === -1 ? 'is-guest' : 'is-host');
     });
   }
   var cursorFig = document.getElementById('cursorFigure');
