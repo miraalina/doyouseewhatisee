@@ -1047,10 +1047,9 @@ button{
   display:grid;
   grid-template-columns:var(--label-col) minmax(0, 1fr);
   align-items:first baseline;
-  /* Satzspiegel mittig in der Spalte, responsiv: 92% der Spaltenbreite
-     (≈ 880px Textspalte bei 1440px Fenster), links und rechts gleich
-     viel Raum */
-  width:92%;
+  /* Satzspiegel mittig in der Spalte, responsiv: 75% der Spaltenbreite,
+     links und rechts gleich viel Raum */
+  width:75%;
   margin-left:auto;
   margin-right:auto;
   padding:3px 30px !important;
