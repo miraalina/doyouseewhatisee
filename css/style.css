@@ -1047,9 +1047,9 @@ button{
   display:grid;
   grid-template-columns:var(--label-col) minmax(0, 1fr);
   align-items:first baseline;
-  /* Satzspiegel mittig in der Spalte, responsiv: 75% der Spaltenbreite,
+  /* Satzspiegel mittig in der Spalte, responsiv: 80% der Spaltenbreite,
      links und rechts gleich viel Raum */
-  width:75%;
+  width:80%;
   margin-left:auto;
   margin-right:auto;
   padding:3px 30px !important;
