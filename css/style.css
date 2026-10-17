@@ -639,8 +639,8 @@ button{
 
 /* Feedback-Seiten (main.js baut .cols-4-notes zu .cols-notes um):
    links eine feste Spalte "Notes" (1/3) im Design der Manifesto-Spalte
-   der Reflection-Seite — weiß auf schwarz, "Note N" 16px, Text 28px,
-   30px Abstand —, rechts daneben das Gespräch Phuong|Mira auf 2/3. */
+   der Reflection-Seite — weiß auf schwarz, Text 28px, 30px Abstand
+   zwischen den Notes —, rechts daneben das Gespräch Phuong|Mira auf 2/3. */
 .interview-grid.cols-notes{
   grid-template-columns:1fr 1fr;
   margin-left:calc(33.3333% + var(--menu-gap) * 0.6667);
@@ -685,12 +685,6 @@ button{
 .note-item:last-child{ margin-bottom:0; }
 .note-item:hover{ opacity:.6; }
 .note-item p{ margin:0; }
-.note-label{
-  display:block;
-  font-size:var(--content-font-size);
-  line-height:1.2;
-  margin:0 0 .3em;
-}
 
 /* Kopfzeile: 3 Zellen, eine pro Person  */
 .interview-grid .content-header{

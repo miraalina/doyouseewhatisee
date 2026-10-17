@@ -464,7 +464,7 @@ function initInterview(){
   // Feedback-Seiten: Die Highlights (aus ==…== im Transkript, siehe
   // scripts/build-interview-turns.js) stehen nicht mehr in den äußeren
   // Spalten neben dem Gesagten, sondern untereinander in einer festen
-  // Spalte rechts ("Notes", 1/3 Breite, wie die Manifesto-Spalte der
+  // Spalte ("Notes", 1/3 Breite, wie die Manifesto-Spalte der
   // Reflection-Seite). Umbau beim Laden statt im HTML, damit Transkript
   // und Generator-Skript unverändert bleiben. Klick auf eine Note springt
   // zur Stelle im Gespräch und hebt sie kurz hervor.
@@ -491,8 +491,7 @@ function initInterview(){
       var item = document.createElement('a');
       item.className = 'note-item';
       item.href = source ? '#' + source.id : '#';
-      item.innerHTML = '<span class="note-label">Note ' + (i + 1) + '</span>' +
-                       h.querySelector('.turn-text').innerHTML;
+      item.innerHTML = h.querySelector('.turn-text').innerHTML;
       if(source){
         // alte Direktlinks auf die Highlight-ID landen beim Original
         source.setAttribute('data-note-ids', ((source.getAttribute('data-note-ids') || '') + ' ' + h.id).trim());
