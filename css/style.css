@@ -1030,8 +1030,8 @@ button{
    - Fragen von Phuong/Mira (.is-host) beginnen an der ersten Textkante,
      Antworten der Gäste (.is-guest) sind weiter eingerückt
    - Blocksatz mit Silbentrennung, dichter Satz ohne Abstände zwischen
-     den Beiträgen; Absätze innerhalb eines Beitrags mit Leerzeile
-   - Abschnittsüberschriften ganz links, Regieanweisungen kursiv
+     den Beiträgen
+   - Abschnittsüberschriften an der Textkante, Regieanweisungen kursiv
    - lange Beiträge auf 10 Zeilen gekürzt, Ende blendet per Verlauf aus,
      Klick klappt auf (main.js) */
 .interview-grid.stacked{
@@ -1052,14 +1052,8 @@ button{
 }
 .interview-grid.stacked .turn-name{ display:none !important; }
 .interview-grid.stacked > .interview-turn > .text-wrap{ grid-column:2; }
-/* Antworten eingerückt und mit längerer Zeile: laufen über die
-   Textspalte der Fragen hinaus bis an den rechten Rand */
-.interview-grid.stacked > .interview-turn.is-guest{
-  grid-template-columns:var(--label-col) minmax(0, 1fr);
-}
 .interview-grid.stacked > .interview-turn.is-guest > .text-wrap{
   padding-left:var(--answer-indent);
-  max-width:calc(var(--answer-indent) + var(--text-col) + 160px);
 }
 .interview-grid.stacked .turn-label{
   grid-column:1;
@@ -1069,7 +1063,7 @@ button{
 .interview-grid.stacked .turn-text{
   font-size:17px;
   line-height:1.4;
-  text-align:justify; /* Blocksatz mit Silbentrennung */
+  text-align:justify;
   -webkit-hyphens:auto;
   hyphens:auto;
   max-height:14em; /* 10 Zeilen à 1.4 */
@@ -1077,9 +1071,8 @@ button{
   mask-image:none;
 }
 .interview-grid.stacked .turn-text.fits{ max-height:none; }
-/* Absätze innerhalb eines Beitrags mit Leerzeile statt Einzug */
-.interview-grid.stacked .turn-text p{ margin:0 0 .7em; }
-.interview-grid.stacked .turn-text p:last-child{ margin-bottom:0; }
+.interview-grid.stacked .turn-text p{ margin:0; }
+.interview-grid.stacked .turn-text p + p{ text-indent:1.5em; }
 
 /* Regieanweisungen: kursiv, an der Textkante */
 .interview-grid.stacked > .interview-turn.interview-note:not(.topic-divider){
@@ -1102,10 +1095,8 @@ button{
 }
 .interview-grid.stacked .interview-turn:has(.turn-text.truncatable){ cursor:pointer; }
 
-/* Abschnittsüberschriften: ganz links in der Spalte (auf Höhe der
-   Kürzel, nicht an der Textkante), mit Luft davor */
+/* Abschnittsüberschriften: an der Textkante, mit Luft davor */
 .interview-grid.stacked > .interview-turn.topic-divider{
-  display:block;
   margin:0;
   padding:48px 60px 12px 15px !important;
   text-align:left;
