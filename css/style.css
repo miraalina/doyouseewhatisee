@@ -692,6 +692,9 @@ button{
 }
 .note-item:hover{ opacity:.6; }
 .note-item p{ margin:0; }
+/* Notes sind oft Satzausschnitte ("the alphabet is …") — erster
+   Buchstabe immer groß, ohne den Transkript-Text zu verändern. */
+.note-item p:first-child::first-letter{ text-transform:uppercase; }
 
 /* Kopfzeile: 3 Zellen, eine pro Person  */
 .interview-grid .content-header{
