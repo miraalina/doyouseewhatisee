@@ -567,9 +567,12 @@ function initInterview(){
       t.classList.add(hostCols.indexOf(c) === -1 ? 'is-guest' : 'is-host');
     });
     // Statt des Namens über dem Beitrag ein fettes Kürzel direkt vor dem
-    // Text ("M:", "P:", "F:" …). Teilen sich zwei Personen einer Seite den
-    // Anfangsbuchstaben (z.B. Patrick/Phuong), bekommen beide zwei
-    // Buchstaben ("Pa:", "Ph:").
+    // Text ("M:", "P:", "F:" …). Teilt ein Gast den Anfangsbuchstaben mit
+    // Phuong/Mira (z.B. Patrick), bekommt der Gast die Initialen seines
+    // vollen Namens aus dem Menü ("PT:"), Phuong/Mira bleiben bei einem
+    // Buchstaben.
+    var activeLabel = document.querySelector('.nav-item[data-interview].active');
+    var fullName = activeLabel ? activeLabel.textContent.trim() : '';
     var names = turns.map(function(t){
       var n = t.querySelector('.turn-name');
       return n ? n.textContent.trim() : '';
@@ -583,7 +586,11 @@ function initInterview(){
       var n = names[i];
       var firstP = t.querySelector('.turn-text p');
       if(!n || !firstP) return;
-      var short = Object.keys(byInitial[n[0]]).length > 1 ? n.slice(0, 2) : n[0];
+      var short = n[0];
+      if(Object.keys(byInitial[n[0]]).length > 1 && t.classList.contains('is-guest')){
+        var parts = fullName.indexOf(n) === 0 ? fullName.split(/\s+/) : [n];
+        short = parts.length > 1 ? parts.map(function(w){ return w[0]; }).join('').toUpperCase() : n.slice(0, 2);
+      }
       var tag = document.createElement('b');
       tag.className = 'turn-initial';
       tag.textContent = short + ': ';
