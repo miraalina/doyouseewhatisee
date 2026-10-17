@@ -1024,7 +1024,7 @@ button{
      Antworten der Gäste (.is-guest) sind weiter eingerückt
    - Blocksatz mit Silbentrennung, dichter Satz ohne Abstände zwischen
      den Beiträgen
-   - Abschnittsüberschriften an der Textkante, Regieanweisungen kursiv
+   - Abschnittsüberschriften ganz links, Regieanweisungen kursiv
    - lange Beiträge auf 10 Zeilen gekürzt, Ende blendet per Verlauf aus,
      Klick klappt auf (main.js) */
 .interview-grid.stacked{
@@ -1088,8 +1088,10 @@ button{
 }
 .interview-grid.stacked .interview-turn:has(.turn-text.truncatable){ cursor:pointer; }
 
-/* Abschnittsüberschriften: an der Textkante, mit Luft davor */
+/* Abschnittsüberschriften: ganz links in der Spalte (auf Höhe der
+   Kürzel, nicht an der Textkante), mit Luft davor */
 .interview-grid.stacked > .interview-turn.topic-divider{
+  display:block;
   margin:0;
   padding:48px 60px 12px 15px !important;
   text-align:left;
