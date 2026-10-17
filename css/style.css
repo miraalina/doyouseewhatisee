@@ -2033,11 +2033,11 @@ button{
 .about-links{
   display:flex;
   flex-wrap:wrap;
-  gap:8px;
+  gap:6px;
 }
 .about-right .interview-intro-text .about-links a{
   display:inline-block;
-  padding:6px 18px;
+  padding:3px 12px;
   border-radius:999px;
   background:var(--white);
   color:var(--black);
