@@ -570,12 +570,14 @@ button{
    Inhalt und Spaltenlinie. Scrollen per Mausrad/Trackpad geht weiter. */
 .interview-sidebar,
 .about-right,
-.notes-panel{
+.notes-panel,
+.manifesto-right{
   scrollbar-width:none;
 }
 .interview-sidebar::-webkit-scrollbar,
 .about-right::-webkit-scrollbar,
-.notes-panel::-webkit-scrollbar{
+.notes-panel::-webkit-scrollbar,
+.manifesto-right::-webkit-scrollbar{
   display:none;
   /* zusätzlich Breite 0 — manche WebKit-Versionen (Safari mit "Scroll-
      leisten immer einblenden") ignorieren display:none hier */
@@ -1919,14 +1921,13 @@ button{
   --header-height:var(--menu-item-height);
 }
 
+/* Spalten getauscht: Manifesto (.manifesto-right, fix) links auf 1/3,
+   das Gespräch (.manifesto-left, normaler Fluss) rechts daneben auf 2/3.
+   Klassennamen bleiben aus Kompatibilität (Markup, JS, Mobil-Regeln). */
 .manifesto-left{
-  /* 2/3 - 1/3-Aufteilung. */
   width:calc(66.6667% - var(--menu-gap) * 0.6667);
+  margin-left:calc(33.3333% + var(--menu-gap) * 0.6667);
   padding-bottom:calc(var(--menu-item-height) + 20px);
-  /* Trennlinie zur rechten Spalte — läuft automatisch über die volle
-     Höhe der linken Spalte, da sie (im Gegensatz zu .manifesto-right)
-     ganz normal im Textfluss steht und nicht fixiert ist. */
-  border-right:var(--border-w) solid var(--black);
 }
 
 .manifesto-right{
@@ -1937,16 +1938,15 @@ button{
      sonst läge die eigene border-top der Kopfzeile direkt ohne Lücke am
      Menü an und wäre davon optisch kaum zu unterscheiden. */
   top:calc(var(--menu-height, 40px) + var(--menu-gap));
-  right:0;
+  left:0;
   bottom:0;
   /* 1/3 der Seitenbreite. */
   width:calc(33.3333% - var(--menu-gap) * 0.3333);
   overflow-y:auto;
   /* Invertiert: weißer Text/weiße Linien auf schwarzem Grund, im
-     Gegensatz zur linken Spalte. */
+     Gegensatz zum Gespräch. */
   background:var(--black);
   color:var(--white);
-  border-right:var(--border-w) solid var(--white);
 }
 
 /* Alle Spaltenüberschriften der Reflection-Seite (Mira/Phuong,
@@ -1989,6 +1989,8 @@ button{
    gewinnt (gleiche Selektor-Spezifität, Reihenfolge im Stylesheet entscheidet). */
 .manifesto-nav{
   width:var(--manifesto-left-width, 50vw);
+  /* Gespräch steht rechts — Navigation unten an dessen linker Kante */
+  left:calc(33.3333% + var(--menu-gap) * 0.6667);
 }
 /* "Navigation" in Menügröße wie die übrigen Kopfzeilen der Seite. */
 .manifesto-nav .interview-nav-trigger{
@@ -2042,7 +2044,8 @@ button{
 
   /* Vertikale Trennlinie ergibt bei gestapeltem Layout keinen Sinn —
      .manifesto-right übernimmt die Trennung stattdessen per border-top. */
-  .manifesto-left{ width:100%; border-right:none; }
+  .manifesto-left{ width:100%; margin-left:0; border-right:none; }
+  .manifesto-nav{ left:0; }
   .manifesto-right{
     position:static;
     width:100%;
