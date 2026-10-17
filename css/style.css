@@ -1039,7 +1039,7 @@ button{
   gap:0;
   --label-col:64px;
   --answer-indent:56px;
-  --text-col:820px;
+  --text-col:940px;
   padding-bottom:80px;
 }
 .interview-grid.stacked > .content-header{ display:none; }
@@ -1102,7 +1102,7 @@ button{
 
 /* Abschnittsüberschriften: an der Textkante, mit Luft davor */
 .interview-grid.stacked > .interview-turn.topic-divider{
-  padding:48px 30px 12px !important;
+  padding:30px 30px 8px !important;
   text-align:left;
 }
 .interview-grid.stacked > .interview-turn.topic-divider:first-child,
