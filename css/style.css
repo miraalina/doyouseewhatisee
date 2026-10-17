@@ -895,15 +895,13 @@ button{
 .manifesto-left .interview-turn{
   scroll-margin-top:calc(var(--menu-height, 40px) + var(--menu-gap) + var(--header-height));
 }
-/* Interview-Seiten: Themen-Überschrift auf Riso-Pink, nur so breit wie
-   der Text (inline), weiße Schrift; bei Umbruch je Zeile ein Streifen. */
-.interview-layout .interview-turn.topic-divider .turn-text p{
-  display:inline;
-  padding:0 .2em;
+/* Interview-Seiten: Themen-Überschrift als Riso-Pink-Zeile über die
+   ganze Breite des Gesprächs, weiße Schrift. */
+.interview-layout .interview-turn.topic-divider{
   background:var(--riso-pink);
+}
+.interview-layout .interview-turn.topic-divider .turn-text{
   color:var(--white);
-  -webkit-box-decoration-break:clone;
-  box-decoration-break:clone;
 }
 .interview-turn.topic-divider .turn-text{
   font-style:normal;
