@@ -2242,6 +2242,15 @@ button{
     height:auto;
     overflow-y:visible;
   }
+  /* Reihenfolge mobil: About the project + Text, dann Bild + Bios, zuletzt
+     Imprint. .about-left löst sich per display:contents auf, damit ihre
+     Teile einzeln um die Bio-Spalte herum sortiert werden können. */
+  .about-left{ display:contents; }
+  .about-left > .content-header:not(.about-imprint-header){ order:1; }
+  .about-left > .about-text:not(.about-imprint){ order:2; }
+  .about-right{ order:3; }
+  .about-left > .about-imprint-header{ order:4; position:static; }
+  .about-left > .about-imprint{ order:5; }
 }
 
 /* =========================================================
