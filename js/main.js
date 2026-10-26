@@ -1173,6 +1173,12 @@ function initTypeTool(layout){
   }
 
   if(sizeSlider){
+    // Handy: kleinere Startgröße, damit "Do you see what I see" ganz ins
+    // Bild passt (Regler zeigt denselben Wert)
+    if(window.matchMedia('(max-width: 760px)').matches){
+      sizeSlider.value = 56;
+      text.style.fontSize = '56px';
+    }
     sizeSlider.addEventListener('input', function(){
       text.style.fontSize = sizeSlider.value + 'px';
     });

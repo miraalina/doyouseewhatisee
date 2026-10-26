@@ -1931,6 +1931,10 @@ button{
   .type-col-info{ overflow-y:visible; }
   .type-layout .content-header{ position:static; }
   .type-tool-control-row{ min-width:0; }
+  /* Schrift-Testfeld mobil kompakt: kleinere Startgröße (main.js setzt
+     den Regler passend), weniger Polster um das Eingabefeld */
+  .type-tool-text{ font-size:56px; }
+  .type-tool-stage{ padding:20px 15px; }
   .type-tool-control-row input[type="range"]{ min-width:0; }
 }
 
