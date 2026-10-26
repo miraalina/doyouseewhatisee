@@ -1050,6 +1050,19 @@ button{
   padding-bottom:80px;
 }
 .interview-grid.stacked > .content-header{ display:none; }
+/* Obere Linie der Gesprächsspalte, 2px unter dem Menü — ersetzt die
+   ausgeblendete Kopfzeile und bleibt beim Scrollen stehen (sticky). */
+.interview-grid.stacked::before{
+  content:"";
+  display:block;
+  grid-column:1;
+  grid-row:1;
+  position:sticky;
+  top:calc(var(--menu-height, 40px) + var(--menu-gap));
+  height:0;
+  border-top:var(--border-w) solid var(--black);
+  z-index:20;
+}
 .interview-grid.stacked > .interview-turn{
   grid-column:1 !important;
   display:grid;
