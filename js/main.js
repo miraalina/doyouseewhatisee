@@ -28,66 +28,6 @@ document.addEventListener('error', function(e){
 });
 
 /* =========================================================
-   Cursor: ein Buchstabe aus einer der Output-Schriften (Session-Fonts).
-   Bei jedem Klick wechselt er zufällig zu einem anderen Buchstaben in
-   einer anderen Schrift. Gezeichnet per Canvas (die Webfonts werden dort
-   verwendet, in einem SVG-Cursor nicht) und als CSS-Cursor-Bild gesetzt —
-   Zeigen/Klicken/Markieren funktioniert dadurch wie mit dem normalen
-   Cursor. Nur auf Geräten mit Maus.
-   ========================================================= */
-(function(){
-  if(!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-  // Schrift + welche Buchstaben sie hat (manche nur Versalien/Gemeine)
-  var CURSOR_FONTS = [
-    { family:'session1-parallel', letters:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' },
-    { family:'session1-Filled',   letters:'abcdefghijklmnopqrstuvwxyz' },
-    { family:'session1-outlined', letters:'abcdefghijklmnopqrstuvwxyz' },
-    { family:'Session2',          letters:'abcdefghijklmnopqrstuvwxyz' },
-    { family:'session3',          letters:'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
-    { family:'Session4',          letters:'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
-    { family:'session5',          letters:'ABCDEFGHIJKLMNOPQRSTUVWXYZ' }
-  ];
-  var SIZE = 40;
-  var style = document.createElement('style');
-  document.head.appendChild(style);
-  var canvas = document.createElement('canvas');
-  canvas.width = canvas.height = SIZE;
-  var ctx = canvas.getContext('2d');
-  var lastFont = -1;
-
-  function pick(list){ return list[Math.floor(Math.random() * list.length)]; }
-
-  function setCursor(){
-    // andere Schrift als zuletzt
-    var i;
-    do { i = Math.floor(Math.random() * CURSOR_FONTS.length); } while(i === lastFont && CURSOR_FONTS.length > 1);
-    lastFont = i;
-    var f = CURSOR_FONTS[i];
-    var ch = pick(f.letters);
-    var font = '30px "' + f.family + '"';
-    (document.fonts ? document.fonts.load(font, ch) : Promise.resolve()).then(function(){
-      ctx.clearRect(0, 0, SIZE, SIZE);
-      ctx.font = font;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      // weiße Kontur, damit der Buchstabe auch auf Schwarz sichtbar bleibt
-      ctx.lineJoin = 'round';
-      ctx.lineWidth = 4;
-      ctx.strokeStyle = '#fff';
-      ctx.strokeText(ch, SIZE / 2, SIZE / 2);
-      ctx.fillStyle = '#000';
-      ctx.fillText(ch, SIZE / 2, SIZE / 2);
-      var url = canvas.toDataURL('image/png');
-      // !important + *: gilt überall, auch auf Links und Eingabefeldern
-      style.textContent = '*{ cursor:url(' + url + ') ' + (SIZE / 2) + ' ' + (SIZE / 2) + ', auto !important; }';
-    });
-  }
-
-  setCursor();
-  document.addEventListener('mousedown', setCursor);
-})();
-
-/* =========================================================
    Navigations-Zustand + Menü-Helfer
    ========================================================= */
 let currentMode = null;
