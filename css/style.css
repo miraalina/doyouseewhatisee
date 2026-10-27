@@ -439,20 +439,17 @@ button{
     display:none;
   }
 
-  /* Level 2 (6 Sessions bzw. 6 Interviews): statt alle in eine Zeile
-     gequetscht (Namen abgeschnitten) als Raster mit 2 Spalten × 3 Zeilen,
-     jeder Name vollständig lesbar. */
-  .menu-level-2:not(.hidden){
-    display:grid;
-    grid-template-columns:repeat(2, minmax(0, 1fr));
-  }
+  /* Level 2 (6 Sessions bzw. 6 Interviews): alle sechs in einer Reihe,
+     gleich breit — auch der gewählte Punkt; ein zu langer Name läuft
+     rechts mit dem Verlauf aus (::after, siehe Desktop-Regel oben).
+     Weniger seitliches Polster, damit mehr vom Namen sichtbar bleibt. */
   .menu-level-2 .nav-item{
-    min-width:0;
-    overflow:hidden;
-    text-overflow:ellipsis;
+    flex:1 1 0;
+    padding-left:8px;
+    padding-right:0;
   }
-  .menu-level-2 .nav-item.active::after{
-    display:none;
+  .menu-level-2 .nav-item.active{
+    min-width:0;
   }
 
   /* Ganz oben auf der Seite braucht es keine eigene Rahmenlinie mehr —
