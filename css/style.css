@@ -1659,6 +1659,15 @@ button{
 }
 .method-image img,
 .method-image video{ display:block; width:100%; height:100%; object-fit:cover; }
+/* Bildschutz: unsichtbare Fläche über jedem Bild/Video — Rechtsklick,
+   Ziehen und langes Drücken treffen sie statt der Datei, "Bild sichern"
+   wird dadurch nicht angeboten (zusätzlich zum Schutz in main.js) */
+.method-image{ position:relative; }
+.method-image::after{
+  content:"";
+  position:absolute;
+  inset:0;
+}
 
 @media (max-width: 760px){
   /* Fixe Höhe + Scroll-nur-in-Visuals ist auf einer einspaltig
