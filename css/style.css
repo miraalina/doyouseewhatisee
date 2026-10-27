@@ -1940,7 +1940,9 @@ button{
   /* Schrift-Testfeld mobil kompakt: kleinere Startgröße (main.js setzt
      den Regler passend), weniger Polster um das Eingabefeld */
   .type-tool-text{ font-size:56px; }
-  .type-tool-stage{ padding:20px 15px; }
+  /* etwas höher als nur der Text (Startzustand ≈ 360px statt ≈ 240px),
+     aber deutlich niedriger als früher mit 140px-Schrift */
+  .type-tool-stage{ padding:20px 15px; min-height:360px; }
   .type-tool-control-row input[type="range"]{ min-width:0; }
 }
 
