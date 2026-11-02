@@ -321,18 +321,30 @@ if(siteMenu && 'ResizeObserver' in window){
    Anfrage darf #page-content noch schreiben.
    ========================================================= */
 var loadContentRequestId = 0;
+// Bereits geladene/vorgeladene Seiten (Pfad → Promise mit HTML), damit ein
+// Wechsel nicht jedes Mal erneut aufs Netz warten muss.
+var pageCache = {};
+function fetchPage(path){
+  if(!pageCache[path]){
+    pageCache[path] = fetch(path).then(function(response){
+      if(!response.ok) throw new Error("Content konnte nicht geladen werden: " + path);
+      return response.text();
+    });
+    pageCache[path].catch(function(){ delete pageCache[path]; });
+  }
+  return pageCache[path];
+}
 function loadContent(path, callback){
   var requestId = ++loadContentRequestId;
-  fetch(path)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error("Content konnte nicht geladen werden: " + path);
-      }
-      return response.text();
-    })
+  var pageContent = document.getElementById("page-content");
+  // alter Inhalt blendet kurz aus, statt sichtbar umzuspringen, während
+  // sich das Menü schon ändert
+  pageContent.classList.add('is-loading');
+  fetchPage(path)
     .then(html => {
       if (requestId !== loadContentRequestId) return; // inzwischen überholt
-      document.getElementById("page-content").innerHTML = html;
+      pageContent.innerHTML = html;
+      requestAnimationFrame(function(){ pageContent.classList.remove('is-loading'); });
       // Neue Seite beginnt immer oben, statt die Scroll-Position der
       // vorherigen Seite zu übernehmen.
       window.scrollTo(0, 0);
@@ -341,7 +353,8 @@ function loadContent(path, callback){
     .catch(error => {
       if (requestId !== loadContentRequestId) return;
       console.error(error);
-      document.getElementById("page-content").innerHTML =
+      pageContent.classList.remove('is-loading');
+      pageContent.innerHTML =
         "<p>Inhalt konnte nicht geladen werden.</p>";
     });
 }
@@ -730,6 +743,9 @@ function initInterview(){
     container.innerHTML = '';
     var clone = def.cloneNode(true);
     clone.removeAttribute('id');
+    // Popup-Bilder liegen in index.html nur mit data-src (sonst lädt der
+    // Browser alle ~44 MB schon beim ersten Seitenaufruf) — erst hier laden.
+    if(clone.dataset && clone.dataset.src) clone.src = clone.dataset.src;
     container.appendChild(clone);
   }
 
@@ -1011,6 +1027,9 @@ function initInterview(){
     container.innerHTML = '';
     var clone = def.cloneNode(true);
     clone.removeAttribute('id');
+    // Popup-Bilder liegen in index.html nur mit data-src (sonst lädt der
+    // Browser alle ~44 MB schon beim ersten Seitenaufruf) — erst hier laden.
+    if(clone.dataset && clone.dataset.src) clone.src = clone.dataset.src;
     container.appendChild(clone);
   }
 
@@ -1235,3 +1254,11 @@ function initTypeTool(layout){
 // wieder her, sonst normale Startseite.
 restoreFromHash();
 window.addEventListener('popstate', restoreFromHash);
+
+// Einstiegsseiten der vier Bereiche vorladen, sobald der Browser nichts
+// anderes zu tun hat — der erste Klick auf Work/Interview/Reflection/Info
+// muss dann nicht mehr aufs Netz warten.
+(window.requestIdleCallback || function(fn){ setTimeout(fn, 1500); })(function(){
+  ['content/sessions/session1/Exercise1.html', 'content/interviews/interview1.html',
+   'content/Manifesto/manifesto.html', 'content/about/about.html'].forEach(fetchPage);
+});
