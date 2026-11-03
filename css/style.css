@@ -2215,7 +2215,8 @@ button{
    weißer Button, schwarze Schrift; Hover Riso-Pink mit weißer Schrift. */
 .about-links{
   display:flex;
-  flex-wrap:wrap;
+  flex-direction:column; /* Buttons untereinander */
+  align-items:flex-start;
   gap:6px;
 }
 .about-right .interview-intro-text .about-links a{
