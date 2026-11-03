@@ -2152,7 +2152,8 @@ button{
 .about-text{
   /* oben nur 1px — gleicher Abstand zur Spaltenüberschrift wie bei
      "Manifesto of Collaboration" (.manifesto-text) */
-  padding:1px 40px 25px 15px;
+  /* seitlich doppelt so viel Raum wie zuvor (30/80 statt 15/40) */
+  padding:1px 80px 25px 30px;
   /* 28px wie der Manifesto-Text der Reflection-Seite, gleicher
      Zeilenabstand */
   font-size:28px;
@@ -2163,6 +2164,7 @@ button{
    Links keine eigene Linie (die liefert die border-right der Bio-
    Spalte), rechts keine an der Seitenkante. */
 .about-left > .content-header{
+  padding-left:30px; /* bündig mit dem Text darunter */
   height:var(--menu-item-height);
   font-size:var(--menu-font-size);
   border-left:none;
