@@ -2201,8 +2201,14 @@ button{
 .about-right .interview-portrait + .interview-intro-text{
   border-top:none;
 }
-.about-right .interview-intro-text:last-child{
-  flex:1 0 auto;
+/* Ohne Porträt: die beiden Bios teilen sich die Spaltenhöhe zu gleichen
+   Teilen (wird ein Text länger als seine Hälfte, wächst er mit). Die
+   erste Bio braucht oben keine Linie. */
+.about-right .interview-intro-text{
+  flex:1 1 0;
+}
+.about-right .interview-intro-text:first-child{
+  border-top:none;
 }
 /* Info-Seite: Links unter den Bios (Website, Portfolio, Instagram) als
    Buttons wie der Download-Button der Output-Seiten, aber invertiert —
