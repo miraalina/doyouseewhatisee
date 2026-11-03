@@ -2175,7 +2175,7 @@ button{
 }
 /* Imprint-Überschrift und -Text in Fließtextgröße */
 .about-left > .content-header.about-imprint-header{
-  font-size:var(--content-font-size);
+  font-size:var(--menu-font-size); /* 20px wie "About the project" */
   font-weight:bold;
 }
 .about-text.about-imprint{
