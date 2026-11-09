@@ -2383,7 +2383,7 @@ img, video, svg, picture {
    .interview-layout, z.B. Céline, Patrick, Flavia): Gesprächsspalte
    verschwommen und nicht lesbar/markierbar; Sidebar bleibt sichtbar. */
 .interview-layout.is-blurred .interview-grid{
-  filter:blur(7px);
+  filter:blur(4px);
   pointer-events:none;
   user-select:none;
   -webkit-user-select:none;
