@@ -2378,3 +2378,13 @@ img, video, svg, picture {
 /* Seitenwechsel: Inhalt blendet kurz aus/ein (main.js loadContent) */
 #page-content{ transition:opacity .15s ease; }
 #page-content.is-loading{ opacity:0; }
+
+/* Interviews, die noch nicht freigegeben sind (.is-blurred an
+   .interview-layout, z.B. Céline, Patrick, Flavia): Gesprächsspalte
+   verschwommen und nicht lesbar/markierbar; Sidebar bleibt sichtbar. */
+.interview-layout.is-blurred .interview-grid{
+  filter:blur(7px);
+  pointer-events:none;
+  user-select:none;
+  -webkit-user-select:none;
+}
