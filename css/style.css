@@ -2235,6 +2235,22 @@ button{
   background:var(--riso-pink);
   color:var(--white);
 }
+/* Instagram-Button im About-Text: gleiche Form wie die Bio-Buttons,
+   auf weißem Grund invertiert (schwarz mit weißer Schrift), Hover Pink */
+.about-text .about-links a{
+  display:inline-block;
+  padding:3px 12px;
+  border-radius:999px;
+  background:var(--black);
+  color:var(--white);
+  font-size:var(--menu-font-size);
+  line-height:1.3;
+  text-decoration:none;
+  transition:background .15s ease;
+}
+.about-text .about-links a:hover{
+  background:var(--riso-pink);
+}
 /* Imprint: Abschnittstitel mit mehr Abstand nach oben, direkt über
    ihrem Absatz */
 .about-imprint .imprint-heading{
