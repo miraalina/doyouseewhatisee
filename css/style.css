@@ -879,7 +879,9 @@ button{
 .interview-turn:hover .turn-text,
 .interview-turn.active .turn-text,
 .interview-turn:hover .turn-name,
-.interview-turn.active .turn-name{
+.interview-turn.active .turn-name,
+.interview-turn:hover .turn-label,
+.interview-turn.active .turn-label{
   color:var(--white);
 }
 
@@ -900,7 +902,8 @@ button{
   animation:turn-linked-bg 2.6s ease forwards;
 }
 .interview-turn.linked .turn-text,
-.interview-turn.linked .turn-name{
+.interview-turn.linked .turn-name,
+.interview-turn.linked .turn-label{
   animation:turn-linked-color 2.6s ease forwards;
 }
 
