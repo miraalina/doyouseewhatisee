@@ -894,6 +894,64 @@ function initInterview(){
     }
   });
 
+  // Reflection-Seite: Gespräch als Akkordeon. Die 10 Fragen (Themen-
+  // Trenner) werden zu Zeilen mit Nummer "(01)" und Pfeil; ein Klick
+  // klappt die Redebeiträge bis zur nächsten Frage darunter auf/zu. Die
+  // Navigationsleiste entfällt (wird nach dem Auslesen entfernt).
+  if(currentMode === 'manifesto' && !grid.classList.contains('reflection-accordion')){
+    grid.classList.add('reflection-accordion');
+    var arrowSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5 L19 19 M19 8 L19 19 L8 19" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
+    var qRows = Array.prototype.slice.call(grid.querySelectorAll(':scope > .topic-divider'));
+    var qIndex = -1;
+    Array.prototype.slice.call(grid.children).forEach(function(el){
+      if(el.classList.contains('topic-divider')){ qIndex = qRows.indexOf(el); return; }
+      if(qIndex >= 0 && el.classList.contains('interview-turn')) el.setAttribute('data-q', qIndex);
+    });
+    var setOpen = function(i, open){
+      var row = qRows[i];
+      row.classList.toggle('q-open', open);
+      row.setAttribute('aria-expanded', open ? 'true' : 'false');
+      grid.querySelectorAll('.interview-turn[data-q="' + i + '"]').forEach(function(t){ t.classList.toggle('q-open', open); });
+    };
+    qRows.forEach(function(row, i){
+      var title = row.querySelector('p').textContent;
+      row.innerHTML = '<div class="text-wrap"><div class="turn-text"><span class="refl-num">(' + (i < 9 ? '0' : '') + (i + 1) + ')</span><p></p></div></div><span class="refl-arrow">' + arrowSvg + '</span>';
+      row.querySelector('p').textContent = title;
+      row.setAttribute('role', 'button');
+      row.setAttribute('tabindex', '0');
+      setOpen(i, false);
+      var toggle = function(){
+        var open = !row.classList.contains('q-open');
+        setOpen(i, open);
+        currentTopic = open ? 'Question' + (i + 1) : null;
+        updateHash();
+      };
+      row.addEventListener('click', toggle);
+      row.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(); }
+      });
+    });
+    // Direktlinks: #Reflection/Question3 öffnet die Frage, #Reflection/Turn37
+    // öffnet die Frage mit diesem Beitrag (Hervorheben übernimmt der
+    // allgemeine Turn-Direktlink weiter unten).
+    var qMatch = pendingTopicSlug && /^question(\d+)$/i.exec(pendingTopicSlug);
+    if(qMatch && qRows[qMatch[1] - 1]){
+      pendingTopicSlug = null;
+      var qi = qMatch[1] - 1;
+      setOpen(qi, true);
+      currentTopic = 'Question' + (qi + 1);
+      updateHash();
+      requestAnimationFrame(function(){ qRows[qi].scrollIntoView({behavior:'auto', block:'start'}); });
+    }
+    var tMatch = pendingTopicSlug && /^turn-?(\d+)$/i.exec(pendingTopicSlug);
+    if(tMatch){
+      var tEl = document.getElementById('turn-' + tMatch[1]);
+      if(tEl && tEl.hasAttribute('data-q')) setOpen(+tEl.getAttribute('data-q'), true);
+    }
+    var oldNav = document.getElementById('interview-nav');
+    if(oldNav) oldNav.remove();
+  }
+
   // .interview-nav liegt außerhalb von .interview-grid (fixiert unten
   // links), daher bewusst document-weit statt auf grid beschränkt.
   var interviewNav = document.getElementById('interview-nav');

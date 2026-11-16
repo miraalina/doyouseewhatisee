@@ -2409,3 +2409,86 @@ img, video, svg, picture {
   user-select:none;
   -webkit-user-select:none;
 }
+
+/* =========================================================
+   Reflection: Gespräch als Akkordeon (main.js, .reflection-accordion).
+   10 Fragen-Zeilen, gleich hoch über die Spaltenhöhe verteilt, durch
+   Linien getrennt; darüber die Nummer "(01)" in 16px, Frage 32px, rechts
+   ein Pfeil ↘. Klick klappt die Redebeiträge darunter im gewohnten
+   Transkript-Layout auf.
+   ========================================================= */
+.manifesto-left{ padding-bottom:0; }
+.interview-grid.stacked.reflection-accordion{ padding-bottom:0; }
+.interview-grid.stacked.reflection-accordion > .interview-turn[data-q]:not(.q-open){
+  display:none;
+}
+.interview-grid.stacked.reflection-accordion > .interview-turn.topic-divider{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:20px;
+  min-height:calc((100vh - var(--menu-height, 40px) - var(--menu-gap)) / 10);
+  padding:10px 20px 12px !important;
+  margin:0;
+  border-top:var(--border-w) solid var(--black);
+  pointer-events:auto;
+  cursor:pointer;
+  background:transparent;
+}
+.interview-grid.stacked.reflection-accordion > .content-header + .interview-turn.topic-divider{
+  border-top:none;
+  padding-top:10px !important;
+}
+/* geöffnete Frage: etwas Luft bis zum ersten Beitrag */
+.interview-grid.stacked.reflection-accordion > .interview-turn.topic-divider.q-open{
+  padding-bottom:20px !important;
+}
+.interview-grid.stacked.reflection-accordion > .interview-turn.topic-divider:hover,
+.interview-grid.stacked.reflection-accordion > .interview-turn.topic-divider.active{
+  background:transparent;
+}
+.interview-grid.stacked.reflection-accordion > .interview-turn.topic-divider:hover .turn-text,
+.interview-grid.stacked.reflection-accordion > .interview-turn.topic-divider.active .turn-text{
+  color:var(--black);
+}
+.interview-grid.stacked.reflection-accordion > .interview-turn.topic-divider .text-wrap{
+  flex:1 1 auto;
+  min-width:0;
+}
+.interview-grid.stacked.reflection-accordion > .interview-turn.topic-divider .turn-text{
+  font-size:32px;
+  line-height:1.15;
+}
+.reflection-accordion .refl-num{
+  display:block;
+  font-size:var(--content-font-size);
+  line-height:1.2;
+  margin-bottom:6px;
+}
+.reflection-accordion .refl-arrow{
+  flex:0 0 auto;
+  align-self:flex-start;
+  width:26px;
+  height:26px;
+  margin-top:2px;
+  transition:transform .25s ease;
+}
+.reflection-accordion .refl-arrow svg{ display:block; width:100%; height:100%; }
+/* geöffnet: Pfeil dreht nach oben links (zuklappen) */
+.reflection-accordion .topic-divider.q-open .refl-arrow{ transform:rotate(180deg); }
+/* geöffnete Beiträge: nach dem letzten Beitrag Luft bis zur nächsten Linie */
+.interview-grid.stacked.reflection-accordion > .interview-turn.q-open + .interview-turn.topic-divider{
+  margin-top:24px;
+}
+@media (max-width: 760px){
+  .interview-grid.stacked.reflection-accordion > .interview-turn.topic-divider{
+    min-height:0;
+    padding:12px 15px 14px !important;
+  }
+  .interview-grid.stacked.reflection-accordion > .interview-turn.topic-divider .turn-text{ font-size:22px; }
+  .reflection-accordion .refl-arrow{ width:20px; height:20px; }
+}
+/* Sprung zu einer Frage: Zeile direkt unter dem Menü (keine Kopfzeile mehr) */
+.interview-grid.stacked.reflection-accordion > .interview-turn.topic-divider{
+  scroll-margin-top:calc(var(--menu-height, 40px) + var(--menu-gap));
+}
