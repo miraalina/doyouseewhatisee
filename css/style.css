@@ -2346,6 +2346,8 @@ button{
   line-height:1.15;
   letter-spacing:-0.02em;
 }
+/* zweiter Absatz ("It is about …") ohne Leerzeile, mit Einzug */
+.home-text p + p{ text-indent:1.5em; }
 /* Hover: weiße Schrift auf Riso-Pink */
 .home-word{
   cursor:pointer;

@@ -405,7 +405,8 @@ function fitHome(){
   if(!layout) return;
   var sessions = layout.querySelectorAll('.home-session');
   var text = layout.querySelector('.home-text');
-  var p = text && text.querySelector('p');
+  // Schriftgröße auf den Wrapper um alle Absätze (Einleitung + Aufzählung)
+  var p = text && (text.querySelector('.home-text-inner') || text.querySelector('p'));
   // Jeder Session-Name so groß wie möglich: gemessen werden per Canvas
   // die tatsächlich sichtbaren Buchstabenumrisse (nicht die Zeilenhöhe —
   // die Session-Schriften haben teils riesige Ober-/Unterlängen-Reserven).
