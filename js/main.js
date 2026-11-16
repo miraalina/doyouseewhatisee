@@ -900,7 +900,7 @@ function initInterview(){
   // Navigationsleiste entfällt (wird nach dem Auslesen entfernt).
   if(currentMode === 'manifesto' && !grid.classList.contains('reflection-accordion')){
     grid.classList.add('reflection-accordion');
-    var arrowSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5 L19 19 M19 8 L19 19 L8 19" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
+    var arrowSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5 L19 19 M19 5 L19 19 L5 19" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
     var qRows = Array.prototype.slice.call(grid.querySelectorAll(':scope > .topic-divider'));
     var qIndex = -1;
     Array.prototype.slice.call(grid.children).forEach(function(el){
