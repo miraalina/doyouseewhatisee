@@ -2514,3 +2514,29 @@ img, video, svg, picture {
 .interview-grid.stacked.reflection-accordion > .interview-turn:not(.topic-divider){
   cursor:auto;
 }
+/* Reflection-Akkordeon, ausgeklappte Beiträge: untereinander, Kürzel
+   linksbündig an der Kante der Fragen (20px), Miras Text 10px daneben,
+   Phuongs Text als Block rechtsbündig in der Spalte (gleicher Abstand zum
+   rechten Rand); beide auf ca. 14 Wörter pro Zeile begrenzt (42em). */
+.interview-grid.stacked.reflection-accordion > .interview-turn:not(.topic-divider){
+  grid-template-columns:auto minmax(0, 1fr);
+  column-gap:10px;
+  padding:4px 20px !important;
+}
+.interview-grid.stacked.reflection-accordion > .interview-turn:not(.topic-divider) > .text-wrap{
+  grid-column:2;
+  max-width:42em;
+  padding-left:0;
+}
+.interview-grid.stacked.reflection-accordion > .interview-turn.is-host > .text-wrap{
+  justify-self:start;
+}
+.interview-grid.stacked.reflection-accordion > .interview-turn.is-guest > .text-wrap{
+  justify-self:end;
+}
+.interview-grid.stacked.reflection-accordion > .interview-turn:not(.topic-divider) .turn-text{
+  padding-left:0;
+}
+.interview-grid.stacked.reflection-accordion > .interview-turn:not(.topic-divider) .turn-text p:first-child{
+  text-indent:0;
+}
