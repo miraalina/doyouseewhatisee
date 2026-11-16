@@ -2592,3 +2592,94 @@ img, video, svg, picture {
 .interview-layout .interview-grid.stacked > .interview-turn.topic-divider > .text-wrap{
   grid-column:1 / -1;
 }
+
+/* =========================================================
+   Interview-Seiten: dritte Spalte rechts mit den Abschnittsüberschriften
+   (main.js baut .interview-toc aus der Navigation), fix wie die Sidebar
+   links; die Navigationsleiste unten entfällt. Je Abschnitt: Nummer
+   "(01)" in 16px, Titel in 32px, Linie darunter; Klick springt zur
+   Textstelle.
+   ========================================================= */
+.interview-layout .interview-nav{ display:none; }
+.interview-layout .interview-grid{
+  margin-right:calc(25% + var(--menu-gap));
+}
+.interview-toc{
+  position:fixed;
+  top:calc(var(--menu-height, 40px) + var(--menu-gap));
+  right:0;
+  bottom:0;
+  width:25%;
+  overflow-y:auto;
+  border-left:var(--border-w) solid var(--black);
+  border-top:var(--border-w) solid var(--black);
+  background:var(--white);
+  scrollbar-width:none;
+}
+.interview-toc::-webkit-scrollbar{ display:none; width:0; }
+.interview-toc-item{
+  display:block;
+  padding:14px 20px 16px;
+  border-bottom:var(--border-w) solid var(--black);
+  color:var(--black);
+  text-decoration:none;
+  cursor:pointer;
+  transition:color .15s ease;
+}
+.interview-toc-item:hover{ color:var(--riso-pink); }
+.interview-toc .toc-num{
+  display:block;
+  font-size:var(--content-font-size);
+  line-height:1.2;
+  margin-bottom:6px;
+}
+.interview-toc .toc-title{
+  display:block;
+  font-size:32px;
+  line-height:1.1;
+}
+/* Interview-Sidebar braucht unten keinen Platz mehr für die Leiste */
+.interview-sidebar .interview-intro-text{ padding-bottom:20px; }
+@media (max-width: 760px){
+  .interview-layout .interview-grid{ margin-right:0; }
+  .interview-toc{
+    position:static;
+    width:100%;
+    border-left:none;
+    overflow-y:visible;
+  }
+  .interview-toc .toc-title{ font-size:22px; }
+}
+/* schmalere Mittelspalte (dritte Spalte rechts): Beiträge auf ca. zwei
+   Drittel der Spaltenbreite (höchstens 42em), damit Gäste rechts und
+   Mira/Phuong links sichtbar versetzt bleiben */
+.interview-layout .interview-grid.stacked > .interview-turn.is-host > .text-wrap{
+  max-width:min(42em, 66%);
+}
+.interview-layout .interview-grid.stacked > .interview-turn.is-guest > .text-wrap{
+  width:min(42em, 66%);
+}
+@media (max-width: 760px){
+  .interview-layout .interview-grid.stacked > .interview-turn.is-host > .text-wrap{ max-width:none; }
+  .interview-layout .interview-grid.stacked > .interview-turn.is-guest > .text-wrap{ width:auto; }
+}
+/* Interview-Seiten wie das Reflection-Akkordeon: kein Hover-Effekt und
+   keine Kürzung auf 10 Zeilen — der Text steht immer vollständig da. */
+.interview-layout .interview-grid.stacked > .interview-turn:not(.topic-divider):hover,
+.interview-layout .interview-grid.stacked > .interview-turn:not(.topic-divider).active{
+  background:transparent;
+}
+.interview-layout .interview-grid.stacked > .interview-turn:not(.topic-divider):hover .turn-text,
+.interview-layout .interview-grid.stacked > .interview-turn:not(.topic-divider).active .turn-text,
+.interview-layout .interview-grid.stacked > .interview-turn:not(.topic-divider):hover .turn-label,
+.interview-layout .interview-grid.stacked > .interview-turn:not(.topic-divider).active .turn-label{
+  color:var(--black);
+}
+.interview-layout .interview-grid.stacked .turn-text{
+  max-height:none !important;
+  -webkit-mask-image:none !important;
+  mask-image:none !important;
+}
+.interview-layout .interview-grid.stacked > .interview-turn:not(.topic-divider){
+  cursor:auto;
+}

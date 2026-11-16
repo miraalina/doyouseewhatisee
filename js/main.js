@@ -982,6 +982,31 @@ function initInterview(){
     });
   });
 
+  // Interview-Seiten: statt der Navigationsleiste unten eine dritte Spalte
+  // rechts mit allen Abschnittsüberschriften ("(01)" + Titel); Klick
+  // springt zur Textstelle (leitet an den bestehenden Navigationslink
+  // weiter, inkl. Sprungmarke in der URL). Die Leiste selbst ist per CSS
+  // ausgeblendet.
+  var interviewLayout = grid.closest('.interview-layout');
+  if(currentMode === 'interview' && interviewLayout && navLinks.length && !interviewLayout.querySelector('.interview-toc')){
+    var toc = document.createElement('aside');
+    toc.className = 'interview-toc';
+    navLinks.forEach(function(link, i){
+      var item = document.createElement('a');
+      item.className = 'interview-toc-item';
+      item.href = link.getAttribute('href');
+      item.innerHTML = '<span class="toc-num">(' + (i < 9 ? '0' : '') + (i + 1) + ')</span><span class="toc-title"></span>';
+      item.querySelector('.toc-title').textContent = link.textContent;
+      item.addEventListener('click', function(e){
+        e.preventDefault();
+        link.click();
+      });
+      toc.appendChild(item);
+    });
+    var sidebarEl = interviewLayout.querySelector('.interview-sidebar');
+    interviewLayout.insertBefore(toc, sidebarEl ? sidebarEl.nextSibling : interviewLayout.firstChild);
+  }
+
   // Deep Link auf ein Thema (z.B. #Interview/Ivobrouwer/Foundingdinamo
   // oder #Reflection/Question3):
   // restoreFromHash() hinterlässt den Sprungmarken-Slug hier, sobald die
