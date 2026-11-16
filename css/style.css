@@ -2494,3 +2494,23 @@ img, video, svg, picture {
 .interview-grid.stacked.reflection-accordion > .interview-turn.topic-divider{
   scroll-margin-top:calc(var(--menu-height, 40px) + var(--menu-gap));
 }
+/* Ausgeklappte Gespräche im Reflection-Akkordeon: kein Hover-Effekt und
+   keine Kürzung auf 10 Zeilen — der Text steht immer vollständig da. */
+.interview-grid.stacked.reflection-accordion > .interview-turn:not(.topic-divider):hover,
+.interview-grid.stacked.reflection-accordion > .interview-turn:not(.topic-divider).active{
+  background:transparent;
+}
+.interview-grid.stacked.reflection-accordion > .interview-turn:not(.topic-divider):hover .turn-text,
+.interview-grid.stacked.reflection-accordion > .interview-turn:not(.topic-divider).active .turn-text,
+.interview-grid.stacked.reflection-accordion > .interview-turn:not(.topic-divider):hover .turn-label,
+.interview-grid.stacked.reflection-accordion > .interview-turn:not(.topic-divider).active .turn-label{
+  color:var(--black);
+}
+.interview-grid.stacked.reflection-accordion .turn-text{
+  max-height:none !important;
+  -webkit-mask-image:none !important;
+  mask-image:none !important;
+}
+.interview-grid.stacked.reflection-accordion > .interview-turn:not(.topic-divider){
+  cursor:auto;
+}
