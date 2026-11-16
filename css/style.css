@@ -2467,7 +2467,10 @@ img, video, svg, picture {
 }
 .reflection-accordion .refl-arrow{
   flex:0 0 auto;
-  align-self:center; /* senkrecht mittig in der Zeile */
+  /* auf einer Linie mit der Frage (unten bündig, mittig zur letzten
+     Textzeile: (32px × 1.15 − 26px) / 2 ≈ 5px) */
+  align-self:flex-end;
+  margin-bottom:5px;
   width:26px;
   height:26px;
   transition:transform .25s ease;
