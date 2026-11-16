@@ -2543,3 +2543,52 @@ img, video, svg, picture {
 .interview-grid.stacked.reflection-accordion > .interview-turn:not(.topic-divider) .turn-text p:first-child{
   text-indent:0;
 }
+
+/* Interview-Seiten: gleiches Gesprächs-Layout wie im Reflection-Akkordeon —
+   Kürzel linksbündig am Rand (20px), Beiträge von Mira/Phuong (.is-host)
+   18px daneben, Beiträge der Gäste (.is-guest) als gleich breiter Block
+   rechts an der Kante; beide max. ~14 Wörter pro Zeile (42em), Blocksatz.
+   Abschnittsüberschriften und Regieanweisungen an derselben linken Kante. */
+.interview-layout .interview-grid.stacked > .interview-turn:not(.topic-divider){
+  grid-template-columns:auto minmax(0, 1fr);
+  column-gap:18px;
+  padding:8px 20px !important;
+}
+.interview-layout .interview-grid.stacked > .interview-turn:not(.topic-divider) > .text-wrap{
+  grid-column:2;
+  max-width:42em;
+  padding-left:0;
+}
+.interview-layout .interview-grid.stacked > .interview-turn.is-host > .text-wrap{
+  justify-self:start;
+}
+.interview-layout .interview-grid.stacked > .interview-turn.is-guest > .text-wrap{
+  justify-self:end;
+  width:min(42em, 100%);
+}
+.interview-layout .interview-grid.stacked > .interview-turn:not(.topic-divider) .turn-text{
+  padding-left:0;
+}
+.interview-layout .interview-grid.stacked > .interview-turn:not(.topic-divider) .turn-text p:first-child{
+  text-indent:0;
+}
+.interview-layout .interview-grid.stacked > .interview-turn.interview-note:not(.topic-divider) > .text-wrap{
+  grid-column:1 / -1;
+}
+.interview-layout .interview-grid.stacked > .interview-turn.topic-divider{
+  padding-left:20px !important;
+  padding-right:20px !important;
+}
+@media (max-width: 760px){
+  .interview-layout .interview-grid.stacked > .interview-turn:not(.topic-divider){
+    padding:6px 15px !important;
+    column-gap:10px;
+  }
+  .interview-layout .interview-grid.stacked > .interview-turn.topic-divider{
+    padding-left:15px !important;
+    padding-right:15px !important;
+  }
+}
+.interview-layout .interview-grid.stacked > .interview-turn.topic-divider > .text-wrap{
+  grid-column:1 / -1;
+}
