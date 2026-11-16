@@ -2520,8 +2520,8 @@ img, video, svg, picture {
    rechten Rand); beide auf ca. 14 Wörter pro Zeile begrenzt (42em). */
 .interview-grid.stacked.reflection-accordion > .interview-turn:not(.topic-divider){
   grid-template-columns:auto minmax(0, 1fr);
-  column-gap:10px;
-  padding:4px 20px !important;
+  column-gap:18px;
+  padding:8px 20px !important;
 }
 .interview-grid.stacked.reflection-accordion > .interview-turn:not(.topic-divider) > .text-wrap{
   grid-column:2;
