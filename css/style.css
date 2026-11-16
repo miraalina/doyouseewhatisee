@@ -2635,8 +2635,8 @@ img, video, svg, picture {
 }
 .interview-toc .toc-title{
   display:block;
-  font-size:32px;
-  line-height:1.1;
+  font-size:28px; /* wie die Abschnittsüberschriften im Gespräch */
+  line-height:1.15;
 }
 /* Interview-Sidebar braucht unten keinen Platz mehr für die Leiste */
 .interview-sidebar .interview-intro-text{ padding-bottom:20px; }
@@ -2648,7 +2648,7 @@ img, video, svg, picture {
     border-left:none;
     overflow-y:visible;
   }
-  .interview-toc .toc-title{ font-size:22px; }
+  .interview-toc .toc-title{ font-size:24px; }
 }
 /* schmalere Mittelspalte (dritte Spalte rechts): Beiträge auf ca. zwei
    Drittel der Spaltenbreite (höchstens 42em), damit Gäste rechts und
