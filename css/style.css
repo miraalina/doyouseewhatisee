@@ -2531,8 +2531,11 @@ img, video, svg, picture {
 .interview-grid.stacked.reflection-accordion > .interview-turn.is-host > .text-wrap{
   justify-self:start;
 }
+/* Phuong: Block immer gleich breit (42em) und rechts an der Kante — auch
+   kurze Beiträge beginnen so auf derselben Höhe wie die langen */
 .interview-grid.stacked.reflection-accordion > .interview-turn.is-guest > .text-wrap{
   justify-self:end;
+  width:min(42em, 100%);
 }
 .interview-grid.stacked.reflection-accordion > .interview-turn:not(.topic-divider) .turn-text{
   padding-left:0;
